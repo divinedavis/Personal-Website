@@ -262,21 +262,36 @@ main h1 {
     width: 100%;
     border-collapse: collapse;
     font-size: 0.9em;
+    border: 1px solid #ddd;
 }
 
 .stack-table th {
     text-align: left;
     padding: 8px 12px;
     border-bottom: 2px solid #333;
+    border-right: 1px solid #ddd;
     font-weight: 600;
     color: #000;
 }
 
+.stack-table th:last-child {
+    border-right: none;
+}
+
 .stack-table td {
     padding: 8px 12px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #ddd;
+    border-right: 1px solid #ddd;
     color: #444;
     vertical-align: top;
+}
+
+.stack-table td:last-child {
+    border-right: none;
+}
+
+.stack-table tbody tr:last-child td {
+    border-bottom: none;
 }
 
 .stack-table td:first-child {
