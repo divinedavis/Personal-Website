@@ -1,0 +1,24 @@
+# Environment & secrets
+.env
+*.env
+.env.*
+secrets.json
+credentials.json
+
+# Server scripts & deployment
+*.sh
+deploy/
+server/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Python
+__pycache__/
+*.pyc
+venv/
