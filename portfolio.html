@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio - Divine Davis</title>
-    <link rel="stylesheet" href="style.css?v=4">
+    <link rel="stylesheet" href="style.css?v=5">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600&display=swap" rel="stylesheet">
@@ -14,51 +14,14 @@
         <header>
             <h2 class="site-title">Divine Davis</h2>
             <nav>
-                <a href="index.html">Home</a> &raquo; 
-                <a href="portfolio.html" class="active">Portfolio</a> &raquo; 
+                <a href="index.html">Home</a> &raquo;
+                <a href="portfolio.html" class="active">Portfolio</a> &raquo;
                 <a href="resume.html">Resume</a> &raquo;
             </nav>
         </header>
 
         <main>
-            <h1>Portfolio &amp; Common Tech Stacks I Use</h1>
-
-            <section class="tech-stack">
-                <table class="stack-table">
-                    <thead>
-                        <tr>
-                            <th>Category</th>
-                            <th>Technologies</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Languages</td>
-                            <td>Python, HTML, CSS, JavaScript, Bash, SQL</td>
-                        </tr>
-                        <tr>
-                            <td>Frameworks &amp; Libraries</td>
-                            <td>FastAPI, Uvicorn, Jinja2, SQLAlchemy, Alembic, Starlette, Pydantic, Leaflet.js, WebSockets, httpx, aiofiles, apscheduler, bcrypt, python-jose, Pillow, boto3, itsdangerous, python-dotenv</td>
-                        </tr>
-                        <tr>
-                            <td>Databases &amp; Storage</td>
-                            <td>SQLite, DigitalOcean Spaces (S3-compatible CDN)</td>
-                        </tr>
-                        <tr>
-                            <td>Infrastructure</td>
-                            <td>Nginx, DigitalOcean, systemd, cron, GitHub, SSH, Let's Encrypt / Certbot</td>
-                        </tr>
-                        <tr>
-                            <td>APIs &amp; Integrations</td>
-                            <td>Square API, Anthropic API, Twilio, NYC Open Data, SMTP / Gmail</td>
-                        </tr>
-                        <tr class="row-ai">
-                            <td>AI Tools</td>
-                            <td>Claude (Anthropic), Claude Code</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
+            <h1>Portfolio</h1>
 
             <section class="portfolio-section">
                 <article class="portfolio-item">
@@ -78,18 +41,108 @@
                 </article>
 
                 <article class="portfolio-item">
-                    <h3>Brooklyn Foot Traffic - Interactive Street Map</h3>
-                    <p class="project-date">March 2026</p>
+                    <h3>Hidden Gems - iOS Restaurant Discovery App</h3>
+                    <p class="project-date">2026</p>
                     <ul>
-                        <li>Interactive map highlighting Brooklyn streets by pedestrian foot traffic intensity</li>
-                        <li>Helps small businesses identify high-traffic areas before opening a new location</li>
-                        <li>Streets color-coded blue to red based on NYC DOT pedestrian counts with a glow effect</li>
-                        <li>Subway stations overlaid with NYC subway line bullets and ridership data</li>
-                        <li>Morning, Midday, and Evening time-of-day filters</li>
-                        <li>Built with FastAPI, Leaflet.js, and NYC Open Data, served behind Nginx</li>
+                        <li>iOS app that helps locals discover under-the-radar restaurants and cafes</li>
+                        <li>Browse a feed of recommendations from people you follow</li>
+                        <li>Search by name, cuisine, or location to surface hidden gems nearby</li>
+                        <li>Save and bookmark restaurants to revisit later</li>
+                        <li>User profiles with follower/following metrics and personal recommendation history</li>
+                        <li>Built with Swift and SwiftUI, targeting iOS 17+</li>
                     </ul>
-                    <a href="https://github.com/divinedavis/Brooklyn-Foot-Traffic" target="_blank">View on GitHub &rarr;</a>
+                    <a href="https://github.com/divinedavis/Hidden-Gems" target="_blank">View on GitHub &rarr;</a>
                 </article>
+
+                <article class="portfolio-item">
+                    <h3>Polinear - Political Impact App</h3>
+                    <p class="project-date">2026</p>
+                    <ul>
+                        <li>Shows users the politicians who represent them and how they impact their daily lives</li>
+                        <li>View voting records, policy positions, and funding sources for elected officials</li>
+                        <li>Search by address to find your local, state, and federal representatives</li>
+                        <li>Built with Next.js, TypeScript, and Tailwind CSS</li>
+                    </ul>
+                    <a href="https://polinear.org" target="_blank">Visit Live Site &rarr;</a> &nbsp;&nbsp;
+                    <a href="https://github.com/divinedavis/Polinear" target="_blank">View on GitHub &rarr;</a>
+                </article>
+
+                <article class="portfolio-item">
+                    <h3>ShypQuick - On-Demand Delivery iOS App</h3>
+                    <p class="project-date">2026</p>
+                    <ul>
+                        <li>On-demand package delivery app — think Uber, but for shipping items</li>
+                        <li>Single app with a role toggle — users switch between Customer and Driver modes</li>
+                        <li>Customers request a pickup, nearby drivers accept, pick up, and drop off</li>
+                        <li>Realtime driver location updates pushed via Supabase Realtime channels</li>
+                        <li>Navigation and location tracking with MapKit and CoreLocation</li>
+                        <li>Built with SwiftUI (iOS 17+), Supabase (Postgres + Auth + Realtime + Storage), Stripe (planned)</li>
+                    </ul>
+                    <a href="https://github.com/divinedavis/ShypQuick" target="_blank">View on GitHub &rarr;</a>
+                </article>
+
+                <article class="portfolio-item">
+                    <h3>Personal Website - divinedavis.com</h3>
+                    <p class="project-date">2026</p>
+                    <ul>
+                        <li>The site you're reading right now — hand-written static HTML and CSS, no build step</li>
+                        <li>Home, portfolio, and resume pages served directly by Nginx</li>
+                        <li>Hosted on a DigitalOcean droplet with Let's Encrypt / Certbot for SSL</li>
+                        <li>Auto-deploy script pulls from GitHub and syncs to /var/www/divinedavis</li>
+                    </ul>
+                    <a href="https://divinedavis.com" target="_blank">Visit Live Site &rarr;</a> &nbsp;&nbsp;
+                    <a href="https://github.com/divinedavis/Personal-Website" target="_blank">View on GitHub &rarr;</a>
+                </article>
+
+                <article class="portfolio-item">
+                    <h3>HomeFinder NYC - Property Finder</h3>
+                    <p class="project-date">2026</p>
+                    <ul>
+                        <li>Property finder app focused on Brooklyn multi-family and mixed-use buildings</li>
+                        <li>15-point checklist scores listings against personal investment criteria</li>
+                        <li>Goal: find and close on a $3M Brooklyn building to house a coffee shop and rental units</li>
+                        <li>Deployed on a DigitalOcean droplet behind Nginx</li>
+                    </ul>
+                    <a href="https://github.com/divinedavis/JaysHomeFinder" target="_blank">View on GitHub &rarr;</a>
+                </article>
+            </section>
+
+            <h2>Common Tech Stacks I Use</h2>
+            <section class="tech-stack">
+                <table class="stack-table">
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Technologies</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Languages</td>
+                            <td>Python, Swift, TypeScript, JavaScript, HTML, CSS, Bash, SQL</td>
+                        </tr>
+                        <tr>
+                            <td>Frameworks &amp; Libraries</td>
+                            <td>FastAPI, Uvicorn, Jinja2, SQLAlchemy, Alembic, Starlette, Pydantic, Next.js, Tailwind CSS, SwiftUI, MapKit, CoreLocation, Leaflet.js, WebSockets, httpx, aiofiles, apscheduler, bcrypt, python-jose, Pillow, boto3, itsdangerous, python-dotenv</td>
+                        </tr>
+                        <tr>
+                            <td>Databases &amp; Storage</td>
+                            <td>SQLite, Supabase (Postgres), DigitalOcean Spaces (S3-compatible CDN)</td>
+                        </tr>
+                        <tr>
+                            <td>Infrastructure</td>
+                            <td>Nginx, DigitalOcean, systemd, cron, GitHub, SSH, Let's Encrypt / Certbot</td>
+                        </tr>
+                        <tr>
+                            <td>APIs &amp; Integrations</td>
+                            <td>Square API, Anthropic API, Twilio, Stripe, NYC Open Data, SMTP / Gmail</td>
+                        </tr>
+                        <tr class="row-ai">
+                            <td>AI Tools</td>
+                            <td>Claude (Anthropic), Claude Code</td>
+                        </tr>
+                    </tbody>
+                </table>
             </section>
         </main>
 
