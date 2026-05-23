@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio - Divine Davis</title>
-    <link rel="stylesheet" href="style.css?v=5">
+    <link rel="stylesheet" href="style.css?v=6">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600&display=swap" rel="stylesheet">
@@ -25,60 +25,85 @@
 
             <section class="portfolio-section">
                 <article class="portfolio-item">
-                    <h3>LogiCal - Storage-Slot Booking Web App</h3>
-                    <p class="project-date">2026</p>
-                    <ul>
-                        <li>Two-sided web app for storage-slot booking — customers place multi-day holds on a calendar, clerks accept/decline and message customers</li>
-                        <li>Domain-based org scoping (clerks sharing an email domain share a calendar) and separate customer/clerk signup, signin, and profile flows</li>
-                        <li>Built with Next.js 14 (App Router), TypeScript, Postgres + Prisma, and NextAuth, deployed on DigitalOcean with nginx + pm2</li>
-                    </ul>
-                    <a href="https://slottingcal.com" target="_blank">Visit Live Site &rarr;</a> &nbsp;&nbsp;
-                    <a href="https://github.com/divinedavis/LogiCal" target="_blank">View on GitHub &rarr;</a>
+                    <div class="portfolio-thumb portfolio-thumb-web">
+                        <a href="https://slottingcal.com" target="_blank"><img src="screenshots/logical.png?v=1" alt="LogiCal landing page screenshot"></a>
+                    </div>
+                    <div class="portfolio-body">
+                        <h3>LogiCal &mdash; Storage-Slot Booking Web App</h3>
+                        <p class="project-date">2026</p>
+                        <ul>
+                            <li>Two-sided web app: customers hold storage slots on a shared calendar, clerks accept/decline and chat in-thread</li>
+                            <li>Email-domain org scoping so coworkers at the same company auto-share a calendar &mdash; no manual invites</li>
+                            <li>Stack: Next.js 14 (App Router), TypeScript, Postgres + Prisma, NextAuth, deployed to DigitalOcean with nginx + pm2</li>
+                        </ul>
+                        <a href="https://slottingcal.com" target="_blank">Visit Live Site &rarr;</a> &nbsp;&nbsp;
+                        <a href="https://github.com/divinedavis/LogiCal" target="_blank">View on GitHub &rarr;</a>
+                    </div>
                 </article>
 
                 <article class="portfolio-item">
-                    <h3>Bearcats Recruiting - Football Recruiting Platform</h3>
-                    <p class="project-date">February 2026</p>
-                    <ul>
-                        <li>Full-stack platform connecting high school football players with college coaches</li>
-                        <li>Real-time WebSocket messaging, shareable profiles with iMessage previews, and a public player directory</li>
-                        <li>Built with FastAPI, SQLite, Jinja2, and Nginx with SSL</li>
-                    </ul>
-                    <a href="https://caprecruiting.com" target="_blank">Visit Live Site &rarr;</a> &nbsp;&nbsp;
-                    <a href="https://github.com/divinedavis/CAPRecruiting" target="_blank">View on GitHub &rarr;</a>
+                    <div class="portfolio-thumb portfolio-thumb-web">
+                        <a href="https://caprecruiting.com" target="_blank"><img src="screenshots/bearcats.png?v=1" alt="Bearcats Recruiting landing page screenshot"></a>
+                    </div>
+                    <div class="portfolio-body">
+                        <h3>Bearcats Recruiting &mdash; High School Football Recruiting Platform</h3>
+                        <p class="project-date">February 2026</p>
+                        <ul>
+                            <li>Helps high school football players get recruited &mdash; public profile, highlight links, and contact info coaches actually read</li>
+                            <li>Realtime WebSocket DMs between players and coaches, plus rich iMessage previews when profiles are shared</li>
+                            <li>Stack: FastAPI, SQLite, Jinja2 templates, nginx + Let's Encrypt SSL on DigitalOcean</li>
+                        </ul>
+                        <a href="https://caprecruiting.com" target="_blank">Visit Live Site &rarr;</a> &nbsp;&nbsp;
+                        <a href="https://github.com/divinedavis/CAPRecruiting" target="_blank">View on GitHub &rarr;</a>
+                    </div>
                 </article>
 
                 <article class="portfolio-item">
-                    <h3>ShypQuick - On-Demand Delivery iOS App</h3>
-                    <p class="project-date">2026</p>
-                    <ul>
-                        <li>On-demand package delivery iOS app — think Uber, but for shipping items</li>
-                        <li>Role toggle lets users switch between Customer and Driver modes, with realtime driver location pushed to customers during an active delivery</li>
-                        <li>Built with SwiftUI (iOS 17+), Supabase (Postgres + Auth + Realtime + Storage), MapKit, CoreLocation, and Stripe (planned)</li>
-                    </ul>
-                    <a href="https://github.com/divinedavis/ShypQuick" target="_blank">View on GitHub &rarr;</a>
+                    <div class="portfolio-thumb portfolio-thumb-mobile">
+                        <img src="screenshots/shypquick.png?v=1" alt="ShypQuick send-a-package screen">
+                    </div>
+                    <div class="portfolio-body">
+                        <h3>ShypQuick &mdash; On-Demand Delivery iOS App</h3>
+                        <p class="project-date">2026</p>
+                        <ul>
+                            <li>On-demand package delivery on iPhone &mdash; think Uber, but for sending things across town</li>
+                            <li>One toggle flips between Customer and Driver modes, with driver location streamed to the customer mid-route</li>
+                            <li>Stack: SwiftUI (iOS 17+), Supabase (Postgres + Auth + Realtime + Storage), MapKit, CoreLocation, Stripe + Apple Pay</li>
+                        </ul>
+                        <a href="https://github.com/divinedavis/ShypQuick" target="_blank">View on GitHub &rarr;</a>
+                    </div>
                 </article>
 
                 <article class="portfolio-item">
-                    <h3>Baseball Stat Tracker - iOS Stat Tracking App</h3>
-                    <p class="project-date">2026</p>
-                    <ul>
-                        <li>iOS app for parents and coaches to record at-bats, hits, errors, and pitching stats for youth baseball games</li>
-                        <li>Per-player season stats, game logs, and shareable summaries — ships to TestFlight on every change</li>
-                        <li>Built with SwiftUI (iOS 17+), backed by an API server on DigitalOcean (159.203.110.79)</li>
-                    </ul>
-                    <a href="https://apps.apple.com/us/app/bball-tracker/id6762527182" target="_blank">Download on the App Store &rarr;</a> &nbsp;&nbsp;<a href="https://github.com/divinedavis/Baseball-Stat-Tracker" target="_blank">View on GitHub &rarr;</a>
+                    <div class="portfolio-thumb portfolio-thumb-mobile">
+                        <a href="https://apps.apple.com/us/app/bball-tracker/id6762527182" target="_blank"><img src="screenshots/baseball.png?v=1" alt="Baseball Stat Tracker stat screen"></a>
+                    </div>
+                    <div class="portfolio-body">
+                        <h3>Baseball Stat Tracker &mdash; iOS Stat Tracking App</h3>
+                        <p class="project-date">2026</p>
+                        <ul>
+                            <li>Coaches and parents log at-bats, hits, errors, and pitching in real time during youth baseball games</li>
+                            <li>Per-player slash lines, season totals, game logs, and shareable summaries &mdash; built for the dugout, not a spreadsheet</li>
+                            <li>Stack: SwiftUI (iOS 17+) with an API server on DigitalOcean; ships to TestFlight on every commit</li>
+                        </ul>
+                        <a href="https://apps.apple.com/us/app/bball-tracker/id6762527182" target="_blank">Download on the App Store &rarr;</a> &nbsp;&nbsp;<a href="https://github.com/divinedavis/Baseball-Stat-Tracker" target="_blank">View on GitHub &rarr;</a>
+                    </div>
                 </article>
 
                 <article class="portfolio-item">
-                    <h3>Hidden Gems - iOS Restaurant Discovery App</h3>
-                    <p class="project-date">2026</p>
-                    <ul>
-                        <li>iOS app that helps locals discover under-the-radar restaurants and cafes</li>
-                        <li>Browse a feed of recommendations from people you follow, search by name/cuisine/location, and save favorites</li>
-                        <li>Built with Swift and SwiftUI, targeting iOS 17+</li>
-                    </ul>
-                    <a href="https://github.com/divinedavis/Hidden-Gems" target="_blank">View on GitHub &rarr;</a>
+                    <div class="portfolio-thumb portfolio-thumb-mobile">
+                        <img src="screenshots/hidden-gems.png?v=1" alt="Hidden Gems feed screen">
+                    </div>
+                    <div class="portfolio-body">
+                        <h3>Hidden Gems &mdash; iOS Restaurant Discovery App</h3>
+                        <p class="project-date">2026</p>
+                        <ul>
+                            <li>Restaurant-discovery feed driven by people you trust &mdash; recommendations from friends, not algorithm rankings</li>
+                            <li>Search by cuisine, neighborhood, or price; save spots, follow taste-makers, and share finds</li>
+                            <li>Stack: SwiftUI (iOS 17+), Supabase backend, Google Places integration for hours and metadata</li>
+                        </ul>
+                        <a href="https://github.com/divinedavis/Hidden-Gems" target="_blank">View on GitHub &rarr;</a>
+                    </div>
                 </article>
             </section>
 

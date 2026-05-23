@@ -323,3 +323,60 @@ main h1 {
     margin-bottom: 5px;
     line-height: 1.5;
 }
+
+/* Portfolio item layout: screenshot + body */
+.portfolio-item {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    margin-bottom: 40px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.portfolio-section .portfolio-item:last-child {
+    border-bottom: none;
+}
+
+.portfolio-body {
+    flex: 1;
+    min-width: 0;
+}
+
+.portfolio-thumb {
+    flex-shrink: 0;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #fafafa;
+    border: 1px solid #eee;
+}
+
+.portfolio-thumb img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.portfolio-thumb-mobile {
+    width: 140px;
+}
+
+.portfolio-thumb-web {
+    width: 240px;
+}
+
+@media (max-width: 768px) {
+    .portfolio-item {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .portfolio-thumb-mobile {
+        width: 160px;
+    }
+
+    .portfolio-thumb-web {
+        width: 100%;
+        max-width: 480px;
+    }
+}
