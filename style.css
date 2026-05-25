@@ -361,8 +361,32 @@ main h1 {
     width: 140px;
 }
 
+.portfolio-thumb-mobile video {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 22px;
+    background: #000;
+}
+
 .portfolio-thumb-web {
     width: 240px;
+}
+
+/* Featured pinned-to-top portfolio item — bigger thumb, slight
+   accent border so it reads as the headline project. */
+.portfolio-item-featured .portfolio-thumb-mobile {
+    width: 200px;
+}
+
+.portfolio-item-featured .portfolio-thumb-mobile video {
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
+}
+
+@media (max-width: 768px) {
+    .portfolio-item-featured .portfolio-thumb-mobile {
+        width: 220px;
+    }
 }
 
 @media (max-width: 768px) {
