@@ -41,6 +41,22 @@
                 </article>
 
                 <article class="portfolio-item">
+                    <div class="portfolio-thumb portfolio-thumb-mobile">
+                        <a href="https://workcompapp.com" target="_blank"><img src="screenshots/workcomp.png?v=1" alt="WorkComp+ daily recovery check-in screen"></a>
+                    </div>
+                    <div class="portfolio-body">
+                        <h3>WorkComp+ &mdash; Workers' Comp Recovery Tracker (iOS + Web)</h3>
+                        <p class="project-date">2026</p>
+                        <ul>
+                            <li>Daily recovery check-ins &mdash; pain, movement, strength, work limits, treatment &mdash; auto-rolled into a Sedgwick-style weekly PDF you email to your nurse case manager</li>
+                            <li>Tap-to-mark body map, photo attachments, and end-to-end encrypted messaging; generate a revocable, PIN-protected read-only link so your lawyer can follow the live claim, plus a firm web dashboard for legal teams</li>
+                            <li>Stack: SwiftUI (iOS 17+), Supabase (Auth + Postgres w/ RLS + Storage + Edge Functions), a Next.js web dashboard on DigitalOcean, StoreKit subscriptions</li>
+                        </ul>
+                        <a href="https://workcompapp.com" target="_blank">Visit Web Dashboard &rarr;</a>
+                    </div>
+                </article>
+
+                <article class="portfolio-item">
                     <div class="portfolio-thumb portfolio-thumb-web">
                         <a href="https://findacrib.com" target="_blank"><img src="screenshots/findacrib.png?v=1" alt="Find A Crib NYC rent-stabilized buildings map screenshot"></a>
                     </div>
@@ -123,6 +139,56 @@
                     </div>
                 </article>
 
+                <article class="portfolio-item">
+                    <div class="portfolio-thumb portfolio-thumb-web">
+                        <a href="https://jordansjobfinder.com" target="_blank"><img src="screenshots/jordansjobfinder.png?v=1" alt="Jordan's Job Finder daily job board screenshot"></a>
+                    </div>
+                    <div class="portfolio-body">
+                        <h3>Jordan's Job Finder &mdash; Automated Daily Job Search</h3>
+                        <p class="project-date">2026</p>
+                        <ul>
+                            <li>Scrapes 340+ company career pages daily across six metros to surface only senior Product &amp; Program Manager roles matching role, seniority, location, salary, and tech focus</li>
+                            <li>A private per-user saved search with a curated daily board and email delivery &mdash; signal, not a firehose feed</li>
+                            <li>Stack: Flask + Jinja2, SQLAlchemy / SQLite, Requests + BeautifulSoup + Playwright scrapers, Gunicorn + nginx on DigitalOcean, a daily cron pipeline</li>
+                        </ul>
+                        <a href="https://jordansjobfinder.com" target="_blank">Visit Live Site &rarr;</a> &nbsp;&nbsp;
+                        <a href="https://github.com/divinedavis/JordansJobFinder" target="_blank">View on GitHub &rarr;</a>
+                    </div>
+                </article>
+
+                <article class="portfolio-item">
+                    <div class="portfolio-thumb portfolio-thumb-web">
+                        <a href="https://trentsfreshspaces.com" target="_blank"><img src="screenshots/trents.png?v=1" alt="Trent's Fresh Spaces painting business landing page screenshot"></a>
+                    </div>
+                    <div class="portfolio-body">
+                        <h3>Trent's Fresh Spaces &mdash; Painting Business Site + Booking</h3>
+                        <p class="project-date">2026</p>
+                        <ul>
+                            <li>Marketing site and online booking for a professional interior-painting business, with full SEO (JSON-LD, OG tags) and a mobile-first design</li>
+                            <li>Two-way calendar sync with no OAuth: reads Trent's ICS feeds to hide busy slots and emails ICS invites so bookings drop straight into Google or Apple Calendar &mdash; no double-booking</li>
+                            <li>Stack: static front end + a Node / Express / SQLite booking API, nginx on DigitalOcean</li>
+                        </ul>
+                        <a href="https://trentsfreshspaces.com" target="_blank">Visit Live Site &rarr;</a> &nbsp;&nbsp;
+                        <a href="https://github.com/divinedavis/trents-fresh-spaces" target="_blank">View on GitHub &rarr;</a>
+                    </div>
+                </article>
+
+                <article class="portfolio-item">
+                    <div class="portfolio-thumb portfolio-thumb-web">
+                        <a href="https://encountersystem.com" target="_blank"><img src="screenshots/legacy-scs.png?v=1" alt="Legacy SCS documentation system sign-in screen"></a>
+                    </div>
+                    <div class="portfolio-body">
+                        <h3>Legacy SCS &mdash; ODP Documentation &amp; EVV System</h3>
+                        <p class="project-date">2026</p>
+                        <ul>
+                            <li>Digital documentation for a PA supportive-care agency: encounter notes, goal / objective tracking, EVV, scheduling, and supervisor oversight for IHCS / Companion / Respite services</li>
+                            <li>Role-based access (admin / supervisor / DSP), voice dictation on narrative fields, English / Spanish toggle, field-level encryption at rest, and quarterly state-report PDF export</li>
+                            <li>Stack: Next.js 15 (App Router) + TypeScript, Tailwind + shadcn/ui, Prisma + Postgres, Auth.js v5, @react-pdf/renderer &mdash; a synthetic-data MVP</li>
+                        </ul>
+                        <a href="https://encountersystem.com" target="_blank">Visit Live Site &rarr;</a>
+                    </div>
+                </article>
+
             </section>
 
             <h2>Common Tech Stacks I Use</h2>
@@ -141,7 +207,7 @@
                         </tr>
                         <tr>
                             <td>Frameworks &amp; Libraries</td>
-                            <td>FastAPI, Uvicorn, Jinja2, SQLAlchemy, Alembic, Starlette, Pydantic, Next.js, Tailwind CSS, SwiftUI, MapKit, CoreLocation, Leaflet.js, WebSockets, httpx, aiofiles, apscheduler, bcrypt, python-jose, Pillow, boto3, itsdangerous, python-dotenv</td>
+                            <td>FastAPI, Uvicorn, Flask, Express, Jinja2, SQLAlchemy, Alembic, Prisma, Auth.js, Starlette, Pydantic, Next.js, Tailwind CSS, shadcn/ui, SwiftUI, StoreKit, MapKit, CoreLocation, Leaflet.js, WebSockets, BeautifulSoup, Playwright, httpx, aiofiles, apscheduler, bcrypt, python-jose, Pillow, boto3, itsdangerous, python-dotenv</td>
                         </tr>
                         <tr>
                             <td>Databases &amp; Storage</td>
