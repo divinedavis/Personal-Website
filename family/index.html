@@ -151,6 +151,7 @@
   .legend { display: flex; gap: 14px; font-size: 12px; color: var(--muted); align-items: center; }
   .legend .swatch { display: inline-block; width: 18px; height: 0; border-top: 2px solid var(--accent); vertical-align: middle; margin-right: 5px; }
   .legend .swatch.brass { border-top-color: var(--brass); }
+  .legend .swatch.dotted { border-top-style: dotted; }
 
   #viewport { flex: 1; overflow: auto; position: relative; }
   #spacer { position: relative; }
@@ -211,9 +212,22 @@
   .radio-list input { width: auto; }
 
   @media (max-width: 860px) {
-    .app { flex-direction: column; height: auto; }
-    aside { width: 100%; border-right: none; border-bottom: 1px solid var(--line); }
-    main { height: 70vh; }
+    .app { flex-direction: column; height: 100dvh; }
+    main { order: 0; height: 52dvh; flex: none; }
+    aside {
+      order: 1; width: 100%; flex: 1; min-height: 0;
+      border-right: none; border-top: 1px solid var(--line);
+      padding: 14px 14px 28px; gap: 18px;
+    }
+    aside h1 { font-size: 20px; }
+    /* 16px inputs stop iOS Safari from zooming the page on focus */
+    input, select { font-size: 16px; }
+    .toolbar { flex-wrap: wrap; row-gap: 4px; padding: 8px 12px; }
+    .legend { gap: 10px; font-size: 11px; }
+    dialog { padding: 16px; }
+  }
+  @media (max-width: 860px) and (orientation: landscape) {
+    main { height: 65dvh; }
   }
   @media (prefers-reduced-motion: no-preference) {
     .person-card { transition: border-color .15s ease; }
@@ -241,11 +255,11 @@
           <input id="f_city" placeholder="City of origin" autocomplete="off">
           <input id="f_lives" placeholder="Lives now (city)" autocomplete="off">
         </div>
-        <label class="fld">Parent 1 (optional)
-          <select id="f_p1"><option value="">— none —</option></select>
+        <label class="fld">Mother (optional)
+          <select id="f_mo"><option value="">— none —</option></select>
         </label>
-        <label class="fld">Parent 2 (optional)
-          <select id="f_p2"><option value="">— none —</option></select>
+        <label class="fld">Father (optional)
+          <select id="f_fa"><option value="">— none —</option></select>
         </label>
         <label class="fld">Spouse (optional)
           <select id="f_sp"><option value="">— none —</option></select>
@@ -283,6 +297,7 @@
       <span class="spacer"></span>
       <span class="legend">
         <span><span class="swatch"></span>parent → child</span>
+        <span><span class="swatch dotted"></span>unmarried parents (mother)</span>
         <span><span class="swatch brass"></span>marriage</span>
       </span>
       <button class="small" id="zoomOut" type="button" aria-label="Zoom out">−</button>
@@ -322,11 +337,11 @@
       <input id="e_city" placeholder="City of origin">
       <input id="e_lives" placeholder="Lives now (city)">
     </div>
-    <label class="fld">Parent 1
-      <select id="e_p1"><option value="">— none —</option></select>
+    <label class="fld">Mother
+      <select id="e_mo"><option value="">— none —</option></select>
     </label>
-    <label class="fld">Parent 2
-      <select id="e_p2"><option value="">— none —</option></select>
+    <label class="fld">Father
+      <select id="e_fa"><option value="">— none —</option></select>
     </label>
     <label class="fld">Spouse
       <select id="e_sp"><option value="">— none —</option></select>
@@ -365,21 +380,36 @@
         var s = JSON.parse(raw);
         if (s && Array.isArray(s.people) && s.people.length) {
           s.dismissed = s.dismissed || [];
-          return s;
+          return migrate(s);
         }
       }
     } catch (e) {}
     return seedState();
   }
+  // older saves used a parents[] array with no mother/father roles
+  function migrate(s) {
+    s.people.forEach(function (p) {
+      if (p.mother === undefined && p.father === undefined) {
+        var arr = p.parents || [];
+        p.mother = arr[0] || null;
+        p.father = arr[1] || null;
+      }
+      syncParents(p);
+    });
+    return s;
+  }
+  function syncParents(p) {
+    p.parents = [p.mother, p.father].filter(Boolean);
+  }
   // Divine's known family — used only when the tree is empty.
   function seedState() {
     return {
       people: [
-        { id: 'rosalee', first: 'Rosalee', last: 'Nesbit', born: null, died: null, city: '', lives: '', parents: [], spouse: 'joe' },
-        { id: 'joe', first: 'Joe', last: 'Johnson', born: null, died: null, city: '', lives: '', parents: [], spouse: 'rosalee' },
-        { id: 'grandma', first: 'Rebecca', last: 'Johnson', born: null, died: null, city: '', lives: '', parents: ['rosalee', 'joe'], spouse: null },
-        { id: 'tyrone', first: 'Tyrone', last: 'Davis', born: null, died: null, city: '', lives: '', parents: ['grandma'], spouse: null },
-        { id: 'divine', first: 'Divine', last: 'Davis', born: null, died: null, city: '', lives: 'Brooklyn, NY', parents: ['tyrone'], spouse: null }
+        { id: 'rosalee', first: 'Rosalee', last: 'Nesbit', born: null, died: null, city: '', lives: '', mother: null, father: null, parents: [], spouse: 'joe' },
+        { id: 'joe', first: 'Joe', last: 'Johnson', born: null, died: null, city: '', lives: '', mother: null, father: null, parents: [], spouse: 'rosalee' },
+        { id: 'grandma', first: 'Rebecca', last: 'Johnson', born: null, died: null, city: '', lives: '', mother: 'rosalee', father: 'joe', parents: ['rosalee', 'joe'], spouse: null },
+        { id: 'tyrone', first: 'Tyrone', last: 'Davis', born: null, died: null, city: '', lives: '', mother: 'grandma', father: null, parents: ['grandma'], spouse: null },
+        { id: 'divine', first: 'Divine', last: 'Davis', born: null, died: null, city: '', lives: 'Brooklyn, NY', mother: null, father: 'tyrone', parents: ['tyrone'], spouse: null }
       ],
       dismissed: []
     };
@@ -585,31 +615,34 @@
       }
     });
     state.people.forEach(function (c) {
-      var cp = lay.pos[c.id];
-      if (!cp || !(c.parents || []).length) return;
-      // group parents by unit
-      var seenUnits = [];
-      c.parents.forEach(function (pid) {
-        var par = byId(pid); if (!par || !lay.pos[pid]) return;
-        var u = lay.pos[pid].unit;
-        if (seenUnits.indexOf(u) !== -1) return;
-        seenUnits.push(u);
-        var bothInUnit = c.parents.filter(function (q) {
-          return lay.pos[q] && lay.pos[q].unit === u;
-        }).length === 2 && u.members.length === 2;
-        var sx, sy;
-        if (bothInUnit) {
-          sx = u.x + W + COUPLE_GAP / 2;
-          sy = u.y + H / 2;
-        } else {
-          sx = lay.pos[pid].x + W / 2;
-          sy = lay.pos[pid].y + H;
-        }
-        var tx = cp.x + W / 2, ty = cp.y;
-        var midY = ty - 24;
+      var cp = lay.pos[c.id]; if (!cp) return;
+      var mo = c.mother ? byId(c.mother) : null;
+      var fa = c.father ? byId(c.father) : null;
+      if (mo && !lay.pos[mo.id]) mo = null;
+      if (fa && !lay.pos[fa.id]) fa = null;
+      if (!mo && !fa) return;
+      var tx = cp.x + W / 2, ty = cp.y, midY = ty - 24;
+      var married = mo && fa && mo.spouse === fa.id;
+      var sameUnit = married && lay.pos[mo.id].unit === lay.pos[fa.id].unit &&
+        lay.pos[mo.id].unit.members.length === 2;
+      if (sameUnit) {
+        // married parents: one solid line from the marriage line
+        var u = lay.pos[mo.id].unit;
+        var sx = u.x + W + COUPLE_GAP / 2, sy = u.y + H / 2;
         svg.push('<path d="M ' + sx + ' ' + sy + ' V ' + midY + ' H ' + tx + ' V ' + ty +
           '" fill="none" stroke="' + accent + '" stroke-width="2"/>');
-      });
+      } else {
+        // separate line per parent; mother's is dotted when parents aren't married
+        [mo, fa].forEach(function (par) {
+          if (!par) return;
+          var pp = lay.pos[par.id];
+          var sx = pp.x + W / 2, sy = pp.y + H;
+          var dotted = (par === mo) && mo && fa && !married;
+          svg.push('<path d="M ' + sx + ' ' + sy + ' V ' + midY + ' H ' + tx + ' V ' + ty +
+            '" fill="none" stroke="' + accent + '" stroke-width="2"' +
+            (dotted ? ' stroke-dasharray="3 5" stroke-linecap="round"' : '') + '/>');
+        });
+      }
     });
     elEdges.innerHTML = svg.join('');
 
@@ -647,8 +680,8 @@
     return opts.join('');
   }
   function renderSelects() {
-    document.getElementById('f_p1').innerHTML = personOptions('', null);
-    document.getElementById('f_p2').innerHTML = personOptions('', null);
+    document.getElementById('f_mo').innerHTML = personOptions('', null);
+    document.getElementById('f_fa').innerHTML = personOptions('', null);
     document.getElementById('f_sp').innerHTML = personOptions('', null);
   }
   function renderRoster() {
@@ -705,14 +738,16 @@
       died: document.getElementById('f_died').value ? +document.getElementById('f_died').value : null,
       city: document.getElementById('f_city').value.trim(),
       lives: document.getElementById('f_lives').value.trim(),
+      mother: null, father: null,
       parents: [],
       spouse: null
     };
-    var p1 = document.getElementById('f_p1').value;
-    var p2 = document.getElementById('f_p2').value;
+    var mo = document.getElementById('f_mo').value;
+    var fa = document.getElementById('f_fa').value;
     var sp = document.getElementById('f_sp').value;
-    if (p1) p.parents.push(p1);
-    if (p2 && p2 !== p1) p.parents.push(p2);
+    p.mother = mo || null;
+    p.father = (fa && fa !== mo) ? fa : null;
+    syncParents(p);
     state.people.push(p);
     if (sp) setSpouse(p.id, sp);
     ev.target.reset();
@@ -748,8 +783,8 @@
     document.getElementById('e_died').value = p.died || '';
     document.getElementById('e_city').value = p.city || '';
     document.getElementById('e_lives').value = p.lives || '';
-    document.getElementById('e_p1').innerHTML = personOptions(p.parents[0] || '', id);
-    document.getElementById('e_p2').innerHTML = personOptions(p.parents[1] || '', id);
+    document.getElementById('e_mo').innerHTML = personOptions(p.mother || '', id);
+    document.getElementById('e_fa').innerHTML = personOptions(p.father || '', id);
     document.getElementById('e_sp').innerHTML = personOptions(p.spouse || '', id);
     editDlg.showModal();
   }
@@ -761,11 +796,11 @@
     p.died = document.getElementById('e_died').value ? +document.getElementById('e_died').value : null;
     p.city = document.getElementById('e_city').value.trim();
     p.lives = document.getElementById('e_lives').value.trim();
-    var p1 = document.getElementById('e_p1').value;
-    var p2 = document.getElementById('e_p2').value;
-    p.parents = [];
-    if (p1) p.parents.push(p1);
-    if (p2 && p2 !== p1) p.parents.push(p2);
+    var mo = document.getElementById('e_mo').value;
+    var fa = document.getElementById('e_fa').value;
+    p.mother = mo || null;
+    p.father = (fa && fa !== mo) ? fa : null;
+    syncParents(p);
     var sp = document.getElementById('e_sp').value;
     if (sp) setSpouse(p.id, sp); else clearSpouse(p.id);
     render();
@@ -777,7 +812,9 @@
     clearSpouse(p.id);
     state.people = state.people.filter(function (q) { return q.id !== p.id; });
     state.people.forEach(function (q) {
-      q.parents = (q.parents || []).filter(function (pid) { return pid !== p.id; });
+      if (q.mother === p.id) q.mother = null;
+      if (q.father === p.id) q.father = null;
+      syncParents(q);
     });
     editDlg.close();
     render();
@@ -792,8 +829,10 @@
     document.getElementById('linkWhy').textContent = s.reasons.join('; ');
     var an = esc(fullName(s.a)), bn = esc(fullName(s.b));
     document.getElementById('linkOpts').innerHTML =
-      '<label><input type="radio" name="rel" value="a_parent" checked> ' + an + ' is a <strong>parent</strong> of ' + bn + '</label>' +
-      '<label><input type="radio" name="rel" value="b_parent"> ' + bn + ' is a <strong>parent</strong> of ' + an + '</label>' +
+      '<label><input type="radio" name="rel" value="a_mother" checked> ' + an + ' is the <strong>mother</strong> of ' + bn + '</label>' +
+      '<label><input type="radio" name="rel" value="a_father"> ' + an + ' is the <strong>father</strong> of ' + bn + '</label>' +
+      '<label><input type="radio" name="rel" value="b_mother"> ' + bn + ' is the <strong>mother</strong> of ' + an + '</label>' +
+      '<label><input type="radio" name="rel" value="b_father"> ' + bn + ' is the <strong>father</strong> of ' + an + '</label>' +
       '<label><input type="radio" name="rel" value="spouse"> They are <strong>married</strong></label>';
     linkDlg.showModal();
   }
@@ -803,18 +842,14 @@
     var rel = (linkDlg.querySelector('input[name="rel"]:checked') || {}).value;
     var a = byId(linkPair.a.id), b = byId(linkPair.b.id);
     if (!a || !b) { linkDlg.close(); return; }
-    if (rel === 'a_parent') addParent(b, a.id);
-    else if (rel === 'b_parent') addParent(a, b.id);
+    if (rel === 'a_mother') { b.mother = a.id; syncParents(b); }
+    else if (rel === 'a_father') { b.father = a.id; syncParents(b); }
+    else if (rel === 'b_mother') { a.mother = b.id; syncParents(a); }
+    else if (rel === 'b_father') { a.father = b.id; syncParents(a); }
     else if (rel === 'spouse') setSpouse(a.id, b.id);
     linkDlg.close();
     render();
   });
-  function addParent(child, parentId) {
-    child.parents = child.parents || [];
-    if (child.parents.indexOf(parentId) !== -1) return;
-    if (child.parents.length >= 2) child.parents[1] = parentId;
-    else child.parents.push(parentId);
-  }
 
   /* ---------- clicks on cards / roster ---------- */
   elCards.addEventListener('click', function (ev) {
@@ -877,7 +912,7 @@
       try {
         var s = JSON.parse(reader.result);
         if (!s || !Array.isArray(s.people)) throw new Error('bad shape');
-        state = { people: s.people, dismissed: s.dismissed || [] };
+        state = migrate({ people: s.people, dismissed: s.dismissed || [] });
         render();
       } catch (e) {
         alert('Could not read that file — it needs to be a JSON export from this page.');
