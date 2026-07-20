@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Family tree — add people, link parents and spouses, discover relatives you did not know about.">
+<meta name="description" content="Kinnkolk — your family tree in one place. Add your people, uncover unknown relatives, plan reunions.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌳</text></svg>">
 <script src="supabase.js"></script>
-<title>Family Tree</title>
+<title>Kinnkolk — Family Tree</title>
 <style>
   :root {
     --ground: #F6F4EC;
@@ -213,6 +213,36 @@
   .rsvp-row .btns { display: flex; gap: 4px; }
   .rsvp-row button.on-yes { background: var(--accent); border-color: var(--accent); color: #fff; }
   .rsvp-row button.on-no { background: var(--danger); border-color: var(--danger); color: #fff; }
+  #landing {
+    position: fixed; inset: 0; z-index: 50;
+    background: var(--ground);
+    display: flex; align-items: center; justify-content: center;
+    padding: 24px; overflow-y: auto;
+  }
+  #landing[hidden] { display: none; }
+  .land-card {
+    width: min(360px, 92vw);
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-top: 3px solid var(--accent);
+    border-radius: 12px;
+    padding: 30px 26px 24px;
+    display: flex; flex-direction: column; gap: 10px;
+    box-shadow: 0 8px 30px rgba(20,25,18,.12);
+  }
+  .land-brand {
+    font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    font-size: 30px; font-weight: 600; text-align: center; line-height: 1.2;
+  }
+  .land-tag { color: var(--muted); text-align: center; font-size: 13.5px; margin: 0 0 10px; text-wrap: balance; }
+  .land-sep {
+    color: var(--muted); font-size: 11px; letter-spacing: .09em; text-transform: uppercase;
+    text-align: center; margin-top: 6px;
+  }
+  .land-row { display: flex; gap: 8px; }
+  .land-row button { flex: 1; }
+  .land-msg { min-height: 1.2em; font-size: 12.5px; color: var(--danger); text-align: center; margin: 0; }
+  .land-msg.ok { color: var(--accent); }
 
   .empty-state {
     position: absolute; inset: 0;
@@ -261,6 +291,23 @@
 </style>
 </head>
 <body>
+
+<div id="landing" hidden>
+  <div class="land-card">
+    <div class="land-brand">🌳<br>Kinnkolk</div>
+    <p class="land-tag">Your family tree, in one place. Add your people, uncover relatives you didn’t
+    know you had, and plan the next reunion.</p>
+    <button class="primary" id="landGoogle" type="button">Continue with Google</button>
+    <div class="land-sep">or use email</div>
+    <input id="landEmail" type="email" placeholder="Email" autocomplete="email">
+    <input id="landPass" type="password" placeholder="Password (8+ characters)" autocomplete="current-password">
+    <div class="land-row">
+      <button class="primary" id="landSignIn" type="button">Sign in</button>
+      <button id="landSignUp" type="button">Create account</button>
+    </div>
+    <p class="land-msg" id="landMsg"></p>
+  </div>
+</div>
 
 <div class="app">
   <aside>
@@ -861,6 +908,8 @@
     document.getElementById('e_mo').innerHTML = personOptions(p.mother || '', id);
     document.getElementById('e_fa').innerHTML = personOptions(p.father || '', id);
     document.getElementById('e_sp').innerHTML = personOptions(p.spouse || '', id);
+    // only the family admin may delete people (no-account preview mode excepted)
+    document.getElementById('btnDelete').style.display = (!supa || isAdmin()) ? '' : 'none';
     editDlg.showModal();
   }
   document.getElementById('editForm').addEventListener('submit', function () {
@@ -1080,6 +1129,39 @@
   var SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRiYWlmb3R6d2x4anZzeGpvaGp0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEzNzI2MTQsImV4cCI6MjA5Njk0ODYxNH0.5hoLfoKkNnEnFuu7jsfCTq_rUQqn8gf32BEI9qiyCI4';
   var supa = (window.supabase && window.supabase.createClient) ? window.supabase.createClient(SUPA_URL, SUPA_KEY) : null;
   var authUser = null, pushTimer = null;
+  var ADMIN_EMAIL = 'divinejdavis@gmail.com';
+  function isAdmin() { return !!(authUser && (authUser.email || '').toLowerCase() === ADMIN_EMAIL); }
+
+  /* ---------- landing gate ---------- */
+  var landing = document.getElementById('landing');
+  if (supa) landing.hidden = false; // must sign in before the tree shows
+  function landSay(msg, ok) {
+    var el = document.getElementById('landMsg');
+    el.textContent = msg || '';
+    el.className = 'land-msg' + (ok ? ' ok' : '');
+  }
+  function emailAuth(mode) {
+    if (!supa) return;
+    var email = document.getElementById('landEmail').value.trim();
+    var pass = document.getElementById('landPass').value;
+    if (!email || pass.length < 8) { landSay('Enter your email and a password of at least 8 characters.'); return; }
+    landSay(mode === 'up' ? 'Creating account…' : 'Signing in…', true);
+    var call = mode === 'up'
+      ? supa.auth.signUp({ email: email, password: pass })
+      : supa.auth.signInWithPassword({ email: email, password: pass });
+    call.then(function (res) {
+      if (res.error) { landSay(res.error.message); return; }
+      if (!res.data.session) landSay('Account created — check your email to confirm, then sign in.', true);
+    });
+  }
+  document.getElementById('landGoogle').addEventListener('click', function () {
+    if (supa) supa.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: location.origin + location.pathname } });
+  });
+  document.getElementById('landSignIn').addEventListener('click', function () { emailAuth('in'); });
+  document.getElementById('landSignUp').addEventListener('click', function () { emailAuth('up'); });
+  document.getElementById('landPass').addEventListener('keydown', function (ev) {
+    if (ev.key === 'Enter') emailAuth('in');
+  });
 
   function renderAuth() {
     var box = document.getElementById('authBox');
@@ -1134,6 +1216,7 @@
       var prev = authUser && authUser.id;
       authUser = session ? session.user : null;
       renderAuth();
+      landing.hidden = !!authUser;
       if (authUser && authUser.id !== prev) pullRemote();
     });
   }
