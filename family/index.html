@@ -1202,7 +1202,7 @@
       });
     } else {
       box.innerHTML = '<div class="auth-row"><button class="primary small" id="btnGoogle" type="button">Sign in with Google</button>' +
-        '<span class="no-hints">to sync your tree across devices</span></div>';
+        '<span class="no-hints">to open the family tree</span></div>';
       document.getElementById('btnGoogle').addEventListener('click', function () {
         supa.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: location.origin + location.pathname } });
       });
@@ -1212,27 +1212,38 @@
     var el = document.getElementById('syncStatus');
     if (el) el.textContent = msg;
   }
+  var applyingRemote = false;
   function pullRemote() {
-    supa.from('family_trees').select('data').eq('user_id', authUser.id).maybeSingle().then(function (res) {
+    supa.from('shared_tree').select('data').eq('id', 1).maybeSingle().then(function (res) {
       if (res.error) { setSync('Sync error'); return; }
       var remote = res.data && res.data.data;
       if (remote && Array.isArray(remote.people) && remote.people.length) {
         state = migrate({ people: remote.people, dismissed: remote.dismissed || [], reunions: remote.reunions || [] });
         setSync('Synced');
+        applyingRemote = true;
         render();
-      } else {
-        pushRemote(); // first sign-in on this account: upload the local tree
+        applyingRemote = false;
+      } else if (isAdmin()) {
+        pushRemote(); // admin seeds the family tree from this device
       }
     });
   }
   function pushRemote() {
-    if (!supa || !authUser) return;
+    if (!supa || !authUser || applyingRemote) return;
     clearTimeout(pushTimer);
     pushTimer = setTimeout(function () {
       setSync('Saving…');
-      supa.from('family_trees')
-        .upsert({ user_id: authUser.id, data: { people: state.people, dismissed: state.dismissed, reunions: state.reunions }, updated_at: new Date().toISOString() })
-        .then(function (res) { setSync(res.error ? 'Sync error' : 'Synced'); });
+      supa.from('shared_tree')
+        .upsert({ id: 1, data: { people: state.people, dismissed: state.dismissed, reunions: state.reunions }, updated_at: new Date().toISOString(), updated_by: authUser.email })
+        .then(function (res) {
+          if (!res.error) { setSync('Synced'); return; }
+          if (/admin/i.test(res.error.message || '')) {
+            setSync('Only the admin can delete');
+            pullRemote(); // restore the family copy
+          } else {
+            setSync('Sync error');
+          }
+        });
     }, 800);
   }
   if (supa) {
