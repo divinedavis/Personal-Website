@@ -154,7 +154,7 @@
   .legend .swatch.brass { border-top-color: var(--brass); }
   .legend .swatch.dotted { border-top-style: dotted; }
 
-  #viewport { flex: 1; overflow: auto; position: relative; }
+  #viewport { flex: 1; overflow: auto; position: relative; touch-action: pan-x pan-y; }
   #spacer { position: relative; }
   #treeInner { position: absolute; top: 0; left: 0; transform-origin: 0 0; }
   #edges { position: absolute; top: 0; left: 0; pointer-events: none; }
@@ -658,15 +658,20 @@
     renderTree();
   }
 
+  var contentW = 400, contentH = 300;
+  function applyScale() {
+    elInner.style.transform = 'scale(' + scale + ')';
+    elSpacer.style.width = (contentW * scale) + 'px';
+    elSpacer.style.height = (contentH * scale) + 'px';
+  }
   function renderTree() {
     var lay = buildLayout();
     var w = Math.max(lay.width, 400), h = Math.max(lay.height, 300);
+    contentW = w; contentH = h;
 
     elInner.style.width = w + 'px';
     elInner.style.height = h + 'px';
-    elInner.style.transform = 'scale(' + scale + ')';
-    elSpacer.style.width = (w * scale) + 'px';
-    elSpacer.style.height = (h * scale) + 'px';
+    applyScale();
     elEdges.setAttribute('width', w);
     elEdges.setAttribute('height', h);
 
@@ -1158,6 +1163,36 @@
       vp.scrollTop = st - (ev.clientY - sy);
     });
     window.addEventListener('mouseup', function () { dragging = false; vp.style.cursor = ''; });
+
+    /* pinch to zoom (mobile) — zoom anchored at the pinch midpoint */
+    var pinching = false, startDist = 0, startScale = 1;
+    function touchDist(t) {
+      return Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY);
+    }
+    vp.addEventListener('touchstart', function (ev) {
+      if (ev.touches.length === 2) {
+        pinching = true;
+        startDist = touchDist(ev.touches);
+        startScale = scale;
+      }
+    }, { passive: true });
+    vp.addEventListener('touchmove', function (ev) {
+      if (!pinching || ev.touches.length !== 2) return;
+      ev.preventDefault();
+      var next = Math.min(1.6, Math.max(0.3, startScale * touchDist(ev.touches) / startDist));
+      if (Math.abs(next - scale) < 0.01) return;
+      var rect = vp.getBoundingClientRect();
+      var mx = (ev.touches[0].clientX + ev.touches[1].clientX) / 2 - rect.left;
+      var my = (ev.touches[0].clientY + ev.touches[1].clientY) / 2 - rect.top;
+      var cx = (vp.scrollLeft + mx) / scale, cy = (vp.scrollTop + my) / scale;
+      scale = next;
+      applyScale();
+      vp.scrollLeft = cx * scale - mx;
+      vp.scrollTop = cy * scale - my;
+    }, { passive: false });
+    vp.addEventListener('touchend', function (ev) {
+      if (ev.touches.length < 2) pinching = false;
+    });
   })();
 
   /* ---------- export / import ---------- */
