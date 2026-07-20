@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Family tree — add people, link parents and spouses, discover relatives you did not know about.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌳</text></svg>">
+<script src="supabase.js"></script>
 <title>Family Tree</title>
 <style>
   :root {
@@ -187,6 +188,31 @@
   }
   .person-card .now.dead { color: var(--muted); }
   .person-card.deceased { border-top-color: var(--muted); }
+  .card-research {
+    position: absolute; top: 2px; right: 2px;
+    border: none; background: transparent; padding: 2px 5px;
+    font-size: 12px; cursor: pointer; opacity: .5;
+  }
+  .card-research:hover, .card-research:focus-visible { opacity: 1; }
+  .auth-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .auth-email { font-size: 12.5px; color: var(--muted); overflow-wrap: anywhere; }
+  .sync-tag { font-size: 11px; color: var(--accent); font-weight: 600; }
+  .research-links { display: flex; flex-direction: column; gap: 9px; margin: 8px 0; }
+  .research-links a { color: var(--accent); }
+  .reunion-card {
+    background: var(--panel); border: 1px solid var(--line); border-left: 3px solid var(--brass);
+    border-radius: 8px; padding: 9px 11px; margin-bottom: 8px; cursor: pointer;
+  }
+  .reunion-card:hover { border-color: var(--brass); }
+  .reunion-card .rt { font-weight: 600; }
+  .reunion-card .rm { color: var(--muted); font-size: 12px; margin-top: 1px; font-variant-numeric: tabular-nums; }
+  .reunion-card .rc { font-size: 12px; margin-top: 3px; }
+  .reunion-card .rc .yes { color: var(--accent); font-weight: 600; }
+  .reunion-card .rc .no { color: var(--danger); }
+  .rsvp-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+  .rsvp-row .btns { display: flex; gap: 4px; }
+  .rsvp-row button.on-yes { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .rsvp-row button.on-no { background: var(--danger); border-color: var(--danger); color: #fff; }
 
   .empty-state {
     position: absolute; inset: 0;
@@ -241,6 +267,11 @@
     <h1>Family Tree<small>A living record — add people, find hidden relatives.</small></h1>
 
     <section>
+      <p class="sec-label">Account</p>
+      <div id="authBox"><p class="no-hints">Cloud sync unavailable here.</p></div>
+    </section>
+
+    <section>
       <p class="sec-label">Add a person</p>
       <form class="add" id="addForm">
         <div class="row2">
@@ -271,6 +302,19 @@
     <section id="hintsSec">
       <p class="sec-label">Possible relatives</p>
       <div id="hints"></div>
+    </section>
+
+    <section>
+      <p class="sec-label">Family reunions</p>
+      <div id="reunionList"></div>
+      <form class="add" id="reunionForm">
+        <input id="r_title" placeholder="Reunion name (e.g. Johnson Family Reunion)" required autocomplete="off">
+        <div class="row2">
+          <input id="r_date" type="date" required aria-label="Reunion date">
+          <input id="r_place" placeholder="Location" autocomplete="off">
+        </div>
+        <button class="primary" type="submit">Add reunion</button>
+      </form>
     </section>
 
     <section>
@@ -367,6 +411,27 @@
   </div>
 </dialog>
 
+<dialog id="rsvpDlg">
+  <h3 id="rsvpTitle">Who’s going?</h3>
+  <p id="rsvpMeta" style="color:var(--muted);font-size:12.5px;margin:0 0 10px"></p>
+  <div id="rsvpList" style="display:flex;flex-direction:column;gap:6px;max-height:50vh;overflow-y:auto"></div>
+  <div class="dlg-actions">
+    <button class="danger small" type="button" id="rsvpDelete">Delete reunion</button>
+    <span class="grow"></span>
+    <button type="button" id="rsvpClose">Done</button>
+  </div>
+</dialog>
+
+<dialog id="researchDlg">
+  <h3 id="resTitle">Research</h3>
+  <p style="color:var(--muted);font-size:12.5px;margin:0 0 6px">
+    Search public records for this person. Records open in a new tab —
+    FamilySearch is free but may ask you to create a free account to view details.
+  </p>
+  <div class="research-links" id="resLinks"></div>
+  <div class="dlg-actions"><span class="grow"></span><button type="button" id="resClose">Close</button></div>
+</dialog>
+
 <script>
 (function () {
   'use strict';
@@ -388,6 +453,7 @@
   }
   // older saves used a parents[] array with no mother/father roles
   function migrate(s) {
+    s.reunions = s.reunions || [];
     s.people.forEach(function (p) {
       if (p.mother === undefined && p.father === undefined) {
         var arr = p.parents || [];
@@ -411,11 +477,13 @@
         { id: 'tyrone', first: 'Tyrone', last: 'Davis', born: null, died: null, city: '', lives: '', mother: 'grandma', father: null, parents: ['grandma'], spouse: null },
         { id: 'divine', first: 'Divine', last: 'Davis', born: null, died: null, city: '', lives: 'Brooklyn, NY', mother: null, father: 'tyrone', parents: ['tyrone'], spouse: null }
       ],
-      dismissed: []
+      dismissed: [],
+      reunions: []
     };
   }
   function save() {
     try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) {}
+    pushRemote(); // no-op unless signed in (hoisted from the sync section)
   }
   function uid() { return 'p' + Math.random().toString(36).slice(2, 10); }
   function byId(id) {
@@ -586,6 +654,7 @@
     renderSelects();
     renderRoster();
     renderHints();
+    renderReunions();
     renderTree();
   }
 
@@ -655,7 +724,8 @@
         '" style="left:' + pp.x + 'px;top:' + pp.y + 'px">' +
         '<div class="nm">' + esc(fullName(p)) + '</div>' +
         '<div class="sub">' + esc(subLine(p)) + '</div>' +
-        '<div class="now' + (p.died ? ' dead' : '') + '">' + esc(nowLine(p)) + '</div></div>');
+        '<div class="now' + (p.died ? ' dead' : '') + '">' + esc(nowLine(p)) + '</div>' +
+        '<button class="card-research" data-research="' + p.id + '" aria-label="Research ' + esc(fullName(p)) + ' in public records" title="Research in public records">🔎</button></div>');
     });
     elCards.innerHTML = html.join('');
 
@@ -853,6 +923,8 @@
 
   /* ---------- clicks on cards / roster ---------- */
   elCards.addEventListener('click', function (ev) {
+    var rb = ev.target.closest('.card-research');
+    if (rb) { openResearch(rb.getAttribute('data-research')); return; }
     var card = ev.target.closest('.person-card');
     if (card) openEdit(card.getAttribute('data-id'));
   });
@@ -866,6 +938,201 @@
     var li = ev.target.closest('li[data-id]');
     if (li) openEdit(li.getAttribute('data-id'));
   });
+
+  /* ---------- family reunions & RSVPs ---------- */
+  var rsvpDlg = document.getElementById('rsvpDlg');
+  var rsvpReunionId = null;
+
+  function reunionCounts(r) {
+    var yes = 0, no = 0;
+    Object.keys(r.rsvp || {}).forEach(function (pid) {
+      if (!byId(pid)) return;
+      if (r.rsvp[pid] === 'yes') yes++;
+      else if (r.rsvp[pid] === 'no') no++;
+    });
+    return { yes: yes, no: no };
+  }
+  function reunionWhen(r) {
+    var d = new Date(r.date + 'T12:00:00');
+    var label = d.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+    var days = Math.ceil((d - new Date()) / 86400000);
+    if (days > 1) label += ' · in ' + days + ' days';
+    else if (days === 1) label += ' · tomorrow';
+    else if (days === 0) label += ' · today!';
+    else label += ' · past';
+    return label;
+  }
+  function renderReunions() {
+    var box = document.getElementById('reunionList');
+    if (!state.reunions.length) {
+      box.innerHTML = '<p class="no-hints">No reunions yet — add one below and track who’s coming.</p>';
+      return;
+    }
+    var html = [];
+    state.reunions.slice().sort(function (a, b) { return a.date < b.date ? -1 : 1; }).forEach(function (r) {
+      var c = reunionCounts(r);
+      html.push('<div class="reunion-card" role="button" tabindex="0" data-rid="' + r.id + '">' +
+        '<div class="rt">' + esc(r.title) + '</div>' +
+        '<div class="rm">' + esc(reunionWhen(r)) + (r.place ? ' · ' + esc(r.place) : '') + '</div>' +
+        '<div class="rc"><span class="yes">' + c.yes + ' going</span>' +
+        (c.no ? ' · <span class="no">' + c.no + ' can’t make it</span>' : '') +
+        ' — tap to set RSVPs</div></div>');
+    });
+    box.innerHTML = html.join('');
+  }
+  document.getElementById('reunionList').addEventListener('click', function (ev) {
+    var card = ev.target.closest('.reunion-card');
+    if (card) openRsvp(card.getAttribute('data-rid'));
+  });
+  document.getElementById('reunionForm').addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    state.reunions.push({
+      id: uid(),
+      title: document.getElementById('r_title').value.trim(),
+      date: document.getElementById('r_date').value,
+      place: document.getElementById('r_place').value.trim(),
+      rsvp: {}
+    });
+    ev.target.reset();
+    render();
+  });
+  function reunionById(rid) {
+    for (var i = 0; i < state.reunions.length; i++) if (state.reunions[i].id === rid) return state.reunions[i];
+    return null;
+  }
+  function openRsvp(rid) {
+    var r = reunionById(rid); if (!r) return;
+    rsvpReunionId = rid;
+    document.getElementById('rsvpTitle').textContent = r.title;
+    document.getElementById('rsvpMeta').textContent = reunionWhen(r) + (r.place ? ' · ' + r.place : '');
+    renderRsvpList(r);
+    rsvpDlg.showModal();
+  }
+  function renderRsvpList(r) {
+    r.rsvp = r.rsvp || {};
+    var html = [];
+    state.people.slice().sort(function (a, b) {
+      return fullName(a).localeCompare(fullName(b));
+    }).forEach(function (p) {
+      var v = r.rsvp[p.id];
+      html.push('<div class="rsvp-row"><span>' + esc(fullName(p)) + '</span><span class="btns">' +
+        '<button class="small' + (v === 'yes' ? ' on-yes' : '') + '" data-pid="' + p.id + '" data-v="yes" type="button">Going</button>' +
+        '<button class="small' + (v === 'no' ? ' on-no' : '') + '" data-pid="' + p.id + '" data-v="no" type="button">Can’t</button>' +
+        '</span></div>');
+    });
+    document.getElementById('rsvpList').innerHTML = html.join('');
+  }
+  document.getElementById('rsvpList').addEventListener('click', function (ev) {
+    var btn = ev.target.closest('button[data-pid]');
+    if (!btn) return;
+    var r = reunionById(rsvpReunionId); if (!r) return;
+    var pid = btn.getAttribute('data-pid'), v = btn.getAttribute('data-v');
+    r.rsvp = r.rsvp || {};
+    r.rsvp[pid] = (r.rsvp[pid] === v) ? undefined : v; // tap again to clear
+    if (r.rsvp[pid] === undefined) delete r.rsvp[pid];
+    renderRsvpList(r);
+    save();
+    renderReunions();
+  });
+  document.getElementById('rsvpClose').addEventListener('click', function () { rsvpDlg.close(); });
+  document.getElementById('rsvpDelete').addEventListener('click', function () {
+    var r = reunionById(rsvpReunionId); if (!r) return;
+    if (!confirm('Delete "' + r.title + '"?')) return;
+    state.reunions = state.reunions.filter(function (q) { return q.id !== r.id; });
+    rsvpDlg.close();
+    render();
+  });
+
+  /* ---------- research (public records) ---------- */
+  var researchDlg = document.getElementById('researchDlg');
+  document.getElementById('resClose').addEventListener('click', function () { researchDlg.close(); });
+  function openResearch(id) {
+    var p = byId(id); if (!p) return;
+    var fn = encodeURIComponent(p.first), ln = encodeURIComponent(p.last);
+    var links = [];
+    var fs = 'https://www.familysearch.org/search/record/results?q.givenName=' + fn + '&q.surname=' + ln;
+    if (p.born) fs += '&q.birthLikeDate.from=' + (p.born - 2) + '&q.birthLikeDate.to=' + (p.born + 2);
+    if (p.city) fs += '&q.anyPlace=' + encodeURIComponent(p.city);
+    links.push(['FamilySearch records — censuses, birth/marriage/death certificates', fs]);
+    links.push(['FamilySearch shared world tree — may already have this branch mapped',
+      'https://www.familysearch.org/tree/find/name?search=1&self=' + fn + '%20' + ln]);
+    var fg = 'https://www.findagrave.com/memorial/search?firstname=' + fn + '&lastname=' + ln;
+    if (p.born) fg += '&birthyear=' + p.born;
+    if (p.died) fg += '&deathyear=' + p.died;
+    links.push(['Find a Grave — cemetery records, often with linked family members', fg]);
+    var obit = '"' + p.first + ' ' + p.last + '" obituary' + (p.city ? ' ' + p.city : '');
+    links.push(['Google obituary search — obituaries list surviving relatives by name',
+      'https://www.google.com/search?q=' + encodeURIComponent(obit)]);
+    document.getElementById('resTitle').textContent = 'Research — ' + fullName(p);
+    document.getElementById('resLinks').innerHTML = links.map(function (l) {
+      return '<a href="' + l[1] + '" target="_blank" rel="noopener">' + esc(l[0]) + ' ↗</a>';
+    }).join('');
+    researchDlg.showModal();
+  }
+
+  /* ---------- account & cloud sync (Supabase + Google) ---------- */
+  var SUPA_URL = 'https://dbaifotzwlxjvsxjohjt.supabase.co';
+  var SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRiYWlmb3R6d2x4anZzeGpvaGp0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEzNzI2MTQsImV4cCI6MjA5Njk0ODYxNH0.5hoLfoKkNnEnFuu7jsfCTq_rUQqn8gf32BEI9qiyCI4';
+  var supa = (window.supabase && window.supabase.createClient) ? window.supabase.createClient(SUPA_URL, SUPA_KEY) : null;
+  var authUser = null, pushTimer = null;
+
+  function renderAuth() {
+    var box = document.getElementById('authBox');
+    if (!supa) {
+      box.innerHTML = '<p class="no-hints">Cloud sync isn’t available in this preview — use kinnkolk.com.</p>';
+      return;
+    }
+    if (authUser) {
+      box.innerHTML = '<div class="auth-row"><span class="auth-email">' + esc(authUser.email || '') + '</span>' +
+        '<span class="sync-tag" id="syncStatus">Synced</span>' +
+        '<button class="small" id="btnSignOut" type="button">Sign out</button></div>';
+      document.getElementById('btnSignOut').addEventListener('click', function () {
+        supa.auth.signOut();
+      });
+    } else {
+      box.innerHTML = '<div class="auth-row"><button class="primary small" id="btnGoogle" type="button">Sign in with Google</button>' +
+        '<span class="no-hints">to sync your tree across devices</span></div>';
+      document.getElementById('btnGoogle').addEventListener('click', function () {
+        supa.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: location.origin + location.pathname } });
+      });
+    }
+  }
+  function setSync(msg) {
+    var el = document.getElementById('syncStatus');
+    if (el) el.textContent = msg;
+  }
+  function pullRemote() {
+    supa.from('family_trees').select('data').eq('user_id', authUser.id).maybeSingle().then(function (res) {
+      if (res.error) { setSync('Sync error'); return; }
+      var remote = res.data && res.data.data;
+      if (remote && Array.isArray(remote.people) && remote.people.length) {
+        state = migrate({ people: remote.people, dismissed: remote.dismissed || [], reunions: remote.reunions || [] });
+        setSync('Synced');
+        render();
+      } else {
+        pushRemote(); // first sign-in on this account: upload the local tree
+      }
+    });
+  }
+  function pushRemote() {
+    if (!supa || !authUser) return;
+    clearTimeout(pushTimer);
+    pushTimer = setTimeout(function () {
+      setSync('Saving…');
+      supa.from('family_trees')
+        .upsert({ user_id: authUser.id, data: { people: state.people, dismissed: state.dismissed, reunions: state.reunions }, updated_at: new Date().toISOString() })
+        .then(function (res) { setSync(res.error ? 'Sync error' : 'Synced'); });
+    }, 800);
+  }
+  if (supa) {
+    supa.auth.onAuthStateChange(function (_ev, session) {
+      var prev = authUser && authUser.id;
+      authUser = session ? session.user : null;
+      renderAuth();
+      if (authUser && authUser.id !== prev) pullRemote();
+    });
+  }
+  renderAuth();
 
   /* ---------- zoom ---------- */
   document.getElementById('zoomIn').addEventListener('click', function () {
@@ -912,7 +1179,7 @@
       try {
         var s = JSON.parse(reader.result);
         if (!s || !Array.isArray(s.people)) throw new Error('bad shape');
-        state = migrate({ people: s.people, dismissed: s.dismissed || [] });
+        state = migrate({ people: s.people, dismissed: s.dismissed || [], reunions: s.reunions || [] });
         render();
       } catch (e) {
         alert('Could not read that file — it needs to be a JSON export from this page.');
