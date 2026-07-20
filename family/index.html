@@ -252,6 +252,14 @@
   .land-row button { flex: 1; }
   .land-msg { min-height: 1.2em; font-size: 12.5px; color: var(--danger); text-align: center; margin: 0; }
   .land-msg.ok { color: var(--accent); }
+  .suggest-wrap { position: relative; }
+  .city-suggest {
+    position: absolute; top: calc(100% + 2px); left: 0; right: 0; z-index: 40;
+    background: var(--panel); border: 1px solid var(--line); border-radius: 6px;
+    box-shadow: var(--card-shadow); overflow: hidden;
+  }
+  .city-suggest div { padding: 7px 10px; cursor: pointer; font-size: 13px; }
+  .city-suggest div.active, .city-suggest div:hover { background: var(--accent); color: #fff; }
 
   .empty-state {
     position: absolute; inset: 0;
@@ -567,6 +575,8 @@
     return '';
   }
   function norm(s) { return String(s || '').trim().toLowerCase(); }
+  // "Eutawville" and "Eutawville, South Carolina" should still match
+  function cityNorm(s) { return String(s || '').split(',')[0].trim().toLowerCase(); }
 
   /* ---------- generations ---------- */
   function computeGens() {
@@ -615,8 +625,8 @@
         if (state.dismissed.indexOf(pairKey(a.id, b.id)) !== -1) continue;
         var reasons = [];
         if (norm(a.last) && norm(a.last) === norm(b.last)) reasons.push('same last name “' + a.last + '”');
-        if (norm(a.city) && norm(a.city) === norm(b.city)) reasons.push('both from ' + a.city);
-        if (norm(a.lives) && norm(a.lives) === norm(b.lives)) reasons.push('both now in ' + a.lives);
+        if (cityNorm(a.city) && cityNorm(a.city) === cityNorm(b.city)) reasons.push('both from ' + a.city);
+        if (cityNorm(a.lives) && cityNorm(a.lives) === cityNorm(b.lives)) reasons.push('both now in ' + a.lives);
         if (reasons.length) out.push({ a: a, b: b, reasons: reasons, score: reasons.length });
       }
     }
@@ -1001,6 +1011,79 @@
   document.getElementById('roster').addEventListener('click', function (ev) {
     var li = ev.target.closest('li[data-id]');
     if (li) openEdit(li.getAttribute('data-id'));
+  });
+
+  /* ---------- city autocomplete (Photon / OpenStreetMap, no key needed) ---------- */
+  function attachCityAutocomplete(input) {
+    var wrap = document.createElement('div');
+    wrap.className = 'suggest-wrap';
+    input.parentNode.insertBefore(wrap, input);
+    wrap.appendChild(input);
+    var box = document.createElement('div');
+    box.className = 'city-suggest';
+    box.hidden = true;
+    wrap.appendChild(box);
+
+    var timer = null, items = [], active = -1;
+    function cityLabel(p) {
+      var bits = [p.name];
+      if (p.state) bits.push(p.state);
+      if (p.countrycode && p.countrycode !== 'US') bits.push(p.country);
+      return bits.join(', ');
+    }
+    function hide() { box.hidden = true; active = -1; }
+    function show() {
+      if (!items.length) { hide(); return; }
+      box.innerHTML = items.map(function (l, i) {
+        return '<div data-i="' + i + '"' + (i === active ? ' class="active"' : '') + '>' + esc(l) + '</div>';
+      }).join('');
+      box.hidden = false;
+    }
+    function pick(i) {
+      if (i < 0 || i >= items.length) return;
+      input.value = items[i];
+      hide();
+      input.dispatchEvent(new Event('change'));
+    }
+    input.addEventListener('input', function () {
+      clearTimeout(timer);
+      var q = input.value.trim();
+      if (q.length < 2) { hide(); return; }
+      timer = setTimeout(function () {
+        fetch('https://photon.komoot.io/api/?limit=8&lang=en&q=' + encodeURIComponent(q))
+          .then(function (r) { return r.json(); })
+          .then(function (d) {
+            var seen = {};
+            items = (d.features || []).filter(function (f) {
+              var p = f.properties || {};
+              if (p.osm_key !== 'place') return false;
+              if (['city', 'town', 'village', 'hamlet', 'borough'].indexOf(p.osm_value) === -1) return false;
+              var label = cityLabel(p);
+              if (seen[label]) return false;
+              seen[label] = 1;
+              return true;
+            }).slice(0, 3).map(function (f) { return cityLabel(f.properties); });
+            active = -1;
+            show();
+          })
+          .catch(hide); // offline or blocked: typing still works, just no suggestions
+      }, 250);
+    });
+    input.addEventListener('keydown', function (ev) {
+      if (box.hidden) return;
+      if (ev.key === 'ArrowDown') { ev.preventDefault(); active = Math.min(active + 1, items.length - 1); show(); }
+      else if (ev.key === 'ArrowUp') { ev.preventDefault(); active = Math.max(active - 1, 0); show(); }
+      else if (ev.key === 'Enter') { if (active >= 0) { ev.preventDefault(); pick(active); } else hide(); }
+      else if (ev.key === 'Escape') hide();
+    });
+    input.addEventListener('blur', function () { setTimeout(hide, 150); });
+    box.addEventListener('mousedown', function (ev) {
+      var row = ev.target.closest('div[data-i]');
+      if (row) { ev.preventDefault(); pick(+row.getAttribute('data-i')); }
+    });
+  }
+  ['f_city', 'f_lives', 'e_city', 'e_lives'].forEach(function (id) {
+    attachCityAutocomplete(document.getElementById(id));
   });
 
   /* ---------- family reunions & RSVPs ---------- */
