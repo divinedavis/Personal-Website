@@ -26,6 +26,23 @@
             <section class="portfolio-section">
                 <article class="portfolio-item">
                     <div class="portfolio-thumb portfolio-thumb-web">
+                        <img src="screenshots/health-ai.png?v=1" alt="Personal Doctor AI health marker dashboard">
+                    </div>
+                    <div class="portfolio-body">
+                        <h3>Personal Doctor AI &mdash; Lab Result Analysis</h3>
+                        <p class="project-date">July 2026 &middot; Private tool</p>
+                        <ul>
+                            <li>Upload lab reports as PDFs, photos, or a whole folder and Claude extracts them into a fixed 20-marker panel &mdash; each row carrying the value, reference range, a plain-language reading, and one concrete action to move the number</li>
+                            <li>Extraction is schema-constrained rather than parsed out of prose, so a malformed row is impossible and untested markers must be declared rather than invented; each upload merges into the running table, carrying prior values forward and reporting what changed</li>
+                            <li>Documents are sent five at a time to stay inside the request and context limits, so one oversized batch can&rsquo;t cost the rest; a weekly cron reviews 20 health organisations for guideline changes, and every untested marker maps to a Labcorp test number verified against their catalogue</li>
+                            <li>Privacy-first: documents are processed in memory and results live in the browser, never on the server &mdash; and the model is barred from naming a drug or dose, deferring every prescribing decision to a clinician</li>
+                            <li>Stack: Next.js 16 (App Router, Turbopack), Anthropic API with structured outputs, streaming, and the web-search tool, nginx + Let&rsquo;s Encrypt on DigitalOcean</li>
+                        </ul>
+                    </div>
+                </article>
+
+                <article class="portfolio-item">
+                    <div class="portfolio-thumb portfolio-thumb-web">
                         <a href="https://kinnkolk.com" target="_blank"><img src="screenshots/kinnkolk.png?v=1" alt="Kinnkolk shared family tree landing card"></a>
                     </div>
                     <div class="portfolio-body">
