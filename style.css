@@ -436,6 +436,12 @@ main h1 {
         padding: 16px;
     }
 
+    /* Stacked above the text, so centre the screenshot in the card
+       rather than leaving it pinned to the left edge. */
+    .portfolio-thumb {
+        align-self: center;
+    }
+
     .portfolio-thumb-mobile {
         width: 160px;
     }
