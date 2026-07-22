@@ -26,6 +26,24 @@
             <section class="portfolio-section">
                 <article class="portfolio-item">
                     <div class="portfolio-thumb portfolio-thumb-web">
+                        <a href="https://nemoseamlessgutter.com" target="_blank"><img src="screenshots/nemo.png?v=1" alt="NEMO Seamless Gutter homepage"></a>
+                    </div>
+                    <div class="portfolio-body">
+                        <h3>NEMO Seamless Gutter &mdash; Weather-Aware Booking &amp; AI Phone Assistant</h3>
+                        <p class="project-date">July 2026 &middot; Client work &middot; Live</p>
+                        <ul>
+                            <li>Marketing site, online booking, and an AI phone assistant for a seamless gutter contractor in York County, PA &mdash; live and taking real customers</li>
+                            <li>Gutter work is decided by the sky, so availability is computed on every request (business hours &minus; booked jobs &minus; National Weather Service forecast &minus; the owner&rsquo;s manual overrides) rather than read from a fixed calendar; each service declares how much weather matters, and on-site work is quoted as an arrival window because a crew that hits rotted fascia turns every later &ldquo;9:15&rdquo; into a broken promise</li>
+                            <li>The forecast only reaches about six and a half days but customers book weeks out, so distant bookings are held tentative and an hourly job confirms or moves them and emails both parties &mdash; after two automatic moves it hands the job to the owner once rather than shuffling forever, and every decision is logged so &ldquo;nobody told me it moved&rdquo; has an answer</li>
+                            <li>An ElevenLabs voice agent answers the phone and books on the call, but performs zero date arithmetic: the API hands it a sentence to read verbatim plus an opaque token to hand back, and the server independently re-validates every booking, so a time the model invented is simply refused</li>
+                            <li>Stack: Node/Express + SQLite on DigitalOcean, ElevenLabs Agents with webhook tools, National Weather Service API, Google Workspace SMTP with ICS invites, dependency-free Python cron for SEO (monthly Claude-drafted local guides, sitemap, IndexNow), nginx + Let&rsquo;s Encrypt</li>
+                        </ul>
+                        <a href="https://nemoseamlessgutter.com" target="_blank">Visit NEMO Seamless Gutter &rarr;</a> &nbsp;&nbsp;<a href="https://github.com/divinedavis/nemo-seamless-gutter" target="_blank">View on GitHub &rarr;</a>
+                    </div>
+                </article>
+
+                <article class="portfolio-item">
+                    <div class="portfolio-thumb portfolio-thumb-web">
                         <img src="screenshots/health-ai.png?v=1" alt="Personal Doctor AI health marker dashboard">
                     </div>
                     <div class="portfolio-body">
