@@ -355,18 +355,26 @@ main h1 {
     line-height: 1.5;
 }
 
-/* Portfolio item layout: screenshot + body */
+/* Portfolio item layout: screenshot + body, boxed as a card */
 .portfolio-item {
     display: flex;
     gap: 24px;
     align-items: flex-start;
-    margin-bottom: 40px;
-    padding-bottom: 30px;
-    border-bottom: 1px solid #f0f0f0;
+    margin-bottom: 24px;
+    padding: 24px;
+    border: 1px solid #e2e2e2;
+    border-radius: 8px;
+    background: #fff;
 }
 
-.portfolio-section .portfolio-item:last-child {
-    border-bottom: none;
+.portfolio-item-featured {
+    border-color: #c9c9c9;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.portfolio-item > :last-child,
+.portfolio-body > :last-child {
+    margin-bottom: 0;
 }
 
 .portfolio-body {
@@ -424,6 +432,7 @@ main h1 {
     .portfolio-item {
         flex-direction: column;
         gap: 16px;
+        padding: 16px;
     }
 
     .portfolio-thumb-mobile {
