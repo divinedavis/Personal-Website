@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio - Divine Davis</title>
-    <link rel="stylesheet" href="style.css?v=6">
+    <link rel="stylesheet" href="style.css?v=7">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600&display=swap" rel="stylesheet">
@@ -24,21 +24,75 @@
             <h1>Portfolio</h1>
 
             <section class="portfolio-section">
-                <article class="portfolio-item">
+                <article class="portfolio-item portfolio-item-featured">
                     <div class="portfolio-thumb portfolio-thumb-web">
-                        <a href="https://nemoseamlessgutter.com" target="_blank"><img src="screenshots/nemo.png?v=1" alt="NEMO Seamless Gutter homepage"></a>
+                        <a href="https://findacrib.com" target="_blank"><img src="screenshots/findacrib.png?v=1" alt="Find A Crib NYC rent-stabilized buildings map screenshot"></a>
                     </div>
                     <div class="portfolio-body">
-                        <h3>NEMO Seamless Gutter &mdash; Weather-Aware Booking &amp; AI Phone Assistant</h3>
-                        <p class="project-date">July 2026 &middot; Client work &middot; Live</p>
+                        <h3>Find A Crib &mdash; NYC Rent-Stabilized Apartment Finder</h3>
+                        <p class="project-date">2026 &middot; Live</p>
+                        <p class="project-metrics"><strong>1,188</strong> unique visitors and <strong>29</strong> sign-ups since on-site traffic tracking went live on 24 June 2026</p>
+                        <p class="project-channels"><span>Google Analytics 4</span><span>Google Ads &mdash; live search campaign</span><span>Search Console &mdash; automated weekly SEO report</span><span>AdSense &mdash; in review</span></p>
                         <ul>
-                            <li>Marketing site, online booking, and an AI phone assistant for a seamless gutter contractor in York County, PA &mdash; live and taking real customers</li>
-                            <li>Gutter work is decided by the sky, so availability is computed on every request (business hours &minus; booked jobs &minus; National Weather Service forecast &minus; the owner&rsquo;s manual overrides) rather than read from a fixed calendar; each service declares how much weather matters, and on-site work is quoted as an arrival window because a crew that hits rotted fascia turns every later &ldquo;9:15&rdquo; into a broken promise</li>
-                            <li>The forecast only reaches about six and a half days but customers book weeks out, so distant bookings are held tentative and an hourly job confirms or moves them and emails both parties &mdash; after two automatic moves it hands the job to the owner once rather than shuffling forever, and every decision is logged so &ldquo;nobody told me it moved&rdquo; has an answer</li>
-                            <li>An ElevenLabs voice agent answers the phone and books on the call, but performs zero date arithmetic: the API hands it a sentence to read verbatim plus an opaque token to hand back, and the server independently re-validates every booking, so a time the model invented is simply refused</li>
-                            <li>Stack: Node/Express + SQLite on DigitalOcean, ElevenLabs Agents with webhook tools, National Weather Service API, Google Workspace SMTP with ICS invites, dependency-free Python cron for SEO (monthly Claude-drafted local guides, sitemap, IndexNow), nginx + Let&rsquo;s Encrypt</li>
+                            <li>Interactive map of every DHCR rent-stabilized building across the five NYC boroughs plus San Francisco and Los Angeles, with a nightly signal for which ones were recently advertised for rent</li>
+                            <li>Every building surfaces its HPD owner, managing agent, and open violation history, and a $4.99/month Plus tier adds saved-building email alerts, agent phone numbers, and owner research</li>
+                            <li>Stack: single-file Leaflet map, Supabase (Auth + Postgres) for accounts and analytics, live Stripe subscriptions, a key-metered developer REST API, a nightly Apify refresh, and nginx on DigitalOcean</li>
                         </ul>
-                        <a href="https://nemoseamlessgutter.com" target="_blank">Visit NEMO Seamless Gutter &rarr;</a> &nbsp;&nbsp;<a href="https://github.com/divinedavis/nemo-seamless-gutter" target="_blank">View on GitHub &rarr;</a>
+                        <a href="https://findacrib.com" target="_blank">Visit Live Site &rarr;</a> &nbsp;&nbsp;
+                        <a href="https://github.com/divinedavis/Find-A-Crib" target="_blank">View on GitHub &rarr;</a>
+                    </div>
+                </article>
+
+                <article class="portfolio-item">
+                    <div class="portfolio-thumb portfolio-thumb-web">
+                        <a href="https://jordansjobfinder.com" target="_blank"><img src="screenshots/jordansjobfinder.png?v=1" alt="Jordan&rsquo;s Job Finder daily job board screenshot"></a>
+                    </div>
+                    <div class="portfolio-body">
+                        <h3>Jordan&rsquo;s Job Finder &mdash; Automated Daily Job Search</h3>
+                        <p class="project-date">2026 &middot; Live</p>
+                        <p class="project-channels"><span>Google Ads &mdash; search campaign with conversion tracking</span></p>
+                        <ul>
+                            <li>Scrapes 340+ company career pages daily across six metros to surface only the senior Product and Program Manager roles matching role, seniority, location, salary, and tech focus</li>
+                            <li>Each user gets a private saved search with a curated daily board and email delivery, so the result reads as signal rather than a firehose</li>
+                            <li>Stack: Flask + Jinja2, SQLAlchemy / SQLite, Requests + BeautifulSoup + Playwright scrapers, Gunicorn + nginx on DigitalOcean, and a daily cron pipeline</li>
+                        </ul>
+                        <a href="https://jordansjobfinder.com" target="_blank">Visit Live Site &rarr;</a> &nbsp;&nbsp;
+                        <a href="https://github.com/divinedavis/JordansJobFinder" target="_blank">View on GitHub &rarr;</a>
+                    </div>
+                </article>
+
+                <article class="portfolio-item">
+                    <div class="portfolio-thumb portfolio-thumb-web">
+                        <a href="https://caprecruiting.com" target="_blank"><img src="screenshots/bearcats.png?v=1" alt="Bearcats Recruiting landing page screenshot"></a>
+                    </div>
+                    <div class="portfolio-body">
+                        <h3>Bearcats Recruiting &mdash; High School Football Recruiting Platform</h3>
+                        <p class="project-date">February 2026 &middot; Live</p>
+                        <p class="project-metrics"><strong>85</strong> registered members (60 players, 26 coaches) and roughly <strong>260</strong> real visitors in the trailing two weeks of server logs</p>
+                        <p class="project-channels"><span>Google Analytics 4</span><span>Search Console &mdash; DNS-verified</span></p>
+                        <ul>
+                            <li>Helps high school football players get recruited with a public profile, highlight video, and the contact details coaches actually read</li>
+                            <li>Realtime WebSocket messaging between players and coaches, plus rich iMessage link previews whenever a profile is shared</li>
+                            <li>Stack: FastAPI, SQLite, Jinja2 templates, a DigitalOcean Spaces + CDN video pipeline, and nginx + Let&rsquo;s Encrypt SSL on DigitalOcean</li>
+                        </ul>
+                        <a href="https://caprecruiting.com" target="_blank">Visit Live Site &rarr;</a> &nbsp;&nbsp;
+                        <a href="https://github.com/divinedavis/CAPRecruiting" target="_blank">View on GitHub &rarr;</a>
+                    </div>
+                </article>
+
+                <article class="portfolio-item">
+                    <div class="portfolio-thumb portfolio-thumb-web">
+                        <a href="https://kinnkolk.com" target="_blank"><img src="screenshots/kinnkolk.png?v=1" alt="Kinnkolk shared family tree landing card"></a>
+                    </div>
+                    <div class="portfolio-body">
+                        <h3>Kinnkolk &mdash; Shared Family Tree</h3>
+                        <p class="project-date">July 2026 &middot; Live</p>
+                        <ul>
+                            <li>One live family tree the whole family edits together, with an auto-drawn generational layout, marriage and descent lines, ages, and birthday highlights synced in realtime across every device</li>
+                            <li>Reunions with per-person RSVPs, a who-added-the-most-relatives leaderboard, per-person public-records research links, and admin-only deletion enforced down in Postgres</li>
+                            <li>Stack: single-file vanilla JS, Supabase (Auth + Postgres RLS + Realtime), Photon / OpenStreetMap geocoding, and nginx + Let&rsquo;s Encrypt on DigitalOcean</li>
+                        </ul>
+                        <a href="https://kinnkolk.com" target="_blank">Visit Kinnkolk &rarr;</a>
                     </div>
                 </article>
 
@@ -50,32 +104,31 @@
                         <h3>Personal Doctor AI &mdash; Lab Result Analysis</h3>
                         <p class="project-date">July 2026 &middot; Private tool</p>
                         <ul>
-                            <li>Upload lab reports as PDFs, photos, or a whole folder and Claude extracts them into a fixed 20-marker panel &mdash; each row carrying the value, reference range, a plain-language reading, and one concrete action to move the number</li>
-                            <li>Extraction is schema-constrained rather than parsed out of prose, so a malformed row is impossible and untested markers must be declared rather than invented; each upload merges into the running table, carrying prior values forward and reporting what changed</li>
-                            <li>Documents are sent five at a time to stay inside the request and context limits, so one oversized batch can&rsquo;t cost the rest; a weekly cron reviews 20 health organisations for guideline changes, and every untested marker maps to a Labcorp test number verified against their catalogue</li>
-                            <li>Privacy-first: documents are processed in memory and results live in the browser, never on the server &mdash; and the model is barred from naming a drug or dose, deferring every prescribing decision to a clinician</li>
-                            <li>Stack: Next.js 16 (App Router, Turbopack), Anthropic API with structured outputs, streaming, and the web-search tool, nginx + Let&rsquo;s Encrypt on DigitalOcean</li>
+                            <li>Upload lab reports as PDFs, photos, or a whole folder and Claude extracts them into a fixed 20-marker panel carrying each value, its reference range, a plain-language reading, and one concrete action</li>
+                            <li>Extraction is schema-constrained rather than parsed out of prose, so a malformed row is impossible and every upload merges into the running table and reports what changed</li>
+                            <li>Privacy-first &mdash; documents are processed in memory and results live in the browser, never on the server &mdash; on Next.js 16 with the Anthropic API behind nginx + Let&rsquo;s Encrypt on DigitalOcean</li>
                         </ul>
                     </div>
                 </article>
 
                 <article class="portfolio-item">
                     <div class="portfolio-thumb portfolio-thumb-web">
-                        <a href="https://kinnkolk.com" target="_blank"><img src="screenshots/kinnkolk.png?v=1" alt="Kinnkolk shared family tree landing card"></a>
+                        <a href="https://nemoseamlessgutter.com" target="_blank"><img src="screenshots/nemo.png?v=1" alt="NEMO Seamless Gutter homepage"></a>
                     </div>
                     <div class="portfolio-body">
-                        <h3>Kinnkolk &mdash; Shared Family Tree</h3>
-                        <p class="project-date">July 2026</p>
+                        <h3>NEMO Seamless Gutter &mdash; Weather-Aware Booking &amp; AI Phone Assistant</h3>
+                        <p class="project-date">July 2026 &middot; Client work &middot; Live</p>
+                        <p class="project-channels"><span>Google Analytics 4</span><span>Search Console &mdash; DNS-verified</span></p>
                         <ul>
-                            <li>One live family tree the whole family edits together &mdash; auto-drawn generational layout with marriage, descent, and unmarried-parent (dotted) lines, ages, and birthday highlights, synced in realtime across everyone's devices</li>
-                            <li>Reunions with per-person RSVPs, a who-added-the-most-relatives leaderboard, per-person public-records research links (FamilySearch, Find a Grave, obituaries), and type-to-search city + relative pickers; admin-only deletion enforced in Postgres</li>
-                            <li>Stack: single-file vanilla JS, Supabase (Auth + Postgres RLS + Realtime), Photon/OpenStreetMap geocoding, nginx + Let's Encrypt on DigitalOcean</li>
+                            <li>Marketing site, online booking, and an AI phone assistant for a seamless gutter contractor in York County, PA, live and taking real customers</li>
+                            <li>Availability is recomputed on every request from business hours minus booked jobs, the National Weather Service forecast, and the owner&rsquo;s overrides, so bookings past the forecast horizon are held tentative and an hourly job confirms or moves them</li>
+                            <li>Stack: Node/Express + SQLite on DigitalOcean, an ElevenLabs voice agent that performs no date arithmetic of its own, the National Weather Service API, Google Workspace SMTP with ICS invites, and a Python cron for SEO</li>
                         </ul>
-                        <a href="https://kinnkolk.com" target="_blank">Visit Kinnkolk &rarr;</a>
+                        <a href="https://nemoseamlessgutter.com" target="_blank">Visit NEMO Seamless Gutter &rarr;</a> &nbsp;&nbsp;<a href="https://github.com/divinedavis/nemo-seamless-gutter" target="_blank">View on GitHub &rarr;</a>
                     </div>
                 </article>
 
-                <article class="portfolio-item portfolio-item-featured">
+                <article class="portfolio-item">
                     <div class="portfolio-thumb portfolio-thumb-mobile">
                         <a href="https://apps.apple.com/app/id6762203841" target="_blank"><img src="screenshots/hidden-gems.png?v=1" alt="Hidden Gems feed screen"></a>
                     </div>
@@ -83,9 +136,9 @@
                         <h3>Hidden Gems &mdash; Local Discovery iOS App</h3>
                         <p class="project-date">2026 &middot; TestFlight</p>
                         <ul>
-                            <li>SwiftUI + Supabase social-discovery app for restaurants, bars, coffee shops, and nightlife &mdash; recommendations from people whose taste you trust, not algorithmic noise</li>
-                            <li>End-to-end encrypted DMs (Curve25519 + HKDF + AES-GCM), group chats, mixed photo + video posts, Apple-Maps-style place sheet, repost graph, recommender-tier progression</li>
-                            <li>Stack: SwiftUI / iOS 17+, Supabase Postgres + Storage + Edge Functions, Apple Maps + EventKit, Universal Links, App Store Connect API for the release pipeline</li>
+                            <li>SwiftUI + Supabase social-discovery app for restaurants, bars, coffee shops, and nightlife, built around recommendations from people whose taste you trust rather than algorithmic noise</li>
+                            <li>End-to-end encrypted DMs (Curve25519 + HKDF + AES-GCM), group chats, mixed photo and video posts, an Apple-Maps-style place sheet, a repost graph, and recommender-tier progression</li>
+                            <li>Stack: SwiftUI / iOS 17+, Supabase Postgres + Storage + Edge Functions, Apple Maps + EventKit, Universal Links, and the App Store Connect API for the release pipeline</li>
                         </ul>
                         <a href="https://apps.apple.com/app/id6762203841" target="_blank">Download on the App Store &rarr;</a> &nbsp;&nbsp;<a href="https://github.com/divinedavis/Hidden-Gems" target="_blank">View on GitHub &rarr;</a>
                     </div>
@@ -96,48 +149,14 @@
                         <a href="https://workcompapp.com" target="_blank"><img src="screenshots/workcomp.png?v=1" alt="WorkComp+ daily recovery check-in screen"></a>
                     </div>
                     <div class="portfolio-body">
-                        <h3>WorkComp+ &mdash; Workers' Comp Recovery Tracker (iOS + Web)</h3>
+                        <h3>WorkComp+ &mdash; Workers&rsquo; Comp Recovery Tracker (iOS + Web)</h3>
                         <p class="project-date">2026</p>
                         <ul>
-                            <li>Daily recovery check-ins &mdash; pain, movement, strength, work limits, treatment &mdash; auto-rolled into a Sedgwick-style weekly PDF you email to your nurse case manager</li>
-                            <li>Tap-to-mark body map, photo attachments, and end-to-end encrypted messaging; generate a revocable, PIN-protected read-only link so your lawyer can follow the live claim, plus a firm web dashboard for legal teams</li>
-                            <li>Stack: SwiftUI (iOS 17+), Supabase (Auth + Postgres w/ RLS + Storage + Edge Functions), a Next.js web dashboard on DigitalOcean, StoreKit subscriptions</li>
+                            <li>Daily recovery check-ins covering pain, movement, strength, work limits, and treatment, auto-rolled into a Sedgwick-style weekly PDF you email to your nurse case manager</li>
+                            <li>Tap-to-mark body map, photo attachments, and end-to-end encrypted messaging, plus a revocable PIN-protected read-only link so your lawyer can follow the live claim from a firm web dashboard</li>
+                            <li>Stack: SwiftUI (iOS 17+), Supabase (Auth + Postgres with RLS + Storage + Edge Functions), a Next.js web dashboard on DigitalOcean, and StoreKit subscriptions</li>
                         </ul>
                         <a href="https://workcompapp.com" target="_blank">Visit Web Dashboard &rarr;</a>
-                    </div>
-                </article>
-
-                <article class="portfolio-item">
-                    <div class="portfolio-thumb portfolio-thumb-web">
-                        <a href="https://findacrib.com" target="_blank"><img src="screenshots/findacrib.png?v=1" alt="Find A Crib NYC rent-stabilized buildings map screenshot"></a>
-                    </div>
-                    <div class="portfolio-body">
-                        <h3>Find A Crib &mdash; NYC Rent-Stabilized Apartment Finder</h3>
-                        <p class="project-date">2026</p>
-                        <ul>
-                            <li>Interactive map of every DHCR rent-stabilized building across all five NYC boroughs, with a nightly signal for which were recently advertised for rent</li>
-                            <li>Each building surfaces its HPD owner / managing agent and open violation &amp; complaint history; search by address, neighborhood, ZIP, or BBL and save favorites across devices</li>
-                            <li>Stack: single-file Leaflet map (marker clustering + Street View), Supabase (Auth + Postgres) for accounts / saves / analytics, a nightly Apify data refresh, nginx on DigitalOcean</li>
-                        </ul>
-                        <a href="https://findacrib.com" target="_blank">Visit Live Site &rarr;</a> &nbsp;&nbsp;
-                        <a href="https://github.com/divinedavis/Find-A-Crib" target="_blank">View on GitHub &rarr;</a>
-                    </div>
-                </article>
-
-                <article class="portfolio-item">
-                    <div class="portfolio-thumb portfolio-thumb-web">
-                        <a href="https://caprecruiting.com" target="_blank"><img src="screenshots/bearcats.png?v=1" alt="Bearcats Recruiting landing page screenshot"></a>
-                    </div>
-                    <div class="portfolio-body">
-                        <h3>Bearcats Recruiting &mdash; High School Football Recruiting Platform</h3>
-                        <p class="project-date">February 2026</p>
-                        <ul>
-                            <li>Helps high school football players get recruited &mdash; public profile, highlight links, and contact info coaches actually read</li>
-                            <li>Realtime WebSocket DMs between players and coaches, plus rich iMessage previews when profiles are shared</li>
-                            <li>Stack: FastAPI, SQLite, Jinja2 templates, nginx + Let's Encrypt SSL on DigitalOcean</li>
-                        </ul>
-                        <a href="https://caprecruiting.com" target="_blank">Visit Live Site &rarr;</a> &nbsp;&nbsp;
-                        <a href="https://github.com/divinedavis/CAPRecruiting" target="_blank">View on GitHub &rarr;</a>
                     </div>
                 </article>
 
@@ -149,9 +168,9 @@
                         <h3>ShypQuick &mdash; On-Demand Delivery iOS App</h3>
                         <p class="project-date">2026</p>
                         <ul>
-                            <li>On-demand package delivery on iPhone &mdash; think Uber, but for sending things across town</li>
+                            <li>On-demand package delivery on iPhone, essentially Uber for sending things across town</li>
                             <li>One toggle flips between Customer and Driver modes, with driver location streamed to the customer mid-route</li>
-                            <li>Stack: SwiftUI (iOS 17+), Supabase (Postgres + Auth + Realtime + Storage), MapKit, CoreLocation, Stripe + Apple Pay</li>
+                            <li>Stack: SwiftUI (iOS 17+), Supabase (Postgres + Auth + Realtime + Storage), MapKit, CoreLocation, and Stripe + Apple Pay</li>
                         </ul>
                         <a href="https://github.com/divinedavis/ShypQuick" target="_blank">View on GitHub &rarr;</a>
                     </div>
@@ -163,11 +182,11 @@
                     </div>
                     <div class="portfolio-body">
                         <h3>Baseball Stat Tracker &mdash; iOS Stat Tracking App</h3>
-                        <p class="project-date">2026</p>
+                        <p class="project-date">2026 &middot; App Store</p>
                         <ul>
                             <li>Coaches and parents log at-bats, hits, errors, and pitching in real time during youth baseball games</li>
-                            <li>Per-player slash lines, season totals, game logs, and shareable summaries &mdash; built for the dugout, not a spreadsheet</li>
-                            <li>Stack: SwiftUI (iOS 17+) with an API server on DigitalOcean; ships to TestFlight on every commit</li>
+                            <li>Per-player slash lines, season totals, game logs, and shareable summaries, built for the dugout rather than a spreadsheet</li>
+                            <li>Stack: SwiftUI (iOS 17+) with an API server on DigitalOcean, shipping to TestFlight on every commit</li>
                         </ul>
                         <a href="https://apps.apple.com/us/app/bball-tracker/id6762527182" target="_blank">Download on the App Store &rarr;</a> &nbsp;&nbsp;<a href="https://github.com/divinedavis/Baseball-Stat-Tracker" target="_blank">View on GitHub &rarr;</a>
                     </div>
@@ -175,32 +194,15 @@
 
                 <article class="portfolio-item">
                     <div class="portfolio-thumb portfolio-thumb-web">
-                        <a href="https://jordansjobfinder.com" target="_blank"><img src="screenshots/jordansjobfinder.png?v=1" alt="Jordan's Job Finder daily job board screenshot"></a>
+                        <a href="https://trentsfreshspaces.com" target="_blank"><img src="screenshots/trents.png?v=1" alt="Trent&rsquo;s Fresh Spaces painting business landing page screenshot"></a>
                     </div>
                     <div class="portfolio-body">
-                        <h3>Jordan's Job Finder &mdash; Automated Daily Job Search</h3>
-                        <p class="project-date">2026</p>
-                        <ul>
-                            <li>Scrapes 340+ company career pages daily across six metros to surface only senior Product &amp; Program Manager roles matching role, seniority, location, salary, and tech focus</li>
-                            <li>A private per-user saved search with a curated daily board and email delivery &mdash; signal, not a firehose feed</li>
-                            <li>Stack: Flask + Jinja2, SQLAlchemy / SQLite, Requests + BeautifulSoup + Playwright scrapers, Gunicorn + nginx on DigitalOcean, a daily cron pipeline</li>
-                        </ul>
-                        <a href="https://jordansjobfinder.com" target="_blank">Visit Live Site &rarr;</a> &nbsp;&nbsp;
-                        <a href="https://github.com/divinedavis/JordansJobFinder" target="_blank">View on GitHub &rarr;</a>
-                    </div>
-                </article>
-
-                <article class="portfolio-item">
-                    <div class="portfolio-thumb portfolio-thumb-web">
-                        <a href="https://trentsfreshspaces.com" target="_blank"><img src="screenshots/trents.png?v=1" alt="Trent's Fresh Spaces painting business landing page screenshot"></a>
-                    </div>
-                    <div class="portfolio-body">
-                        <h3>Trent's Fresh Spaces &mdash; Painting Business Site + Booking</h3>
-                        <p class="project-date">2026</p>
+                        <h3>Trent&rsquo;s Fresh Spaces &mdash; Painting Business Site + Booking</h3>
+                        <p class="project-date">2026 &middot; Client work &middot; Live</p>
                         <ul>
                             <li>Marketing site and online booking for a professional interior-painting business, with full SEO (JSON-LD, OG tags) and a mobile-first design</li>
-                            <li>Two-way calendar sync with no OAuth: reads Trent's ICS feeds to hide busy slots and emails ICS invites so bookings drop straight into Google or Apple Calendar &mdash; no double-booking</li>
-                            <li>Stack: static front end + a Node / Express / SQLite booking API, nginx on DigitalOcean</li>
+                            <li>Two-way calendar sync with no OAuth at all, reading Trent&rsquo;s ICS feeds to hide busy slots and emailing ICS invites so bookings drop straight into Google or Apple Calendar</li>
+                            <li>Stack: a static front end with a Node / Express / SQLite booking API behind nginx on DigitalOcean</li>
                         </ul>
                         <a href="https://trentsfreshspaces.com" target="_blank">Visit Live Site &rarr;</a> &nbsp;&nbsp;
                         <a href="https://github.com/divinedavis/trents-fresh-spaces" target="_blank">View on GitHub &rarr;</a>
@@ -213,11 +215,11 @@
                     </div>
                     <div class="portfolio-body">
                         <h3>Legacy SCS &mdash; ODP Documentation &amp; EVV System</h3>
-                        <p class="project-date">2026</p>
+                        <p class="project-date">2026 &middot; Synthetic-data MVP</p>
                         <ul>
-                            <li>Digital documentation for a PA supportive-care agency: encounter notes, goal / objective tracking, EVV, scheduling, and supervisor oversight for IHCS / Companion / Respite services</li>
-                            <li>Role-based access (admin / supervisor / DSP), voice dictation on narrative fields, English / Spanish toggle, field-level encryption at rest, and quarterly state-report PDF export</li>
-                            <li>Stack: Next.js 15 (App Router) + TypeScript, Tailwind + shadcn/ui, Prisma + Postgres, Auth.js v5, @react-pdf/renderer &mdash; a synthetic-data MVP</li>
+                            <li>Digital documentation for a PA supportive-care agency covering encounter notes, goal and objective tracking, EVV, scheduling, and supervisor oversight for IHCS, Companion, and Respite services</li>
+                            <li>Role-based access for admins, supervisors, and DSPs, with voice dictation on narrative fields, an English / Spanish toggle, field-level encryption at rest, and quarterly state-report PDF export</li>
+                            <li>Stack: Next.js 15 (App Router) + TypeScript, Tailwind + shadcn/ui, Prisma + Postgres, Auth.js v5, and @react-pdf/renderer</li>
                         </ul>
                         <a href="https://encountersystem.com" target="_blank">Visit Live Site &rarr;</a>
                     </div>
