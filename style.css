@@ -175,6 +175,18 @@ main h1 {
     margin-top: 4px;
 }
 
+.project-updated {
+    font-size: 0.8em;
+    color: #888;
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+.project-updated time {
+    color: #555;
+    font-weight: 600;
+}
+
 .project-metrics {
     font-size: 0.9em;
     color: #333;
