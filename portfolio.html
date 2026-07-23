@@ -31,7 +31,7 @@
                     <div class="portfolio-body">
                         <h3>Find A Crib &mdash; NYC Rent-Stabilized Apartment Finder</h3>
                         <p class="project-date">2026 &middot; Live</p>
-                        <p class="project-metrics"><strong>1,188</strong> people have visited and <strong>29</strong> have made an account since I started counting on 24 June 2026</p>
+                        <p class="project-metrics"><strong data-stat="fac_visitors">673</strong> people have visited <strong data-stat="fac_visits">1,219</strong> times and <strong data-stat="fac_accounts">29</strong> have made an account since I started counting on 24 June 2026</p>
                         <p class="project-channels"><span>Google Analytics 4</span><span>Google Ads &mdash; running now</span><span>Google Search Console &mdash; emails me a weekly search report</span><span>Google AdSense &mdash; waiting on approval</span></p>
                         <ul>
                             <li>A map of every apartment building in New York City, San Francisco, and Los Angeles where the law caps the rent, checked each night for new openings</li>
@@ -68,7 +68,7 @@
                     <div class="portfolio-body">
                         <h3>Bearcats Recruiting &mdash; Getting High School Players Recruited</h3>
                         <p class="project-date">February 2026 &middot; Live</p>
-                        <p class="project-metrics"><strong>85</strong> people have signed up (60 players, 26 coaches), and about <strong>260</strong> real visitors came by in the last two weeks</p>
+                        <p class="project-metrics"><strong data-stat="bc_total">82</strong> people have signed up (<strong data-stat="bc_players">58</strong> players, <strong data-stat="bc_coaches">24</strong> coaches)</p>
                         <p class="project-channels"><span>Google Analytics 4</span><span>Google Search Console &mdash; verified</span></p>
                         <ul>
                             <li>Gives a high school football player one page with their highlight video, stats, and contact details, so college coaches find it all in one place</li>
@@ -275,5 +275,21 @@
             </div>
         </footer>
     </div>
+    <!-- Live portfolio stats, refreshed daily by portfolio-stats/update_stats.py on the caprecruiting droplet.
+         The numbers above are the last-known values and stay visible if this fetch fails or JS is off. -->
+    <script>
+    (function () {
+        fetch('stats.json?t=' + Date.now())
+            .then(function (r) { return r.ok ? r.json() : null; })
+            .then(function (d) {
+                if (!d) return;
+                Object.keys(d).forEach(function (key) {
+                    var nodes = document.querySelectorAll('[data-stat="' + key + '"]');
+                    for (var i = 0; i < nodes.length; i++) { nodes[i].textContent = d[key]; }
+                });
+            })
+            .catch(function () {});
+    })();
+    </script>
 </body>
 </html>
