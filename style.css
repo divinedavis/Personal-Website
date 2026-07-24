@@ -199,6 +199,47 @@ main h1 {
     color: #000;
 }
 
+.metrics-table {
+    border-collapse: collapse;
+    font-size: 0.85em;
+    color: #333;
+    margin: 8px 0 12px;
+    max-width: 320px;
+}
+
+.metrics-table caption {
+    caption-side: top;
+    text-align: left;
+    font-size: 0.92em;
+    color: #666;
+    padding-bottom: 5px;
+}
+
+.metrics-table th,
+.metrics-table td {
+    padding: 5px 12px 5px 0;
+    border-bottom: 1px solid #e2e2e2;
+}
+
+.metrics-table tbody tr:last-child th,
+.metrics-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.metrics-table th {
+    text-align: left;
+    font-weight: 400;
+    color: #555;
+}
+
+.metrics-table td {
+    text-align: right;
+    font-weight: 600;
+    color: #000;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
 .project-channels {
     display: flex;
     flex-wrap: wrap;
