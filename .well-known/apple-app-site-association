@@ -1,0 +1,20 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "CG89RY4W6R.com.divinedavis.hiddengems",
+        "paths": [
+          "/hidden-gems/post/*",
+          "/hidden-gems/folder/*"
+        ]
+      },
+      {
+        "appID": "CG89RY4W6R.com.divinedavis.spendcap",
+        "paths": [
+          "/spendcap/oauth*"
+        ]
+      }
+    ]
+  }
+}
