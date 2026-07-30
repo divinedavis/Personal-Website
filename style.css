@@ -1,3 +1,63 @@
+/* Theme tokens. Every :root value is the literal it replaced, so light mode
+   renders exactly as before; the dark block below is the only new appearance. */
+:root {
+    color-scheme: light;
+    --bg: #fff;              /* the page */
+    --surface: #fff;         /* cards and panels sitting on it */
+    --hover: #fafafa;
+    --text: #333;
+    --text-strong: #000;
+    --text-body: #444;
+    --muted: #666;
+    --muted-2: #555;
+    --muted-3: #888;
+    --link: #0066cc;
+    --rule: #ddd;            /* hairlines and card borders */
+    --rule-soft: #eee;
+    --rule-2: #ccc;
+    --rule-strong: #bdbdbd;
+    --rule-strongest: #b0b0b0;
+    --table-line: #333;      /* the stack table's heavy grid */
+    --chip-bg: #eef5ea;
+    --chip-ink: #2b5a1f;
+    --chip-line: #cfe0c6;
+    --ai: #6d28d9;
+    --card-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 4px 14px rgba(0, 0, 0, 0.07);
+    --card-shadow-hover: 0 4px 8px rgba(0, 0, 0, 0.07), 0 14px 38px rgba(0, 0, 0, 0.16);
+    --card-shadow-featured: 0 2px 4px rgba(0, 0, 0, 0.06), 0 8px 24px rgba(0, 0, 0, 0.11);
+    --card-shadow-featured-hover: 0 5px 10px rgba(0, 0, 0, 0.09), 0 18px 46px rgba(0, 0, 0, 0.2);
+}
+
+html[data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #0f1115;
+    --surface: #171a21;
+    --hover: #1d212a;
+    --text: #c9ced8;
+    --text-strong: #f2f4f8;
+    --text-body: #b5bbc6;
+    --muted: #99a0ac;
+    --muted-2: #a8aeba;
+    --muted-3: #868d99;
+    --link: #6fb0ff;
+    --rule: #2a2f38;
+    --rule-soft: #232830;
+    --rule-2: #333944;
+    --rule-strong: #454c59;
+    --rule-strongest: #545c6b;
+    --table-line: #3a414d;
+    --chip-bg: #16240f;
+    --chip-ink: #96d47f;
+    --chip-line: #2c3f22;
+    --ai: #b49aff;
+    /* Black-on-black is invisible, so dark shadows go deeper and wider to keep
+       a card's edge readable against the page. */
+    --card-shadow: 0 1px 2px rgba(0, 0, 0, 0.5), 0 6px 18px rgba(0, 0, 0, 0.5);
+    --card-shadow-hover: 0 6px 14px rgba(0, 0, 0, 0.55), 0 18px 44px rgba(0, 0, 0, 0.6);
+    --card-shadow-featured: 0 3px 8px rgba(0, 0, 0, 0.5), 0 12px 30px rgba(0, 0, 0, 0.55);
+    --card-shadow-featured-hover: 0 7px 16px rgba(0, 0, 0, 0.6), 0 22px 52px rgba(0, 0, 0, 0.65);
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -8,8 +68,23 @@ body {
     font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     font-size: 16px;
     line-height: 1.6;
-    color: #333;
-    background-color: #fff;
+    color: var(--text);
+    background-color: var(--bg);
+}
+
+/* Theme toggle — a plain text control in the nav row, so it reads as part of
+   the same "Home » Portfolio » Resume" line rather than a floating widget. */
+.theme-toggle {
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    color: var(--muted);
+    cursor: pointer;
+}
+
+.theme-toggle:hover {
+    color: var(--text-strong);
 }
 
 .container {
@@ -26,7 +101,7 @@ header {
 .site-title {
     font-size: 1.2em;
     font-weight: 600;
-    color: #333;
+    color: var(--text);
     margin-bottom: 8px;
 }
 
@@ -35,14 +110,14 @@ nav {
 }
 
 nav a {
-    color: #666;
+    color: var(--muted);
     text-decoration: none;
     transition: color 0.2s ease;
 }
 
 nav a:hover,
 nav a.active {
-    color: #000;
+    color: var(--text-strong);
 }
 
 /* Main Content */
@@ -64,16 +139,16 @@ main {
     font-size: 1.8em;
     font-weight: 600;
     margin-bottom: 20px;
-    color: #000;
+    color: var(--text-strong);
 }
 
 .bio p {
     margin-bottom: 16px;
-    color: #444;
+    color: var(--text-body);
 }
 
 .bio a {
-    color: #0066cc;
+    color: var(--link);
     text-decoration: none;
 }
 
@@ -98,18 +173,18 @@ footer {
 
 footer hr {
     border: none;
-    border-top: 1px solid #ddd;
+    border-top: 1px solid var(--rule);
     margin-bottom: 20px;
 }
 
 .contact {
     font-size: 0.9em;
-    color: #666;
+    color: var(--muted);
     margin-bottom: 10px;
 }
 
 .contact a {
-    color: #0066cc;
+    color: var(--link);
     text-decoration: none;
 }
 
@@ -123,13 +198,13 @@ footer hr {
 }
 
 .social-links a {
-    color: #666;
+    color: var(--muted);
     text-decoration: none;
     font-size: 0.9em;
 }
 
 .social-links a:hover {
-    color: #000;
+    color: var(--text-strong);
 }
 
 /* Portfolio & Projects */
@@ -137,7 +212,7 @@ main h1 {
     font-size: 1.8em;
     font-weight: 600;
     margin-bottom: 30px;
-    color: #000;
+    color: var(--text-strong);
 }
 
 .portfolio-section,
@@ -158,51 +233,51 @@ main h1 {
     font-size: 1.1em;
     font-weight: 600;
     margin-bottom: 8px;
-    color: #000;
+    color: var(--text-strong);
 }
 
 .portfolio-item p,
 .project-item p,
 .resume-item p {
-    color: #444;
+    color: var(--text-body);
     margin-bottom: 8px;
 }
 
 .project-date {
     font-size: 0.9em;
-    color: #666;
+    color: var(--muted);
     font-style: italic;
     margin-top: 4px;
 }
 
 .project-updated {
     font-size: 0.8em;
-    color: #888;
+    color: var(--muted-3);
     margin-top: 2px;
     margin-bottom: 2px;
 }
 
 .project-updated time {
-    color: #555;
+    color: var(--muted-2);
     font-weight: 600;
 }
 
 .project-metrics {
     font-size: 0.9em;
-    color: #333;
+    color: var(--text);
     margin-top: 6px;
     margin-bottom: 6px;
 }
 
 .project-metrics strong {
     font-weight: 600;
-    color: #000;
+    color: var(--text-strong);
 }
 
 .metrics-table {
     border-collapse: collapse;
     font-size: 0.85em;
-    color: #333;
+    color: var(--text);
     margin: 8px 0 12px;
     max-width: 320px;
 }
@@ -211,14 +286,14 @@ main h1 {
     caption-side: top;
     text-align: left;
     font-size: 0.92em;
-    color: #666;
+    color: var(--muted);
     padding-bottom: 5px;
 }
 
 .metrics-table th,
 .metrics-table td {
     padding: 5px 12px 5px 0;
-    border-bottom: 1px solid #e2e2e2;
+    border-bottom: 1px solid var(--rule);
 }
 
 .metrics-table tbody tr:last-child th,
@@ -229,13 +304,13 @@ main h1 {
 .metrics-table th {
     text-align: left;
     font-weight: 400;
-    color: #555;
+    color: var(--muted-2);
 }
 
 .metrics-table td {
     text-align: right;
     font-weight: 600;
-    color: #000;
+    color: var(--text-strong);
     font-variant-numeric: tabular-nums;
     white-space: nowrap;
 }
@@ -251,9 +326,9 @@ main h1 {
 .project-channels span {
     font-size: 0.78em;
     line-height: 1.3;
-    color: #2b5a1f;
-    background: #eef5ea;
-    border: 1px solid #cfe0c6;
+    color: var(--chip-ink);
+    background: var(--chip-bg);
+    border: 1px solid var(--chip-line);
     border-radius: 3px;
     padding: 2px 7px;
     white-space: nowrap;
@@ -261,7 +336,7 @@ main h1 {
 
 .portfolio-item a,
 .project-item a {
-    color: #0066cc;
+    color: var(--link);
     text-decoration: none;
     font-size: 0.9em;
 }
@@ -274,7 +349,7 @@ main h1 {
 /* Resume */
 .resume-subtitle {
     font-size: 0.95em;
-    color: #666;
+    color: var(--muted);
     margin-bottom: 30px;
     font-style: italic;
 }
@@ -284,7 +359,7 @@ main h1 {
     font-weight: 600;
     margin-top: 30px;
     margin-bottom: 15px;
-    color: #000;
+    color: var(--text-strong);
 }
 
 .resume-section h2:first-child {
@@ -293,7 +368,7 @@ main h1 {
 
 .company {
     font-size: 0.9em;
-    color: #666;
+    color: var(--muted);
     font-style: italic;
     margin-bottom: 10px;
 }
@@ -305,7 +380,7 @@ main h1 {
 
 .resume-section ul li {
     margin-bottom: 8px;
-    color: #444;
+    color: var(--text-body);
     line-height: 1.6;
 }
 
@@ -339,23 +414,23 @@ main h1 {
 .tech-stack {
     margin-bottom: 40px;
     padding-bottom: 30px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid var(--rule-soft);
 }
 
 .stack-table {
     width: 100%;
     border-collapse: collapse;
     font-size: 0.9em;
-    border: 1px solid #333;
+    border: 1px solid var(--table-line);
 }
 
 .stack-table th {
     text-align: left;
     padding: 8px 12px;
-    border-bottom: 2px solid #333;
-    border-right: 1px solid #333;
+    border-bottom: 2px solid var(--table-line);
+    border-right: 1px solid var(--table-line);
     font-weight: 600;
-    color: #000;
+    color: var(--text-strong);
 }
 
 .stack-table th:last-child {
@@ -364,9 +439,9 @@ main h1 {
 
 .stack-table td {
     padding: 8px 12px;
-    border-bottom: 1px solid #ccc;
-    border-right: 1px solid #ccc;
-    color: #444;
+    border-bottom: 1px solid var(--rule-2);
+    border-right: 1px solid var(--rule-2);
+    color: var(--text-body);
     vertical-align: top;
 }
 
@@ -380,27 +455,27 @@ main h1 {
 
 .stack-table td:first-child {
     font-weight: 600;
-    color: #333;
+    color: var(--text);
     white-space: nowrap;
     width: 180px;
 }
 
 .stack-table tbody tr:hover {
-    background: #fafafa;
+    background: var(--hover);
 }
 
 .row-ai td {
-    color: #6d28d9;
+    color: var(--ai);
 }
 
 .row-ai td:first-child {
-    color: #6d28d9;
+    color: var(--ai);
 }
 
 /* Portfolio bullet lists */
 .portfolio-item ul {
     margin: 10px 0 12px 20px;
-    color: #444;
+    color: var(--text-body);
 }
 
 .portfolio-item ul li {
@@ -419,27 +494,27 @@ main h1 {
     align-items: start;
     margin-bottom: 24px;
     padding: 24px;
-    border: 1px solid #e2e2e2;
+    border: 1px solid var(--rule);
     border-radius: 8px;
-    background: #fff;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 4px 14px rgba(0, 0, 0, 0.07);
+    background: var(--surface);
+    box-shadow: var(--card-shadow);
     transition: box-shadow 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
 }
 
 .portfolio-item:hover {
-    border-color: #bdbdbd;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.07), 0 14px 38px rgba(0, 0, 0, 0.16);
+    border-color: var(--rule-strong);
+    box-shadow: var(--card-shadow-hover);
     transform: translateY(-2px);
 }
 
 .portfolio-item-featured {
-    border-color: #c9c9c9;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06), 0 8px 24px rgba(0, 0, 0, 0.11);
+    border-color: var(--rule-strong);
+    box-shadow: var(--card-shadow-featured);
 }
 
 .portfolio-item-featured:hover {
-    border-color: #b0b0b0;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.09), 0 18px 46px rgba(0, 0, 0, 0.2);
+    border-color: var(--rule-strongest);
+    box-shadow: var(--card-shadow-featured-hover);
 }
 
 /* Respect a reduced-motion preference: keep the shadow change, drop the lift. */
@@ -466,8 +541,8 @@ main h1 {
     justify-self: center;
     border-radius: 6px;
     overflow: hidden;
-    background: #fafafa;
-    border: 1px solid #eee;
+    background: var(--hover);
+    border: 1px solid var(--rule-soft);
 }
 
 .portfolio-thumb img {
