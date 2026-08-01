@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Divine Davis</title>
-    <link rel="stylesheet" href="style.css?v=1">
+    <link rel="stylesheet" href="style.css?v=17">
     <script src="theme.js?v=1"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -34,6 +34,57 @@
                     <img src="profile.jpg" alt="Divine Davis">
                 </div>
             </section>
+
+            <!-- GitHub activity. Every number here is a last-known value that
+                 github-activity.js overwrites from github.json, so the section
+                 still reads correctly with JS off or the file unreachable. -->
+            <section class="gh" id="gh-activity">
+                <div class="gh-head">
+                    <h2>GitHub activity</h2>
+                    <a href="https://github.com/divinedavis" target="_blank" rel="noopener">github.com/divinedavis &raquo;</a>
+                </div>
+
+                <div class="gh-hero">
+                    <span class="gh-hero-value" data-gh-stat="total_year">2,571</span>
+                    <span class="gh-hero-label">contributions in the last year</span>
+                </div>
+
+                <div class="gh-stats">
+                    <div>
+                        <span class="gh-stat-label">Today</span>
+                        <span class="gh-stat-value" data-gh-stat="today">1</span>
+                    </div>
+                    <div>
+                        <span class="gh-stat-label">Current streak</span>
+                        <span class="gh-stat-value" data-gh-stat="current_streak">46</span>
+                        <span class="gh-stat-note">days</span>
+                    </div>
+                    <div>
+                        <span class="gh-stat-label">Longest streak</span>
+                        <span class="gh-stat-value" data-gh-stat="longest_streak">46</span>
+                        <span class="gh-stat-note">days</span>
+                    </div>
+                    <div>
+                        <span class="gh-stat-label">Busiest day</span>
+                        <span class="gh-stat-value" data-gh-stat="best_day">75</span>
+                        <span class="gh-stat-note" data-gh-best-date>on Apr 19, 2026</span>
+                    </div>
+                </div>
+
+                <div class="gh-controls">
+                    <div class="gh-ranges" data-gh-ranges></div>
+                </div>
+
+                <div class="gh-plot" data-gh-plot>
+                    <div class="gh-tip" data-gh-tip hidden></div>
+                </div>
+
+                <div class="gh-foot">
+                    <button type="button" class="gh-table-toggle" data-gh-table-toggle aria-expanded="false">Show the numbers</button>
+                    <time class="gh-stamp" data-gh-stamp></time>
+                </div>
+                <div class="gh-table-wrap" data-gh-table hidden></div>
+            </section>
         </main>
 
         <footer>
@@ -45,6 +96,7 @@
             </div>
         </footer>
     </div>
+    <script src="github-activity.js?v=1" defer></script>
 </body>
 </html>
 

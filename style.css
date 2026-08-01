@@ -599,3 +599,324 @@ main h1 {
         max-width: 480px;
     }
 }
+
+/* GitHub activity — the contribution chart on the home page.
+   Bars carry the single green; every label, value and tick stays on a text
+   token, so nothing readable is wearing the data colour. Both greens were
+   picked to sit inside their mode's lightness band and clear 3:1 against the
+   surface they're drawn on. */
+:root {
+    --gh-bar: #2f9e44;
+    --gh-bar-hover: #237032;
+}
+
+html[data-theme="dark"] {
+    --gh-bar: #2ea043;
+    --gh-bar-hover: #3fb950;
+}
+
+.gh {
+    margin-top: 56px;
+}
+
+.gh-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px 16px;
+    margin-bottom: 20px;
+}
+
+.gh-head h2 {
+    font-size: 1.15em;
+    font-weight: 600;
+    color: var(--text-strong);
+}
+
+.gh-head a {
+    color: var(--link);
+    text-decoration: none;
+    font-size: 0.9em;
+}
+
+.gh-head a:hover {
+    text-decoration: underline;
+}
+
+/* The one number the section leads with. Proportional figures — tabular ones
+   make a large value look gappy. */
+.gh-hero {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 4px;
+}
+
+.gh-hero-value {
+    font-size: 3em;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--text-strong);
+    font-variant-numeric: proportional-nums;
+}
+
+.gh-hero-label {
+    color: var(--muted);
+    font-size: 0.95em;
+}
+
+.gh-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 28px;
+    margin: 20px 0 18px;
+}
+
+.gh-stat-label {
+    display: block;
+    font-size: 0.8em;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--muted-3);
+}
+
+.gh-stat-value {
+    font-size: 1.35em;
+    font-weight: 600;
+    color: var(--text-strong);
+}
+
+.gh-stat-note {
+    display: block;
+    font-size: 0.8em;
+    color: var(--muted-3);
+}
+
+/* Filters sit in one row above the chart, not inside it. */
+.gh-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.gh-ranges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.gh-range {
+    font: inherit;
+    font-size: 0.85em;
+    padding: 4px 12px;
+    color: var(--muted);
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    cursor: pointer;
+    transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.gh-range:hover {
+    color: var(--text-strong);
+    border-color: var(--rule-strong);
+}
+
+.gh-range.is-on {
+    color: var(--text-strong);
+    border-color: var(--rule-strongest);
+}
+
+/* The freshness stamp sits under the chart rather than over it — up in the
+   controls row a tooltip on a tall column landed right on top of it. */
+.gh-foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 8px 16px;
+    margin-top: 12px;
+}
+
+.gh-stamp {
+    margin-left: auto;
+    font-size: 0.8em;
+    color: var(--muted-3);
+}
+
+.gh-plot {
+    position: relative;
+    transition: opacity 0.2s ease;
+}
+
+/* A refetch holds the old render rather than collapsing to a skeleton — the
+   chart is still right, just minutes old. */
+.gh-plot.is-stale {
+    opacity: 0.55;
+}
+
+.gh-svg {
+    display: block;
+    overflow: visible;
+}
+
+.gh-bar {
+    fill: var(--gh-bar);
+}
+
+/* Gridlines and the baseline are solid hairlines one step off the surface. */
+.gh-grid,
+.gh-axis {
+    stroke: var(--rule);
+    stroke-width: 1;
+    shape-rendering: crispEdges;
+}
+
+.gh-axis {
+    stroke: var(--rule-2);
+}
+
+.gh-tick,
+.gh-month {
+    font-size: 10px;
+    fill: var(--muted-3);
+    font-variant-numeric: tabular-nums;
+}
+
+.gh-tick {
+    text-anchor: end;
+}
+
+.gh-hit {
+    fill: transparent;
+    cursor: default;
+}
+
+.gh-hit:hover,
+.gh-hit:focus {
+    fill: var(--hover);
+    outline: none;
+}
+
+.gh-hit:focus-visible {
+    stroke: var(--rule-strongest);
+    stroke-width: 1;
+}
+
+.gh-tip {
+    position: absolute;
+    top: -6px;
+    transform: translate(-50%, -100%);
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    box-shadow: var(--card-shadow);
+    padding: 6px 10px;
+    pointer-events: none;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.12s ease;
+    z-index: 2;
+}
+
+.gh-tip.is-on {
+    opacity: 1;
+}
+
+.gh-tip strong {
+    display: block;
+    font-size: 0.9em;
+    color: var(--text-strong);
+}
+
+.gh-tip span {
+    font-size: 0.8em;
+    color: var(--muted);
+}
+
+/* The table twin. Every value in the chart is reachable here too, so no number
+   is gated behind a hover. */
+.gh-table-toggle {
+    font: inherit;
+    font-size: 0.85em;
+    padding: 0;
+    background: none;
+    border: none;
+    color: var(--link);
+    cursor: pointer;
+}
+
+.gh-table-toggle:hover {
+    text-decoration: underline;
+}
+
+.gh-table-wrap {
+    max-height: 300px;
+    overflow: auto;
+    margin-top: 10px;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+}
+
+.gh-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85em;
+}
+
+.gh-table caption {
+    text-align: left;
+    padding: 8px 12px;
+    color: var(--muted);
+    font-size: 0.95em;
+}
+
+.gh-table th,
+.gh-table td {
+    text-align: left;
+    padding: 6px 12px;
+    border-top: 1px solid var(--rule-soft);
+    font-weight: 400;
+    color: var(--text-body);
+}
+
+.gh-table thead th {
+    color: var(--muted-3);
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.gh-table td {
+    font-variant-numeric: tabular-nums;
+    color: var(--text-strong);
+}
+
+/* Without JS the numbers baked into the HTML stand on their own, so the empty
+   plot and its controls get out of the way. */
+.gh:not(.is-live) .gh-controls,
+.gh:not(.is-live) .gh-plot,
+.gh:not(.is-live) .gh-foot {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .gh {
+        margin-top: 40px;
+    }
+
+    .gh-hero-value {
+        font-size: 2.4em;
+    }
+
+    .gh-stats {
+        gap: 20px;
+    }
+
+    .gh-stamp {
+        margin-left: 0;
+    }
+}

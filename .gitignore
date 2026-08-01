@@ -22,3 +22,8 @@ logs/
 __pycache__/
 *.pyc
 venv/
+
+# Live stats generated on the droplet and deployed straight to the web host —
+# never committed, so the repo can't ship a stale copy of them.
+github.json
+stats.json
