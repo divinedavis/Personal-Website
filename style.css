@@ -895,6 +895,81 @@ html[data-theme="dark"] {
     color: var(--text-strong);
 }
 
+/* Weekly rhythm — seven averages, one per weekday. Horizontal bars rather than
+   a seven-column chart: the labels are words, and words sit beside a bar without
+   tilting. It's one series, so every bar wears the same green and the busiest
+   day is called out in text weight, not in a second hue. Each value is printed
+   at the end of its own bar, so nothing is gated behind a hover. */
+.gh-week {
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+}
+
+.gh-week-head {
+    font-size: 0.95em;
+    font-weight: 600;
+    color: var(--text-strong);
+    margin: 0 0 6px;
+}
+
+.gh-week-lede {
+    margin: 0 0 16px;
+    font-size: 0.9em;
+    color: var(--muted);
+    max-width: 52ch;
+}
+
+.gh-week-rows {
+    display: grid;
+    gap: 6px;
+    max-width: 420px;
+}
+
+.gh-week-row {
+    display: grid;
+    grid-template-columns: 2.5em 1fr 2.4em;
+    align-items: center;
+    gap: 10px;
+}
+
+.gh-week-day {
+    font-size: 0.85em;
+    color: var(--muted-3);
+}
+
+.gh-week-track {
+    display: block;
+    height: 10px;
+}
+
+/* Square at the baseline it grows from, rounded at the data end. */
+.gh-week-fill {
+    display: block;
+    height: 100%;
+    background: var(--gh-bar);
+    border-radius: 0 3px 3px 0;
+}
+
+.gh-week-val {
+    font-size: 0.85em;
+    text-align: right;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+}
+
+.gh-week-row.is-max .gh-week-day,
+.gh-week-row.is-max .gh-week-val {
+    color: var(--text-strong);
+    font-weight: 600;
+}
+
+.gh-week-foot {
+    margin: 12px 0 0;
+    font-size: 0.8em;
+    color: var(--muted-3);
+}
+
 /* Without JS the numbers baked into the HTML stand on their own, so the empty
    plot and its controls get out of the way. */
 .gh:not(.is-live) .gh-controls,
@@ -918,5 +993,9 @@ html[data-theme="dark"] {
 
     .gh-stamp {
         margin-left: 0;
+    }
+
+    .gh-week {
+        margin-top: 24px;
     }
 }

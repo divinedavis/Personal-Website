@@ -35,6 +35,14 @@
                 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   var SVG_NS = 'http://www.w3.org/2000/svg';
 
+  // Sunday-indexed to match Date#getUTCDay; the rhythm block reads them out
+  // Monday-first so the weekend lands together at the end.
+  var DOW = ['Sunday', 'Monday', 'Tuesday', 'Wednesday',
+             'Thursday', 'Friday', 'Saturday'];
+  var DOW_SHORT = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  var WEEK_ORDER = [1, 2, 3, 4, 5, 6, 0];
+  var WEEKS_BACK = 52;
+
   var root = document.getElementById('gh-activity');
   if (!root) return;
 
@@ -42,6 +50,8 @@
   var tipEl = root.querySelector('[data-gh-tip]');
   var tableWrap = root.querySelector('[data-gh-table]');
   var tableBtn = root.querySelector('[data-gh-table-toggle]');
+  var weekRows = root.querySelector('[data-gh-week]');
+  var weekLede = root.querySelector('[data-gh-week-lede]');
   var stampEl = root.querySelector('[data-gh-stamp]');
   var rangeRow = root.querySelector('[data-gh-ranges]');
 
@@ -319,10 +329,90 @@
       rows + '</tbody></table>';
   }
 
+  /* ---- weekly rhythm ----------------------------------------------------- */
+
+  /* Average contributions per weekday over the last 52 weeks.
+   *
+   * Averages, not totals, because the window has to divide evenly: 364 days is
+   * exactly 52 of each weekday, so no bar is taller merely for having had more
+   * chances. Today is excluded — a day that's still in progress would drag its
+   * own weekday down every morning.
+   *
+   * The weekday comes from index arithmetic off data.start rather than from a
+   * Date, since the day objects are built by adding 86,400,000ms and a DST
+   * boundary shifts one of them back an hour into the previous day. */
+  function weekAverages() {
+    var counts = data.counts;
+    var end = counts.length - 1;              // index of today
+    if (end < 7) return null;
+    var from = Math.max(0, end - WEEKS_BACK * 7);
+    var startDow = new Date(data.start + 'T00:00:00Z').getUTCDay();
+
+    var total = [0, 0, 0, 0, 0, 0, 0];
+    var seen = [0, 0, 0, 0, 0, 0, 0];
+    for (var i = from; i < end; i++) {
+      var d = (startDow + i) % 7;
+      total[d] += counts[i];
+      seen[d] += 1;
+    }
+    return WEEK_ORDER.map(function (d) {
+      return { dow: d, total: total[d], days: seen[d],
+               avg: seen[d] ? total[d] / seen[d] : 0 };
+    });
+  }
+
+  function renderWeek() {
+    if (!weekRows) return;
+    var rows = weekAverages();
+    if (!rows) return;
+
+    var peak = rows.reduce(function (a, b) { return b.avg > a.avg ? b : a; });
+    var low = rows.reduce(function (a, b) { return b.avg < a.avg ? b : a; });
+    var top = peak.avg || 1;
+
+    weekRows.textContent = '';
+    rows.forEach(function (r) {
+      var one = r.avg.toFixed(1);
+      var row = document.createElement('div');
+      row.className = 'gh-week-row' + (r === peak ? ' is-max' : '');
+      // Every value is printed at the end of its own bar, so there is nothing a
+      // tooltip would add — the title only carries the sample it came from.
+      row.title = DOW[r.dow] + ': ' + one + ' a day on average, ' +
+                  comma(r.total) + ' across ' + r.days + ' of them';
+
+      var day = document.createElement('span');
+      day.className = 'gh-week-day';
+      day.textContent = DOW_SHORT[r.dow];
+
+      var track = document.createElement('span');
+      track.className = 'gh-week-track';
+      var fill = document.createElement('span');
+      fill.className = 'gh-week-fill';
+      fill.style.width = Math.max(1, (r.avg / top) * 100) + '%';
+      track.appendChild(fill);
+
+      var val = document.createElement('span');
+      val.className = 'gh-week-val';
+      val.textContent = one;
+
+      row.appendChild(day);
+      row.appendChild(track);
+      row.appendChild(val);
+      weekRows.appendChild(row);
+    });
+
+    if (weekLede) {
+      weekLede.textContent = DOW[peak.dow] + ' is my busiest day — ' +
+        peak.avg.toFixed(1) + ' contributions a day on average, against ' +
+        low.avg.toFixed(1) + ' on ' + DOW[low.dow] + '.';
+    }
+  }
+
   /* ---- wiring ----------------------------------------------------------- */
 
   function renderAll() {
     renderStats();
+    renderWeek();
     draw();
     if (tableWrap && !tableWrap.hidden) renderTable();
   }

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Divine Davis</title>
-    <link rel="stylesheet" href="style.css?v=17">
+    <link rel="stylesheet" href="style.css?v=18">
     <script src="theme.js?v=1"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -84,6 +84,23 @@
                     <time class="gh-stamp" data-gh-stamp></time>
                 </div>
                 <div class="gh-table-wrap" data-gh-table hidden></div>
+
+                <!-- Which weekday I actually ship on. Averages over the last 52
+                     weeks, so every bar is drawn from the same 52 samples. -->
+                <div class="gh-week">
+                    <h3 class="gh-week-head">Weekly rhythm</h3>
+                    <p class="gh-week-lede" data-gh-week-lede>Saturday is my busiest day &mdash; 8.3 contributions a day on average, against 5.1 on Friday.</p>
+                    <div class="gh-week-rows" data-gh-week>
+                        <div class="gh-week-row"><span class="gh-week-day">Mon</span><span class="gh-week-track"><span class="gh-week-fill" style="width:94.6%"></span></span><span class="gh-week-val">7.8</span></div>
+                        <div class="gh-week-row"><span class="gh-week-day">Tue</span><span class="gh-week-track"><span class="gh-week-fill" style="width:74.4%"></span></span><span class="gh-week-val">6.1</span></div>
+                        <div class="gh-week-row"><span class="gh-week-day">Wed</span><span class="gh-week-track"><span class="gh-week-fill" style="width:92.1%"></span></span><span class="gh-week-val">7.6</span></div>
+                        <div class="gh-week-row"><span class="gh-week-day">Thu</span><span class="gh-week-track"><span class="gh-week-fill" style="width:91.6%"></span></span><span class="gh-week-val">7.6</span></div>
+                        <div class="gh-week-row"><span class="gh-week-day">Fri</span><span class="gh-week-track"><span class="gh-week-fill" style="width:61.3%"></span></span><span class="gh-week-val">5.1</span></div>
+                        <div class="gh-week-row is-max"><span class="gh-week-day">Sat</span><span class="gh-week-track"><span class="gh-week-fill" style="width:100%"></span></span><span class="gh-week-val">8.3</span></div>
+                        <div class="gh-week-row"><span class="gh-week-day">Sun</span><span class="gh-week-track"><span class="gh-week-fill" style="width:85.3%"></span></span><span class="gh-week-val">7.0</span></div>
+                    </div>
+                    <p class="gh-week-foot">Average contributions per day, last 52 weeks.</p>
+                </div>
             </section>
         </main>
 
@@ -96,7 +113,7 @@
             </div>
         </footer>
     </div>
-    <script src="github-activity.js?v=1" defer></script>
+    <script src="github-activity.js?v=2" defer></script>
 </body>
 </html>
 
