@@ -192,6 +192,26 @@
 
                 <article class="portfolio-item">
                     <div class="portfolio-thumb portfolio-thumb-mobile">
+                        <img src="screenshots/crease.jpg?v=1" alt="Crease order list showing two-leg dry cleaning progress" width="202" height="440" loading="lazy" decoding="async">
+                    </div>
+                    <div class="portfolio-body">
+                        <h3>Crease &mdash; Dry Cleaning Picked Up and Delivered (iPhone App + Shop Portal)</h3>
+                        <p class="project-date">2026 &middot; TestFlight</p>
+                        <p class="project-updated">Last commit <time data-stat="upd_crease">1 August 2026</time></p>
+                        <ul>
+                            <li>You book a pickup, a courier takes your bag to a partner cleaner, and a second courier brings it back &mdash; two separate trips, because no delivery network will hold a package for the two days a cleaner needs it</li>
+                            <li>Nobody can price a bag before opening it, so the card is authorised at checkout and only charged once the shop has counted; if the count lands above the hold the order stops and asks you rather than quietly charging more</li>
+                            <li>The shop portal is built for a tablet on a counter, operated one-handed &mdash; the total updates as the counter types, next to the customer&rsquo;s original estimate, so an unusual gap is obvious in the moment instead of in a dispute two days later</li>
+                            <li>Live courier quotes made the economics measurable rather than assumed: $12.99 a leg in Brooklyn, $25.98 a round trip &mdash; 78% of a median order&rsquo;s cleaning value, which is the number the whole business turns on</li>
+                            <li>Stack: SwiftUI (iOS 17+), Next.js portal, a Fastify dispatch service on DigitalOcean, Supabase Postgres with RLS, Stripe authorise-then-capture plus Connect payouts, and Uber Direct behind a carrier interface with a simulator standing in for it</li>
+                        </ul>
+                        <a href="https://crease.divinedavis.com" target="_blank">Visit Live Site &rarr;</a> &nbsp;&nbsp;
+                        <a href="https://github.com/divinedavis/Crease" target="_blank">View on GitHub &rarr;</a>
+                    </div>
+                </article>
+
+                <article class="portfolio-item">
+                    <div class="portfolio-thumb portfolio-thumb-mobile">
                         <img src="screenshots/spendcap.jpg?v=1" alt="Spendcap today screen showing spending against the daily cap" width="202" height="440" loading="lazy" decoding="async">
                     </div>
                     <div class="portfolio-body">
