@@ -999,3 +999,101 @@ html[data-theme="dark"] {
         margin-top: 24px;
     }
 }
+
+/* Lines of code — the same components as the GitHub section above (.gh-head,
+   .gh-hero, .gh-stats, .gh-foot are shared), plus a ranked bar per language.
+   Ranked bars rather than one stacked bar: the job is comparing magnitudes
+   across nine buckets, and a stacked bar would need nine hues to do worse at
+   it. One series, one green, every value printed at the end of its own bar —
+   identity never rides on colour alone. Widths are relative to the largest
+   language, not to the total, so the leader fills the track and the tail stays
+   readable instead of collapsing into slivers. */
+.loc {
+    margin-top: 56px;
+    padding-top: 32px;
+    border-top: 1px solid var(--rule);
+}
+
+.loc-scope {
+    font-size: 0.9em;
+    color: var(--muted-3);
+}
+
+.loc-langs {
+    display: grid;
+    gap: 6px;
+    max-width: 480px;
+    margin-top: 24px;
+}
+
+.loc-row {
+    display: grid;
+    grid-template-columns: 6.5em 1fr 4.5em;
+    align-items: center;
+    gap: 10px;
+}
+
+.loc-lang {
+    font-size: 0.85em;
+    color: var(--muted-3);
+}
+
+.loc-track {
+    display: block;
+    height: 10px;
+}
+
+/* Square at the baseline it grows from, rounded at the data end. */
+.loc-fill {
+    display: block;
+    height: 100%;
+    background: var(--gh-bar);
+    border-radius: 0 3px 3px 0;
+}
+
+.loc-val {
+    font-size: 0.85em;
+    text-align: right;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+}
+
+.loc-row.is-max .loc-lang,
+.loc-row.is-max .loc-val {
+    color: var(--text-strong);
+    font-weight: 600;
+}
+
+.loc-note {
+    margin: 0;
+    font-size: 0.8em;
+    line-height: 1.6;
+    color: var(--muted-3);
+    max-width: 62ch;
+}
+
+.loc-note code {
+    font-size: 0.95em;
+    color: var(--muted);
+}
+
+/* The stamp is meaningless until loc.js has actually loaded a file. */
+.loc:not(.is-live) .gh-stamp {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .loc {
+        margin-top: 40px;
+        padding-top: 24px;
+    }
+
+    .loc-langs {
+        margin-top: 20px;
+    }
+
+    .loc-row {
+        grid-template-columns: 5.5em 1fr 4.2em;
+        gap: 8px;
+    }
+}

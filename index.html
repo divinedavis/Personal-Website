@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Divine Davis</title>
-    <link rel="stylesheet" href="style.css?v=18">
+    <link rel="stylesheet" href="style.css?v=19">
     <script src="theme.js?v=1"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -102,6 +102,63 @@
                     <p class="gh-week-foot">Average contributions per day, last 52 weeks.</p>
                 </div>
             </section>
+
+            <!-- Lines of code. Same contract as the section above: every number
+                 here is a last-known value that loc.js overwrites from loc.json,
+                 so it still reads correctly with JS off or the file unreachable. -->
+            <section class="loc" id="loc">
+                <div class="gh-head">
+                    <h2>Lines of code</h2>
+                    <span class="loc-scope">every repository, public and private</span>
+                </div>
+
+                <div class="gh-hero">
+                    <span class="gh-hero-value" data-loc-stat="added">517,912</span>
+                    <span class="gh-hero-label">lines of code written</span>
+                </div>
+
+                <div class="gh-stats">
+                    <div>
+                        <span class="gh-stat-label">Repositories</span>
+                        <span class="gh-stat-value" data-loc-stat="repos">60</span>
+                    </div>
+                    <div>
+                        <span class="gh-stat-label">Commits</span>
+                        <span class="gh-stat-value" data-loc-stat="commits">3,376</span>
+                    </div>
+                    <div>
+                        <span class="gh-stat-label">Still standing</span>
+                        <span class="gh-stat-value" data-loc-stat="net">455,779</span>
+                        <span class="gh-stat-note">net of deletions</span>
+                    </div>
+                    <div>
+                        <span class="gh-stat-label">Most written</span>
+                        <span class="gh-stat-value" data-loc-lead>Python</span>
+                        <span class="gh-stat-note" data-loc-lead-note>141,919 lines</span>
+                    </div>
+                </div>
+
+                <div class="loc-langs" data-loc-langs>
+                    <div class="loc-row is-max"><span class="loc-lang">Python</span><span class="loc-track"><span class="loc-fill" style="width:100%"></span></span><span class="loc-val">141,919</span></div>
+                    <div class="loc-row"><span class="loc-lang">Swift</span><span class="loc-track"><span class="loc-fill" style="width:87.1%"></span></span><span class="loc-val">123,648</span></div>
+                    <div class="loc-row"><span class="loc-lang">TypeScript</span><span class="loc-track"><span class="loc-fill" style="width:52.6%"></span></span><span class="loc-val">74,616</span></div>
+                    <div class="loc-row"><span class="loc-lang">HTML</span><span class="loc-track"><span class="loc-fill" style="width:50.0%"></span></span><span class="loc-val">70,894</span></div>
+                    <div class="loc-row"><span class="loc-lang">JavaScript</span><span class="loc-track"><span class="loc-fill" style="width:17.1%"></span></span><span class="loc-val">24,273</span></div>
+                    <div class="loc-row"><span class="loc-lang">SQL</span><span class="loc-track"><span class="loc-fill" style="width:16.1%"></span></span><span class="loc-val">22,875</span></div>
+                    <div class="loc-row"><span class="loc-lang">CSS</span><span class="loc-track"><span class="loc-fill" style="width:14.4%"></span></span><span class="loc-val">20,461</span></div>
+                    <div class="loc-row"><span class="loc-lang">Java</span><span class="loc-track"><span class="loc-fill" style="width:10.5%"></span></span><span class="loc-val">14,906</span></div>
+                    <div class="loc-row"><span class="loc-lang">Other</span><span class="loc-track"><span class="loc-fill" style="width:17.1%"></span></span><span class="loc-val">24,320</span></div>
+                </div>
+
+                <div class="gh-foot">
+                    <p class="loc-note">Lines added in commits I authored, counted on each
+                        repository&rsquo;s default branch. Lockfiles, <code>node_modules</code>,
+                        Pods, Xcode project files and other generated output are excluded, so
+                        this is smaller than the 806,252 GitHub attributes to me &mdash; and
+                        closer to what I actually typed.</p>
+                    <time class="gh-stamp" data-loc-stamp></time>
+                </div>
+            </section>
         </main>
 
         <footer>
@@ -114,6 +171,7 @@
         </footer>
     </div>
     <script src="github-activity.js?v=2" defer></script>
+    <script src="loc.js?v=1" defer></script>
 </body>
 </html>
 

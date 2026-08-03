@@ -27,3 +27,9 @@ venv/
 # never committed, so the repo can't ship a stale copy of them.
 github.json
 stats.json
+loc.json
+
+# Bare mirrors + per-repo cache the lines-of-code counter keeps on the droplet.
+tools/loc-repos/
+tools/loc-state.json
+loc-state.json
