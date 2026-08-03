@@ -900,19 +900,6 @@ html[data-theme="dark"] {
    tilting. It's one series, so every bar wears the same green and the busiest
    day is called out in text weight, not in a second hue. Each value is printed
    at the end of its own bar, so nothing is gated behind a hover. */
-.gh-week {
-    margin-top: 32px;
-    padding-top: 24px;
-    border-top: 1px solid var(--rule);
-}
-
-.gh-week-head {
-    font-size: 0.95em;
-    font-weight: 600;
-    color: var(--text-strong);
-    margin: 0 0 6px;
-}
-
 .gh-week-lede {
     margin: 0 0 16px;
     font-size: 0.9em;
@@ -923,7 +910,6 @@ html[data-theme="dark"] {
 .gh-week-rows {
     display: grid;
     gap: 6px;
-    max-width: 420px;
 }
 
 .gh-week-row {
@@ -995,9 +981,6 @@ html[data-theme="dark"] {
         margin-left: 0;
     }
 
-    .gh-week {
-        margin-top: 24px;
-    }
 }
 
 /* Lines of code — the same components as the GitHub section above (.gh-head,
@@ -1014,6 +997,66 @@ html[data-theme="dark"] {
     border-top: 1px solid var(--rule);
 }
 
+/* Weekly rhythm + Lines of code, side by side. Neither fills the measure alone,
+   and both are ranked bars in the same green at the same scale, so pairing them
+   reads as one comparison instead of two half-empty bands.
+
+   Source order is rhythm-then-code — that is the order a phone gets, and the
+   order the contribution chart above leads into. Desktop puts code on the left
+   by assigning grid columns explicitly rather than by reordering, so the DOM
+   never disagrees with the reading order on any width.
+
+   The columns are uneven on purpose: the code side carries a hero figure, four
+   stat tiles and nine bars, the rhythm side seven bars and a sentence. */
+.split {
+    margin-top: 56px;
+    padding-top: 32px;
+    border-top: 1px solid var(--rule);
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    gap: 40px 48px;
+    align-items: start;
+}
+
+/* Both rows are pinned, not just the columns. With only grid-column set,
+   sparse auto-placement walks the cursor past column 1 when it places the
+   source-first rhythm block into column 2, and drops the code section onto a
+   second row — side by side in width, stacked in fact. */
+.split > .loc {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.split > .gh-week {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+/* Inside the row the wrapper owns the top margin, padding and rule. */
+.split > .loc,
+.split > .gh-week {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
+}
+
+/* Two columns of ~420px is the floor before the language names and their
+   values start fighting; below it they stack. */
+@media (max-width: 900px) {
+    .split {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        margin-top: 40px;
+        padding-top: 24px;
+    }
+
+    .split > .loc,
+    .split > .gh-week {
+        grid-column: 1;
+        grid-row: auto;          /* back to source order: rhythm, then code */
+    }
+}
+
 .loc-scope {
     font-size: 0.9em;
     color: var(--muted-3);
@@ -1022,7 +1065,7 @@ html[data-theme="dark"] {
 .loc-langs {
     display: grid;
     gap: 6px;
-    max-width: 480px;
+    max-width: 520px;
     margin-top: 24px;
 }
 

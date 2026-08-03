@@ -50,8 +50,11 @@
   var tipEl = root.querySelector('[data-gh-tip]');
   var tableWrap = root.querySelector('[data-gh-table]');
   var tableBtn = root.querySelector('[data-gh-table-toggle]');
-  var weekRows = root.querySelector('[data-gh-week]');
-  var weekLede = root.querySelector('[data-gh-week-lede]');
+  // The weekly rhythm sits outside #gh-activity — it shares a row with the
+  // lines-of-code section — but it is still drawn from this file's data, so it
+  // is looked up against the document rather than the section.
+  var weekRows = document.querySelector('[data-gh-week]');
+  var weekLede = document.querySelector('[data-gh-week-lede]');
   var stampEl = root.querySelector('[data-gh-stamp]');
   var rangeRow = root.querySelector('[data-gh-ranges]');
 
