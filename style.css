@@ -1097,3 +1097,106 @@ html[data-theme="dark"] {
         gap: 8px;
     }
 }
+
+/* Apps shipped — a KPI row over two named lists. Deliberately not a chart:
+   four headline numbers are stat tiles, and twenty-two apps whose identity is
+   the point are a list, not twenty-two colours. The status chip reuses the
+   portfolio's chip tokens so "App Store" reads the same here as everywhere
+   else on the site, and TestFlight is a muted variant of the same chip rather
+   than a second hue — it is a lesser state of one thing, not a rival category. */
+.apps {
+    margin-top: 56px;
+    padding-top: 32px;
+    border-top: 1px solid var(--rule);
+}
+
+.apps-cols {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 28px 40px;
+    margin-top: 24px;
+}
+
+.apps-col-head {
+    font-size: 0.8em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--muted-3);
+    margin: 0 0 10px;
+}
+
+.apps-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 8px;
+}
+
+.apps-list li {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 0.92em;
+    border-bottom: 1px solid var(--rule-soft);
+    padding-bottom: 7px;
+}
+
+.apps-list li:last-child {
+    border-bottom: 0;
+}
+
+.apps-list a {
+    color: var(--link);
+    text-decoration: none;
+}
+
+.apps-list a:hover {
+    text-decoration: underline;
+}
+
+.apps-chip {
+    flex: none;
+    font-size: 0.72em;
+    line-height: 1.3;
+    color: var(--chip-ink);
+    background: var(--chip-bg);
+    border: 1px solid var(--chip-line);
+    border-radius: 3px;
+    padding: 2px 7px;
+    white-space: nowrap;
+}
+
+/* Shipped is the loud state; in-beta is the same chip with the fill taken out. */
+.apps-chip.is-beta {
+    color: var(--muted-3);
+    background: transparent;
+    border-color: var(--rule-2);
+}
+
+.apps-host {
+    flex: none;
+    font-size: 0.8em;
+    color: var(--muted-3);
+    white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+    .apps {
+        margin-top: 40px;
+        padding-top: 24px;
+    }
+
+    .apps-cols {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+
+    /* The domain is a hint, not the label — it is the first thing to go when
+       a long product name and a long host cannot share a line. */
+    .apps-host {
+        display: none;
+    }
+}

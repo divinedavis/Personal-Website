@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Divine Davis</title>
-    <link rel="stylesheet" href="style.css?v=19">
+    <link rel="stylesheet" href="style.css?v=20">
     <script src="theme.js?v=1"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -159,6 +159,77 @@
                     <time class="gh-stamp" data-loc-stamp></time>
                 </div>
             </section>
+
+            <!-- Apps shipped. apps.js overwrites all of this from apps.json;
+                 the lists below are the last-known state so the section still
+                 reads with JS off or the file unreachable. -->
+            <section class="apps" id="apps">
+                <div class="gh-head">
+                    <h2>Apps shipped</h2>
+                    <span class="loc-scope">iOS and web</span>
+                </div>
+
+                <div class="gh-stats">
+                    <div>
+                        <span class="gh-stat-label">iOS apps</span>
+                        <span class="gh-stat-value" data-apps-stat="ios_total">9</span>
+                    </div>
+                    <div>
+                        <span class="gh-stat-label">On the App Store</span>
+                        <span class="gh-stat-value" data-apps-stat="ios_live">3</span>
+                    </div>
+                    <div>
+                        <span class="gh-stat-label">In TestFlight</span>
+                        <span class="gh-stat-value" data-apps-stat="ios_beta">6</span>
+                    </div>
+                    <div>
+                        <span class="gh-stat-label">Web apps live</span>
+                        <span class="gh-stat-value" data-apps-stat="web_live">13</span>
+                    </div>
+                </div>
+
+                <div class="apps-cols">
+                    <div class="apps-col">
+                        <h3 class="apps-col-head">iOS</h3>
+                        <ul class="apps-list" data-apps-ios>
+                            <li><a href="https://apps.apple.com/us/app/workcomp/id6773055992" target="_blank" rel="noopener">WorkComp+</a><span class="apps-chip">App Store</span></li>
+                            <li><a href="https://apps.apple.com/us/app/hidden-gems-local-picks/id6762203841" target="_blank" rel="noopener">Hidden Gems: Local Picks</a><span class="apps-chip">App Store</span></li>
+                            <li><a href="https://apps.apple.com/us/app/barrel-baseball/id6762527182" target="_blank" rel="noopener">Barrel Baseball</a><span class="apps-chip">App Store</span></li>
+                            <li><span>Crease</span><span class="apps-chip is-beta">TestFlight</span></li>
+                            <li><span>Spendcap</span><span class="apps-chip is-beta">TestFlight</span></li>
+                            <li><span>Lovili</span><span class="apps-chip is-beta">TestFlight</span></li>
+                            <li><span>Pulse</span><span class="apps-chip is-beta">TestFlight</span></li>
+                            <li><span>Clock In</span><span class="apps-chip is-beta">TestFlight</span></li>
+                            <li><span>ShypQuick</span><span class="apps-chip is-beta">TestFlight</span></li>
+                        </ul>
+                    </div>
+                    <div class="apps-col">
+                        <h3 class="apps-col-head">Web</h3>
+                        <ul class="apps-list" data-apps-web>
+                            <li><a href="https://findacrib.com" target="_blank" rel="noopener">Find A Crib</a><span class="apps-host">findacrib.com</span></li>
+                            <li><a href="https://caprecruiting.com" target="_blank" rel="noopener">Collegiate Athletic Planning</a><span class="apps-host">caprecruiting.com</span></li>
+                            <li><a href="https://nemoseamlessgutter.com" target="_blank" rel="noopener">NEMO Seamless Gutter</a><span class="apps-host">nemoseamlessgutter.com</span></li>
+                            <li><a href="https://encountersystem.com" target="_blank" rel="noopener">Encounter</a><span class="apps-host">encountersystem.com</span></li>
+                            <li><a href="https://jordansjobfinder.com" target="_blank" rel="noopener">Jordan's Job Finder</a><span class="apps-host">jordansjobfinder.com</span></li>
+                            <li><a href="https://kinnkolk.com" target="_blank" rel="noopener">Kinnkolk</a><span class="apps-host">kinnkolk.com</span></li>
+                            <li><a href="https://trentsfreshspaces.com" target="_blank" rel="noopener">Trent's Fresh Spaces</a><span class="apps-host">trentsfreshspaces.com</span></li>
+                            <li><a href="https://polinear.org" target="_blank" rel="noopener">Polinear</a><span class="apps-host">polinear.org</span></li>
+                            <li><a href="https://slottingcal.com" target="_blank" rel="noopener">SlottingCal</a><span class="apps-host">slottingcal.com</span></li>
+                            <li><a href="https://workcompapp.com" target="_blank" rel="noopener">WorkComp+ for Professionals</a><span class="apps-host">workcompapp.com</span></li>
+                            <li><a href="https://jordanshealthapp.com" target="_blank" rel="noopener">Personal Doctor AI</a><span class="apps-host">jordanshealthapp.com</span></li>
+                            <li><a href="https://crease.divinedavis.com" target="_blank" rel="noopener">Crease</a><span class="apps-host">crease.divinedavis.com</span></li>
+                            <li><a href="https://divinedavis.com" target="_blank" rel="noopener">This site</a><span class="apps-host">divinedavis.com</span></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="gh-foot">
+                    <p class="loc-note">App Store status comes from Apple on every check, so an
+                        app moves out of TestFlight here the day it goes live. Web apps are
+                        counted by actually fetching them.</p>
+                    <time class="gh-stamp" data-apps-stamp></time>
+                </div>
+            </section>
         </main>
 
         <footer>
@@ -172,6 +243,7 @@
     </div>
     <script src="github-activity.js?v=2" defer></script>
     <script src="loc.js?v=1" defer></script>
+    <script src="apps.js?v=1" defer></script>
 </body>
 </html>
 

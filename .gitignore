@@ -28,8 +28,11 @@ venv/
 github.json
 stats.json
 loc.json
+apps.json
 
 # Bare mirrors + per-repo cache the lines-of-code counter keeps on the droplet.
 tools/loc-repos/
 tools/loc-state.json
 loc-state.json
+tools/apps-state.json
+apps-state.json
