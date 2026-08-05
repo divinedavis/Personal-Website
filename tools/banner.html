@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<!-- Template for the LinkedIn profile banner (the wide image behind the header).
+     Same treatment as thumbnail.html — same dark ground, same accent gradient,
+     same three numbers — so the two read as one set.
+
+     WHERE THE HEADSHOT LANDS
+     ------------------------
+     LinkedIn drops the profile photo on top of the banner, overlapping its
+     lower-left corner. Measured off the live desktop profile and scaled to the
+     1584x396 export, the circle covers roughly x 64-464 and everything below
+     y 137. Anything placed there is not "behind the photo", it is gone.
+
+     So the left 500px is deliberately empty — glow only, no text — and every
+     word sits to the right of the accent rule at x 505. The rule doubles as the
+     seam between the photo and the content, which is why it is a full-height
+     stroke rather than the top bar the thumbnail used to carry.
+
+     The name is not repeated here on purpose: LinkedIn prints it in 30px bold
+     directly beneath this image. The banner's job is the part the headline does
+     not say — that the work is shipped, and where to go see it. -->
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+        width: 1584px;
+        height: 396px;
+        background: #0f1115;
+        font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
+                     'Helvetica Neue', sans-serif;
+        color: #f2f4f8;
+        overflow: hidden;
+        position: relative;
+    }
+
+    body::before,
+    body::after {
+        content: '';
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(100px);
+    }
+    /* The left glow sits under the headshot's corner, so the photo lands on a
+       lit ground rather than a flat black square. */
+    body::before {
+        width: 700px; height: 700px;
+        bottom: -360px; left: -160px;
+        background: rgba(111, 176, 255, 0.22);
+    }
+    body::after {
+        width: 620px; height: 620px;
+        top: -330px; right: -120px;
+        background: rgba(180, 154, 255, 0.20);
+    }
+
+    /* The seam. Full height, so it reads as a divider rather than decoration. */
+    .rule {
+        position: absolute;
+        left: 505px;
+        top: 74px;
+        bottom: 74px;
+        width: 3px;
+        border-radius: 2px;
+        background: linear-gradient(180deg, #6fb0ff 0%, #b49aff 100%);
+    }
+
+    .content {
+        position: absolute;
+        left: 560px;
+        right: 84px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .kicker {
+        font-size: 17px;
+        font-weight: 600;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: #6fb0ff;
+    }
+
+    .stats {
+        margin-top: 26px;
+        display: flex;
+    }
+
+    /* Sized to fill the space the headshot leaves rather than to fit the text.
+       At 230px the three stats bunched against the rule and left the right
+       third of a 1584px banner empty, which reads as a rendering fault rather
+       than as breathing room. */
+    .stats > div { width: 313px; }
+
+    .stat-value {
+        font-size: 48px;
+        font-weight: 700;
+        font-variant-numeric: tabular-nums;
+        line-height: 1;
+    }
+
+    .stat-label {
+        margin-top: 9px;
+        font-size: 13.5px;
+        font-weight: 400;
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+        color: #868d99;
+    }
+
+    .links {
+        margin-top: 30px;
+        display: flex;
+        gap: 16px;
+    }
+
+    .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 24px;
+        border: 1px solid #333944;
+        border-radius: 999px;
+        background: rgba(23, 26, 33, 0.7);
+        font-size: 19px;
+        font-weight: 600;
+        line-height: 1;
+    }
+
+    .pill-site { color: #6fb0ff; }
+    .pill-gh   { color: #c9ced8; }
+
+    .pill .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #3fb950;
+    }
+
+    .pill svg {
+        width: 19px;
+        height: 19px;
+        fill: #c9ced8;
+    }
+</style>
+</head>
+<body>
+    <div class="rule"></div>
+
+    <div class="content">
+        <!-- One line, and the numbers below are the evidence for it. Change the
+             wording here and nothing else in the layout moves. -->
+        <div class="kicker">Building and shipping software</div>
+
+        <div class="stats">
+            <div>
+                <div class="stat-value">{{CONTRIBUTIONS}}</div>
+                <div class="stat-label">Commits / yr</div>
+            </div>
+            <div>
+                <div class="stat-value">{{LOC}}</div>
+                <div class="stat-label">Lines of code</div>
+            </div>
+            <div>
+                <div class="stat-value">{{APPS}}</div>
+                <div class="stat-label">Apps shipped</div>
+            </div>
+        </div>
+
+        <div class="links">
+            <div class="pill pill-site"><span class="dot"></span>divinedavis.com</div>
+            <div class="pill pill-gh">
+                <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+                github.com/divinedavis
+            </div>
+        </div>
+    </div>
+</body>
+</html>

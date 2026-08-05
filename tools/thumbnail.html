@@ -1,20 +1,33 @@
 <!DOCTYPE html>
-<!-- Template for the LinkedIn Featured thumbnail. make_thumbnail.py substitutes
-     the {{TOKENS}} with live numbers and screenshots this file; it is not served
-     to visitors and is never linked from the site.
+<!-- Template for the LinkedIn Featured thumbnail. make_linkedin_images.py
+     substitutes the {{TOKENS}} with live numbers and screenshots this file; it
+     is not served to visitors and is never linked from the site.
 
-     Everything is centred on purpose. LinkedIn shows a Featured link at 1.91:1
-     in some surfaces and crops it toward 4:3 in the profile grid, which eats
-     roughly 180px off each side. A left-aligned domain or a corner logo would
-     survive one layout and vanish in the other, so the composition stays inside
-     the centre 840px where both crops agree. -->
+     THE CROP IS WIDE AND SHORT, NOT 1.91:1
+     --------------------------------------
+     LinkedIn's documented link-preview ratio is 1.91:1, and the file is still
+     exported at that size — but the desktop Featured card does not show it that
+     way. It lays the thumbnail out as a left-hand panel whose height is set by
+     the title and URL stacked beside it, then object-fit: covers the image into
+     that box. Measured against a real profile the visible slice is roughly 5:1:
+     everything outside a ~240px band through the vertical centre is thrown away.
+
+     A first version centred a tall stack in the frame and lost the top of the
+     name and both link pills to that crop. So the composition is a short
+     horizontal band, and the empty space above and below it is the point.
+
+     Two crops have to agree, and they pull opposite ways:
+       - desktop Featured  -> ~5:1, keeps only the centre ~240px of height
+       - profile grid      -> toward 4:3, eats ~180px off each side
+     The safe rectangle is the intersection: 840 x 240, dead centre. Everything
+     that matters lives inside .band, which is exactly that wide and shorter
+     than that tall. -->
 <html>
 <head>
 <meta charset="utf-8">
 <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    /* The canvas is the exact export size, so the screenshot needs no cropping. */
     body {
         width: 1200px;
         height: 627px;
@@ -29,8 +42,9 @@
         justify-content: center;
     }
 
-    /* Two soft off-canvas glows in the site's link and AI accent colours. They
-       keep a flat dark rectangle from reading as a broken image in the feed. */
+    /* Soft off-canvas glows in the site's link and AI accent colours, so a flat
+       dark rectangle does not read as a broken image in the feed. These sit
+       outside the safe band and are the one thing allowed to be cropped away. */
     body::before,
     body::after {
         content: '';
@@ -49,89 +63,92 @@
         background: rgba(180, 154, 255, 0.18);
     }
 
-    .accent-bar {
-        position: absolute;
-        top: 0; left: 0; right: 0;
-        height: 6px;
-        background: linear-gradient(90deg, #6fb0ff 0%, #b49aff 100%);
+    .band {
+        position: relative;
+        width: 860px;
     }
 
-    .card {
-        position: relative;
-        text-align: center;
-        width: 840px;          /* the crop-safe centre */
+    .row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 22px;
     }
 
     .name {
-        font-size: 68px;
+        font-size: 42px;
         font-weight: 700;
-        letter-spacing: 0.02em;
-        line-height: 1.05;
+        line-height: 1.1;
+        white-space: nowrap;
     }
 
     .role {
-        margin-top: 14px;
-        font-size: 25px;
-        font-weight: 400;
+        margin-top: 6px;
+        font-size: 18px;
         color: #a8aeba;
+        white-space: nowrap;
     }
 
-    .rule {
-        width: 90px;
-        height: 3px;
-        margin: 34px auto;
+    /* The gradient bar lives here rather than along the top edge, where the
+       band crop would discard it. Splitting the claim from the evidence is a
+       better job for it anyway. */
+    .divider {
+        flex: none;
+        width: 3px;
+        height: 76px;
         border-radius: 2px;
-        background: linear-gradient(90deg, #6fb0ff 0%, #b49aff 100%);
+        background: linear-gradient(180deg, #6fb0ff 0%, #b49aff 100%);
     }
+
+    .stats { display: flex; }
 
     /* Equal-width columns rather than equal gaps. "517,912" is three times the
        width of "22", so a gap-based row centres by arithmetic but reads as
-       left-heavy; fixed columns put the three labels on an even rhythm. */
-    .stats {
-        display: flex;
-        justify-content: center;
+       left-heavy; fixed columns put the three labels on an even rhythm.
+
+       The width is set by the longest value, not the longest label: at 36px
+       "517,912" is ~150px, and a narrower column let it run to its own edges so
+       the three numbers read as one run-on string. */
+    .stats > div {
+        width: 172px;
+        text-align: center;
     }
 
-    .stats > div { width: 268px; }
-
-    /* Tabular figures so the three numbers sit on a shared baseline grid
-       instead of drifting with digit widths. */
     .stat-value {
-        font-size: 52px;
+        font-size: 36px;
         font-weight: 700;
         font-variant-numeric: tabular-nums;
         line-height: 1;
-        color: #f2f4f8;
     }
 
     .stat-label {
-        margin-top: 10px;
-        font-size: 17px;
+        margin-top: 7px;
+        font-size: 12.5px;
         font-weight: 400;
-        letter-spacing: 0.08em;
+        letter-spacing: 0.09em;
         text-transform: uppercase;
         color: #868d99;
     }
 
     /* Two pills, not one. The site is the destination and the GitHub handle is
-       the receipt for the numbers above it — a stats card that cites nothing
-       is just a claim. */
+       the receipt for the numbers above it — a stats card that cites nothing is
+       just a claim. */
     .links {
-        margin-top: 44px;
+        margin-top: 26px;
         display: flex;
         justify-content: center;
-        gap: 18px;
+        gap: 16px;
     }
 
     .pill {
         display: inline-flex;
         align-items: center;
-        gap: 11px;
-        padding: 12px 26px;
+        gap: 10px;
+        padding: 12px 24px;
         border: 1px solid #333944;
         border-radius: 999px;
         background: rgba(23, 26, 33, 0.7);
-        font-size: 22px;
+        font-size: 19px;
         font-weight: 600;
         line-height: 1;
     }
@@ -140,40 +157,42 @@
     .pill-gh   { color: #c9ced8; }
 
     .pill .dot {
-        width: 9px;
-        height: 9px;
+        width: 8px;
+        height: 8px;
         border-radius: 50%;
         background: #3fb950;
     }
 
     .pill svg {
-        width: 22px;
-        height: 22px;
+        width: 19px;
+        height: 19px;
         fill: #c9ced8;
     }
 </style>
 </head>
 <body>
-    <div class="accent-bar"></div>
-
-    <div class="card">
-        <div class="name">Divine Davis</div>
-        <div class="role">Engineer &middot; Technical Program Manager</div>
-
-        <div class="rule"></div>
-
-        <div class="stats">
+    <div class="band">
+        <div class="row">
             <div>
-                <div class="stat-value">{{CONTRIBUTIONS}}</div>
-                <div class="stat-label">Commits / yr</div>
+                <div class="name">Divine Davis</div>
+                <div class="role">Engineer &middot; Technical Program Manager</div>
             </div>
-            <div>
-                <div class="stat-value">{{LOC}}</div>
-                <div class="stat-label">Lines of code</div>
-            </div>
-            <div>
-                <div class="stat-value">{{APPS}}</div>
-                <div class="stat-label">Apps shipped</div>
+
+            <div class="divider"></div>
+
+            <div class="stats">
+                <div>
+                    <div class="stat-value">{{CONTRIBUTIONS}}</div>
+                    <div class="stat-label">Commits / yr</div>
+                </div>
+                <div>
+                    <div class="stat-value">{{LOC}}</div>
+                    <div class="stat-label">Lines of code</div>
+                </div>
+                <div>
+                    <div class="stat-value">{{APPS}}</div>
+                    <div class="stat-label">Apps shipped</div>
+                </div>
             </div>
         </div>
 
