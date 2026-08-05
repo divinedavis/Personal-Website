@@ -34,5 +34,7 @@ apps.json
 tools/loc-repos/
 tools/loc-state.json
 loc-state.json
+tools/.loc.lock
+.loc.lock
 tools/apps-state.json
 apps-state.json

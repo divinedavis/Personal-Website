@@ -34,6 +34,7 @@ Deployed to /root/portfolio-stats/update_loc.py on 167.71.170.219, cron
 */5 * * * * -> /var/log/loc_stats.log.
 """
 
+import fcntl
 import json
 import os
 import re
@@ -49,6 +50,7 @@ HERE = Path(__file__).resolve().parent
 MIRRORS = HERE / "loc-repos"
 STATE_PATH = HERE / "loc-state.json"
 OUT_PATH = HERE / "loc.json"
+LOCK_PATH = HERE / ".loc.lock"
 DEPLOY = "root@159.203.110.79:/var/www/divinedavis/loc.json"
 
 # Commits with these author emails are Divine's. Everything else on the graph is
@@ -279,6 +281,19 @@ def sync(repo, token):
 
 
 def main():
+    # A steady-state run fetches nothing and takes about a second, so */5 never
+    # overlaps — but the FIRST run has to mirror every repo, which is minutes and
+    # hundreds of megabytes. Without this, cron stacks concurrent clones into the
+    # same loc-repos/ paths and they race each other writing loc-state.json. The
+    # same applies after any long outage, when every mirror is stale at once.
+    # Skip quietly rather than logging: a skipped tick is the lock working, and
+    # */5 makes noise fast.
+    lock = open(LOCK_PATH, "w")
+    try:
+        fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except OSError:
+        return 0
+
     token = load_env()
     if not token:
         log("FATAL: no GITHUB_TOKEN in environment or .env")
