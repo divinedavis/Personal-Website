@@ -63,28 +63,34 @@
         background: rgba(180, 154, 255, 0.18);
     }
 
+    /* Sized to the type, not to a crop-safe guess. The desktop Featured panel
+       is only ~500px wide, so a 1200px-wide export is displayed at about 42% —
+       type that looks generous in the file renders tiny on the profile. Every
+       size here is 1.5x what it was for that reason, and the band grew to
+       1150px to hold it. Width is no longer the thing being protected: the
+       verified desktop crop takes the full width and only trims height. */
     .band {
         position: relative;
-        width: 860px;
+        width: 1110px;
     }
 
     .row {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 22px;
+        gap: 24px;
     }
 
     .name {
-        font-size: 42px;
+        font-size: 63px;
         font-weight: 700;
         line-height: 1.1;
         white-space: nowrap;
     }
 
     .role {
-        margin-top: 6px;
-        font-size: 18px;
+        margin-top: 9px;
+        font-size: 27px;
         color: #a8aeba;
         white-space: nowrap;
     }
@@ -94,36 +100,34 @@
        better job for it anyway. */
     .divider {
         flex: none;
-        width: 3px;
-        height: 76px;
+        width: 4px;
+        height: 112px;
         border-radius: 2px;
         background: linear-gradient(180deg, #6fb0ff 0%, #b49aff 100%);
     }
 
-    .stats { display: flex; }
-
-    /* Equal-width columns rather than equal gaps. "517,912" is three times the
-       width of "22", so a gap-based row centres by arithmetic but reads as
-       left-heavy; fixed columns put the three labels on an even rhythm.
-
-       The width is set by the longest value, not the longest label: at 36px
-       "517,912" is ~150px, and a narrower column let it run to its own edges so
-       the three numbers read as one run-on string. */
-    .stats > div {
-        width: 172px;
-        text-align: center;
+    /* Columns size to their own content with a fixed gutter between them, which
+       is what keeps the numbers apart. Equal fixed widths were the earlier fix
+       for "517,912" and "22" reading as one run-on string, but at 54px that
+       number is ~225px and three columns that wide no longer fit beside the
+       name. A shared gutter separates them just as well and costs no width. */
+    .stats {
+        display: flex;
+        gap: 32px;
     }
 
+    .stats > div { text-align: center; }
+
     .stat-value {
-        font-size: 36px;
+        font-size: 54px;
         font-weight: 700;
         font-variant-numeric: tabular-nums;
         line-height: 1;
     }
 
     .stat-label {
-        margin-top: 7px;
-        font-size: 12.5px;
+        margin-top: 11px;
+        font-size: 19px;
         font-weight: 400;
         letter-spacing: 0.09em;
         text-transform: uppercase;
@@ -134,21 +138,21 @@
        the receipt for the numbers above it — a stats card that cites nothing is
        just a claim. */
     .links {
-        margin-top: 26px;
+        margin-top: 34px;
         display: flex;
         justify-content: center;
-        gap: 16px;
+        gap: 22px;
     }
 
     .pill {
         display: inline-flex;
         align-items: center;
-        gap: 10px;
-        padding: 12px 24px;
+        gap: 14px;
+        padding: 17px 34px;
         border: 1px solid #333944;
         border-radius: 999px;
         background: rgba(23, 26, 33, 0.7);
-        font-size: 19px;
+        font-size: 28px;
         font-weight: 600;
         line-height: 1;
     }
@@ -157,15 +161,15 @@
     .pill-gh   { color: #c9ced8; }
 
     .pill .dot {
-        width: 8px;
-        height: 8px;
+        width: 11px;
+        height: 11px;
         border-radius: 50%;
         background: #3fb950;
     }
 
     .pill svg {
-        width: 19px;
-        height: 19px;
+        width: 28px;
+        height: 28px;
         fill: #c9ced8;
     }
 </style>
