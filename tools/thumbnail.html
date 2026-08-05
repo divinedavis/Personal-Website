@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<!-- Template for the LinkedIn Featured thumbnail. make_thumbnail.py substitutes
+     the {{TOKENS}} with live numbers and screenshots this file; it is not served
+     to visitors and is never linked from the site.
+
+     Everything is centred on purpose. LinkedIn shows a Featured link at 1.91:1
+     in some surfaces and crops it toward 4:3 in the profile grid, which eats
+     roughly 180px off each side. A left-aligned domain or a corner logo would
+     survive one layout and vanish in the other, so the composition stays inside
+     the centre 840px where both crops agree. -->
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* The canvas is the exact export size, so the screenshot needs no cropping. */
+    body {
+        width: 1200px;
+        height: 627px;
+        background: #0f1115;
+        font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
+                     'Helvetica Neue', sans-serif;
+        color: #f2f4f8;
+        overflow: hidden;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Two soft off-canvas glows in the site's link and AI accent colours. They
+       keep a flat dark rectangle from reading as a broken image in the feed. */
+    body::before,
+    body::after {
+        content: '';
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(90px);
+    }
+    body::before {
+        width: 620px; height: 620px;
+        top: -300px; left: -180px;
+        background: rgba(111, 176, 255, 0.20);
+    }
+    body::after {
+        width: 560px; height: 560px;
+        bottom: -300px; right: -140px;
+        background: rgba(180, 154, 255, 0.18);
+    }
+
+    .accent-bar {
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 6px;
+        background: linear-gradient(90deg, #6fb0ff 0%, #b49aff 100%);
+    }
+
+    .card {
+        position: relative;
+        text-align: center;
+        width: 840px;          /* the crop-safe centre */
+    }
+
+    .name {
+        font-size: 68px;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        line-height: 1.05;
+    }
+
+    .role {
+        margin-top: 14px;
+        font-size: 25px;
+        font-weight: 400;
+        color: #a8aeba;
+    }
+
+    .rule {
+        width: 90px;
+        height: 3px;
+        margin: 34px auto;
+        border-radius: 2px;
+        background: linear-gradient(90deg, #6fb0ff 0%, #b49aff 100%);
+    }
+
+    /* Equal-width columns rather than equal gaps. "517,912" is three times the
+       width of "22", so a gap-based row centres by arithmetic but reads as
+       left-heavy; fixed columns put the three labels on an even rhythm. */
+    .stats {
+        display: flex;
+        justify-content: center;
+    }
+
+    .stats > div { width: 268px; }
+
+    /* Tabular figures so the three numbers sit on a shared baseline grid
+       instead of drifting with digit widths. */
+    .stat-value {
+        font-size: 52px;
+        font-weight: 700;
+        font-variant-numeric: tabular-nums;
+        line-height: 1;
+        color: #f2f4f8;
+    }
+
+    .stat-label {
+        margin-top: 10px;
+        font-size: 17px;
+        font-weight: 400;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #868d99;
+    }
+
+    .domain {
+        margin-top: 44px;
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        padding: 13px 30px;
+        border: 1px solid #333944;
+        border-radius: 999px;
+        background: rgba(23, 26, 33, 0.7);
+        font-size: 24px;
+        font-weight: 600;
+        color: #6fb0ff;
+    }
+
+    .domain .dot {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: #3fb950;
+    }
+</style>
+</head>
+<body>
+    <div class="accent-bar"></div>
+
+    <div class="card">
+        <div class="name">Divine Davis</div>
+        <div class="role">Engineer &middot; Technical Program Manager</div>
+
+        <div class="rule"></div>
+
+        <div class="stats">
+            <div>
+                <div class="stat-value">{{CONTRIBUTIONS}}</div>
+                <div class="stat-label">Commits / yr</div>
+            </div>
+            <div>
+                <div class="stat-value">{{LOC}}</div>
+                <div class="stat-label">Lines of code</div>
+            </div>
+            <div>
+                <div class="stat-value">{{APPS}}</div>
+                <div class="stat-label">Apps shipped</div>
+            </div>
+        </div>
+
+        <div class="domain"><span class="dot"></span>divinedavis.com</div>
+    </div>
+</body>
+</html>
