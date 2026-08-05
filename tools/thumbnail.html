@@ -113,25 +113,43 @@
         color: #868d99;
     }
 
-    .domain {
+    /* Two pills, not one. The site is the destination and the GitHub handle is
+       the receipt for the numbers above it — a stats card that cites nothing
+       is just a claim. */
+    .links {
         margin-top: 44px;
+        display: flex;
+        justify-content: center;
+        gap: 18px;
+    }
+
+    .pill {
         display: inline-flex;
         align-items: center;
-        gap: 12px;
-        padding: 13px 30px;
+        gap: 11px;
+        padding: 12px 26px;
         border: 1px solid #333944;
         border-radius: 999px;
         background: rgba(23, 26, 33, 0.7);
-        font-size: 24px;
+        font-size: 22px;
         font-weight: 600;
-        color: #6fb0ff;
+        line-height: 1;
     }
 
-    .domain .dot {
+    .pill-site { color: #6fb0ff; }
+    .pill-gh   { color: #c9ced8; }
+
+    .pill .dot {
         width: 9px;
         height: 9px;
         border-radius: 50%;
         background: #3fb950;
+    }
+
+    .pill svg {
+        width: 22px;
+        height: 22px;
+        fill: #c9ced8;
     }
 </style>
 </head>
@@ -159,7 +177,15 @@
             </div>
         </div>
 
-        <div class="domain"><span class="dot"></span>divinedavis.com</div>
+        <div class="links">
+            <div class="pill pill-site"><span class="dot"></span>divinedavis.com</div>
+            <!-- GitHub's official mark, inlined. A remote <img> would render as
+                 a broken box: Chrome screenshots this file from disk. -->
+            <div class="pill pill-gh">
+                <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+                github.com/divinedavis
+            </div>
+        </div>
     </div>
 </body>
 </html>
