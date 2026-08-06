@@ -26,6 +26,7 @@ import sys
 import urllib.error
 import urllib.request
 from datetime import date, datetime, timedelta, timezone
+from zoneinfo import ZoneInfo
 
 USER = "divinedavis"
 YEARS_BACK = 2          # this calendar year plus the two before it
@@ -35,6 +36,11 @@ DEST = "root@159.203.110.79:/var/www/divinedavis/github.json"
 # GitHub 403s the default urllib agent.
 UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/126.0 Safari/537.36")
+
+# The droplet runs UTC, but GitHub buckets contributions in the profile's own
+# timezone. Using the box's date rolls "today" over at 8pm ET and reports a zero
+# for a day that's still being worked on.
+LOCAL_TZ = ZoneInfo("America/New_York")
 
 DAY_RE = re.compile(r'data-date="(\d{4}-\d{2}-\d{2})"[^>]*id="([^"]+)"')
 TIP_RE = re.compile(r'<tool-tip[^>]*for="([^"]+)"[^>]*>(.*?)</tool-tip>', re.S)
@@ -95,7 +101,7 @@ def streaks(days, counts, today):
 
 
 def build():
-    today = date.today()
+    today = datetime.now(LOCAL_TZ).date()
     merged = {}
     for year in range(today.year - YEARS_BACK, today.year + 1):
         merged.update(scrape(f"{year}-01-01", f"{year}-12-31"))
