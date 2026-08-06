@@ -132,6 +132,22 @@
 
                 <article class="portfolio-item">
                     <div class="portfolio-thumb portfolio-thumb-web">
+                        <img src="screenshots/hair-markers.jpg?v=1" alt="Terminal session showing the local medical model answering a question with cited papers" width="960" height="492" loading="lazy" decoding="async">
+                    </div>
+                    <div class="portfolio-body">
+                        <h3>hair-markers &mdash; A Medical Model That Runs Entirely On My Laptop</h3>
+                        <p class="project-date">Private tool</p>
+                        <ul>
+                            <li>Ask it a health question in the terminal and it answers from my own lab results &mdash; it reads the PDFs straight out of my records folder, quotes the actual value and reference range, and picks up a new file the moment I drop one in</li>
+                            <li>Every morning it sweeps PubMed, Europe PMC, medRxiv and ClinicalTrials.gov for research touching my specific markers, files anything new into a local corpus, and writes a digest &mdash; the honest answer most days is &ldquo;nothing here changes anything,&rdquo; which it says plainly instead of manufacturing a finding</li>
+                            <li>No API keys, no cloud, no account &mdash; the whole thing runs offline, and the only thing that ever leaves the machine is a literature search term, never a lab value</li>
+                            <li>Architecture: two open-weight models under Ollama &mdash; II-Medical-8B (a Qwen3-8B medical fine-tune, Q5_K_M) for reasoning and Google&rsquo;s MedGemma 1.5 4B (Q8_0) for reading scans; retrieval is hybrid, fusing SQLite FTS5 BM25 with 768-dim nomic-embed-text vectors through reciprocal rank fusion so a question phrased in plain language still finds the clinically-worded paper; 24k context holds the records, the retrieved abstracts and the conversation at once, and prompt-prefix caching plus suppressed chain-of-thought took a lookup from 75 seconds to under 8 on 16&nbsp;GB of unified memory</li>
+                        </ul>
+                    </div>
+                </article>
+
+                <article class="portfolio-item">
+                    <div class="portfolio-thumb portfolio-thumb-web">
                         <img src="screenshots/health-ai.jpg?v=2" alt="Personal Doctor AI health marker dashboard" width="960" height="885" loading="lazy" decoding="async">
                     </div>
                     <div class="portfolio-body">
