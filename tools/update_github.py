@@ -1,16 +1,18 @@
 #!/usr/bin/env python3
 """Publish divinedavis.com's GitHub contribution numbers as github.json.
 
-GitHub has no public JSON for a contribution calendar, but the fragment that
-renders the grid on a profile page — https://github.com/users/<login>/contributions
-— is public HTML, needs no token, and accepts ?from=&to= to page back through
-earlier years. Scraping that beats the GraphQL API here for one reason: there is
-no secret to keep on the droplet. The trade is that a GitHub markup change breaks
-parsing, so the script refuses to overwrite a good github.json with a bad one
-(see `guard` at the bottom).
+Numbers come from the GraphQL `contributionsCollection`, which needs a token.
+This script originally scraped the public profile fragment instead, precisely so
+that no secret had to live on the droplet — but that fragment is only eventually
+consistent for the *current* day. Measured 2026-08-08: GraphQL reported 14
+contributions and the public API showed 19 push events, while the scrape still
+said "No contributions on August 8th" at 7pm UTC. Every day looked like that —
+today's number surfaced hours late and low, then backfilled overnight — so the
+site's TODAY tile and current streak were wrong for most of each day.
 
-Counts are public contributions only, which is exactly what a visitor to the
-profile would see.
+GraphQL is authoritative in real time. The scrape survives as `scrape()` and is
+used as a fallback when the token is missing or rejected, so an expired token
+degrades to late-but-correct history instead of freezing the file.
 
 Layout of the output is a dense array, not a list of {date, count} objects:
 `counts[i]` is the day `start + i`, so a three-year window is ~4KB of JSON
@@ -20,6 +22,7 @@ Runs from cron on 167.71.170.219 and scp's the result to the web host (159).
 """
 
 import json
+import os
 import re
 import subprocess
 import sys
@@ -32,6 +35,12 @@ USER = "divinedavis"
 YEARS_BACK = 2          # this calendar year plus the two before it
 OUT = "/root/portfolio-stats/github.json"
 DEST = "root@159.203.110.79:/var/www/divinedavis/github.json"
+
+# A classic PAT with NO scopes is enough — contributionsCollection on a public
+# profile needs no permission beyond being authenticated. Kept out of the repo;
+# the droplet reads it from ENV_FILE (mode 0600).
+ENV_FILE = "/root/portfolio-stats/.env"
+GRAPHQL_URL = "https://api.github.com/graphql"
 
 # GitHub 403s the default urllib agent.
 UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
@@ -77,6 +86,69 @@ def scrape(from_date=None, to_date=None):
     return out
 
 
+def token():
+    """The PAT, from the environment or ENV_FILE. None if there isn't one."""
+    tok = os.environ.get("GITHUB_TOKEN")
+    if tok:
+        return tok.strip()
+    try:
+        with open(ENV_FILE) as f:
+            for line in f:
+                key, _, value = line.partition("=")
+                if key.strip() == "GITHUB_TOKEN":
+                    return value.strip().strip("'\"")
+    except OSError:
+        pass
+    return None
+
+
+QUERY = """
+query($login:String!, $from:DateTime, $to:DateTime) {
+  user(login:$login) {
+    contributionsCollection(from:$from, to:$to) {
+      contributionCalendar {
+        weeks { contributionDays { date contributionCount } }
+      }
+    }
+  }
+}
+"""
+
+
+def graphql(tok, from_date=None, to_date=None):
+    """Return {date: count} for one window, straight from the API.
+
+    from/to are plain dates here; GraphQL wants DateTimes, and it clamps any
+    span longer than a year, which is why build() still walks year by year.
+    Omitting both gives GitHub's own trailing-year window — the one the profile
+    headline counts, anchored to a Sunday rather than to today minus 365.
+    """
+    variables = {"login": USER}
+    if from_date and to_date:
+        variables["from"] = f"{from_date}T00:00:00Z"
+        variables["to"] = f"{to_date}T23:59:59Z"
+
+    req = urllib.request.Request(
+        GRAPHQL_URL,
+        data=json.dumps({"query": QUERY, "variables": variables}).encode(),
+        headers={"Authorization": f"bearer {tok}",
+                 "Content-Type": "application/json",
+                 "User-Agent": UA},
+    )
+    with urllib.request.urlopen(req, timeout=30) as r:
+        body = json.load(r)
+
+    # GraphQL reports its own failures inside a 200, so this has to be checked
+    # explicitly or a bad token reads as an empty calendar.
+    if body.get("errors"):
+        raise RuntimeError(body["errors"][0].get("message", "graphql error"))
+
+    weeks = (body["data"]["user"]["contributionsCollection"]
+             ["contributionCalendar"]["weeks"])
+    return {d["date"]: d["contributionCount"]
+            for w in weeks for d in w["contributionDays"]}
+
+
 def streaks(days, counts, today):
     """Current and longest run of consecutive days with at least one commit.
 
@@ -100,11 +172,33 @@ def streaks(days, counts, today):
     return current, longest
 
 
+def source():
+    """Pick the calendar fetcher: GraphQL when we have a working token.
+
+    The probe is a real query, not just "is the token non-empty" — an expired or
+    revoked PAT answers 200 with an errors array, and falling back on that is the
+    whole point of keeping the scraper around.
+    """
+    tok = token()
+    if not tok:
+        print("WARN: no GITHUB_TOKEN — falling back to the scrape, which lags "
+              "for the current day", file=sys.stderr)
+        return scrape
+    try:
+        graphql(tok, "2026-01-01", "2026-01-07")
+    except (urllib.error.URLError, RuntimeError, KeyError, ValueError) as e:
+        print(f"WARN: GITHUB_TOKEN rejected ({e}) — falling back to the scrape",
+              file=sys.stderr)
+        return scrape
+    return lambda f=None, t=None: graphql(tok, f, t)
+
+
 def build():
     today = datetime.now(LOCAL_TZ).date()
+    calendar = source()
     merged = {}
     for year in range(today.year - YEARS_BACK, today.year + 1):
-        merged.update(scrape(f"{year}-01-01", f"{year}-12-31"))
+        merged.update(calendar(f"{year}-01-01", f"{year}-12-31"))
     if not merged:
         raise RuntimeError("no contribution days parsed — markup probably changed")
 
@@ -124,7 +218,7 @@ def build():
     # The headline "N contributions in the last year" comes from the unparameterised
     # window so the site's number is the same one the profile shows — GitHub anchors
     # that window to a Sunday, so summing the trailing 365 days lands slightly off.
-    profile_year = scrape()
+    profile_year = calendar()
     best_i = max(range(len(counts)), key=lambda i: counts[i])
     today_iso = today.isoformat()
     current, longest = streaks(days, counts, today_iso)
@@ -164,11 +258,16 @@ def guard(new):
 
 
 def main():
+    dry_run = "--dry-run" in sys.argv     # for checking a change off the droplet
     try:
         data = build()
     except (urllib.error.URLError, RuntimeError, OSError) as e:
         print(f"fetch/parse failed: {e}", file=sys.stderr)
         return 1
+    if dry_run:
+        print(json.dumps({k: v for k, v in data.items() if k != "counts"},
+                         indent=2))
+        return 0
     if not guard(data):
         return 1
 
