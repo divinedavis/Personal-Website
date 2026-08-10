@@ -193,14 +193,35 @@ def source():
     return lambda f=None, t=None: graphql(tok, f, t)
 
 
+def published():
+    """The last file this script wrote, or None on the first run."""
+    try:
+        with open(OUT) as f:
+            return json.load(f)
+    except (OSError, ValueError):
+        return None
+
+
 def build():
     today = datetime.now(LOCAL_TZ).date()
+    today_iso = today.isoformat()
     calendar = source()
     merged = {}
     for year in range(today.year - YEARS_BACK, today.year + 1):
         merged.update(calendar(f"{year}-01-01", f"{year}-12-31"))
     if not merged:
         raise RuntimeError("no contribution days parsed — markup probably changed")
+
+    # GraphQL isn't immune to the current-day lag either: its replicas disagree
+    # about today. Measured 2026-08-10, alternating runs returned today as 13
+    # and 0 while the trailing-year total kept growing, so TODAY and the streak
+    # flapped all afternoon. A day's count never shrinks while the day is in
+    # progress, so the number already published is a floor for the fresh one.
+    old = published()
+    if old and "start" in old:
+        i = (today - date.fromisoformat(old["start"])).days
+        if 0 <= i < len(old.get("counts", [])):
+            merged[today_iso] = max(merged.get(today_iso, 0), old["counts"][i])
 
     # A calendar-year request returns the whole year, so the current year arrives
     # padded with empty days that haven't happened yet. Left in, they'd read as a
@@ -220,7 +241,6 @@ def build():
     # that window to a Sunday, so summing the trailing 365 days lands slightly off.
     profile_year = calendar()
     best_i = max(range(len(counts)), key=lambda i: counts[i])
-    today_iso = today.isoformat()
     current, longest = streaks(days, counts, today_iso)
 
     return {
