@@ -73,7 +73,6 @@ WEB = [
     ("Polinear",                     "polinear.org"),
     ("SlottingCal",                  "slottingcal.com"),
     ("WorkComp+ for Professionals",  "workcompapp.com"),
-    ("Personal Doctor AI",           "jordanshealthapp.com"),
     ("Crease",                       "crease.divinedavis.com"),
     ("This site",                    "divinedavis.com"),
 ]

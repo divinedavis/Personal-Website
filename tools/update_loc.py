@@ -16,6 +16,11 @@ actually typed — see EXCLUDE_* and COUNT_EXT below. Additions, not net: the
 question is "how many lines have I written", and deleting your own code later
 does not un-write it. Net is reported alongside as `net`.
 
+Only projects worked on this year are counted (any repo with one of Divine's
+commits authored on or after ACTIVE_SINCE — every project, not just shipped
+apps). A qualifying repo contributes its full history: the filter says which
+projects the page is about, not which commits count.
+
 Merge commits are skipped (--no-merges), matching how GitHub attributes work, so
 a merge never double-counts the lines it brings in.
 
@@ -130,6 +135,12 @@ EXCLUDE_SUFFIX = (
 
 TOP_LANGS = 8
 GRAPHQL = "https://api.github.com/graphql"
+
+# A repo is on the page only if Divine authored a commit in it on or after this
+# date. Deliberately a fixed date, not "Jan 1 of the current year": the page
+# says "this year", and rolling the window automatically at new year would
+# silently empty the section until something ships.
+ACTIVE_SINCE = "2026-01-01"
 
 # Written code only ever grows. A total that drops by more than this means the
 # filters or the auth broke, not that history changed — keep the good file.
@@ -250,17 +261,20 @@ def sync(repo, token):
          f"+refs/heads/{branch}:refs/heads/{branch}"])
 
     out = git(["-C", str(path), "log", branch, "--no-merges", "--numstat",
-               "--format=@@%ae|%an"])
+               "--format=@@%ae|%aI|%an"])
 
     add = dele = commits = 0
     langs = Counter()
     mine = False
+    last_authored = ""
     for line in out.splitlines():
         if line.startswith("@@"):
-            email, _, author = line[2:].partition("|")
+            email, date, author = line[2:].split("|", 2)
             mine = email.lower() in EMAILS and author.lower() not in BOT_NAMES
             if mine:
                 commits += 1
+                if date > last_authored:
+                    last_authored = date
             continue
         if not mine or not line.strip():
             continue
@@ -277,7 +291,8 @@ def sync(repo, token):
         langs[lang] += int(a)
 
     return {"head": repo["head"], "added": add, "deleted": dele,
-            "commits": commits, "langs": dict(langs), "private": repo["private"]}
+            "commits": commits, "langs": dict(langs), "private": repo["private"],
+            "last_authored": last_authored}
 
 
 def main():
@@ -311,7 +326,9 @@ def main():
     fresh, changed, failed = {}, [], []
     for repo in repos:
         cached = state.get(repo["name"])
-        if cached and cached.get("head") == repo["head"]:
+        # "last_authored" arrived with the this-year scope: state written before
+        # it lacks the field, so those entries recount once (local git log only).
+        if cached and cached.get("head") == repo["head"] and "last_authored" in cached:
             fresh[repo["name"]] = cached
             continue
         try:
@@ -323,12 +340,17 @@ def main():
             if cached:
                 fresh[repo["name"]] = cached
 
-    total_add = sum(r["added"] for r in fresh.values())
-    total_del = sum(r["deleted"] for r in fresh.values())
-    commits = sum(r["commits"] for r in fresh.values())
+    # Everything counted stays in state (so a repo going quiet costs nothing to
+    # re-admit later), but only this year's projects reach the page.
+    active = [r for r in fresh.values()
+              if r.get("last_authored", "") >= ACTIVE_SINCE]
+
+    total_add = sum(r["added"] for r in active)
+    total_del = sum(r["deleted"] for r in active)
+    commits = sum(r["commits"] for r in active)
 
     langs = Counter()
-    for r in fresh.values():
+    for r in active:
         langs.update(r["langs"])
     ranked = langs.most_common()
     top = [{"name": n, "lines": v} for n, v in ranked[:TOP_LANGS]]
@@ -338,15 +360,19 @@ def main():
 
     # Only the count ships. loc.json is served publicly, and a per-repo
     # breakdown would put private repo names on a public URL.
-    repos_with_code = sum(1 for r in fresh.values() if r["added"] > 0)
+    repos_with_code = sum(1 for r in active if r["added"] > 0)
 
+    # The guard only makes sense against a file with the same scope: narrowing
+    # the scope legitimately drops the total once, and that is not breakage.
     prev = json.loads(OUT_PATH.read_text()) if OUT_PATH.exists() else None
-    if prev and prev.get("added") and total_add < prev["added"] * DROP_GUARD:
+    if (prev and prev.get("added") and prev.get("scope") == ACTIVE_SINCE
+            and total_add < prev["added"] * DROP_GUARD):
         log(f"REFUSING: total fell {prev['added']:,} -> {total_add:,} "
             f"({len(failed)} repos failed); keeping the previous loc.json")
         return 1
 
     payload = {
+        "scope": ACTIVE_SINCE,
         "added": total_add,
         "deleted": total_del,
         "net": total_add - total_del,
