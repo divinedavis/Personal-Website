@@ -43,9 +43,9 @@
                         </table>
                         <p class="project-channels"><span>Google Analytics 4</span><span>Google Ads &mdash; running now</span><span>Google Search Console &mdash; emails me a weekly search report</span><span>Google AdSense &mdash; waiting on approval</span></p>
                         <ul>
-                            <li>A map of every apartment building in New York City, San Francisco, and Los Angeles where the law caps the rent, checked each night for new openings</li>
-                            <li>Every building shows who owns it, who manages it, and what the city has cited it for, and $4.99 a month adds email alerts and agent phone numbers</li>
-                            <li>Stack: single-file Leaflet map, Supabase (Auth + Postgres) for accounts and analytics, live Stripe subscriptions, a key-metered developer REST API, a nightly Apify refresh, and nginx on DigitalOcean</li>
+                            <li>A map of every rent-capped apartment building in NYC, San Francisco, and LA, checked nightly for new openings</li>
+                            <li>Each building shows its owner, manager, and city violations; $4.99/month adds email alerts and agent phone numbers</li>
+                            <li>Stack: single-file Leaflet map, Supabase (Auth + Postgres), Stripe subscriptions, a key-metered REST API, nightly Apify refresh, and nginx on DigitalOcean</li>
                         </ul>
                         <a href="https://findacrib.com" target="_blank">Visit Live Site &rarr;</a> &nbsp;&nbsp;
                         <a href="https://github.com/divinedavis/Find-A-Crib" target="_blank">View on GitHub &rarr;</a>
@@ -60,10 +60,10 @@
                         <h3>divine-health &mdash; A Health Model That Runs Entirely On My Laptop</h3>
                         <p class="project-date">Private tool</p>
                         <ul>
-                            <li>Ask it anything about my health in the terminal and it answers from my own records &mdash; it reads the lab PDFs straight out of my files, quotes the actual value and reference range, tracks a marker across years of draws, and picks up a new report the moment I drop one in</li>
-                            <li>Every morning it sweeps PubMed, Europe PMC, medRxiv and ClinicalTrials.gov for research on whatever I am actually trying to work out &mdash; the topics live in a plain-text list I edit, crossed automatically with every marker that has a value, so adding a line changes tomorrow&rsquo;s search with no code touched</li>
-                            <li>No API keys, no cloud, no account &mdash; the whole thing runs offline, and the only thing that ever leaves the machine is a literature search term, never a lab value; a pre-commit hook blocks health data from reaching git by both path and content</li>
-                            <li>Architecture: two open-weight models under Ollama &mdash; II-Medical-8B (a Qwen3-8B medical fine-tune, Q5_K_M) for reasoning and Google&rsquo;s MedGemma 1.5 4B (Q8_0) for reading scans; retrieval is hybrid, fusing SQLite FTS5 BM25 with 768-dim nomic-embed-text vectors through reciprocal rank fusion so a question phrased in plain language still finds the clinically-worded paper; 24k context holds the records, the retrieved abstracts and the conversation at once, and prompt-prefix caching plus suppressed chain-of-thought took a lookup from 75 seconds to under 8 on 16&nbsp;GB of unified memory</li>
+                            <li>Ask it anything about my health in the terminal and it answers from my own lab PDFs &mdash; actual values, reference ranges, and a marker&rsquo;s history across years of draws</li>
+                            <li>Sweeps PubMed, Europe PMC, medRxiv and ClinicalTrials.gov every morning, crossing my topics with my markers &mdash; edit a text file and tomorrow&rsquo;s search changes</li>
+                            <li>Fully offline, no API keys or accounts &mdash; only a search term ever leaves the machine, and a pre-commit hook keeps health data out of git</li>
+                            <li>Architecture: II-Medical-8B for reasoning and MedGemma 1.5 4B for scans under Ollama, hybrid BM25 + vector retrieval with rank fusion, and prompt caching that cut a lookup from 75 seconds to under 8 on 16&nbsp;GB</li>
                         </ul>
                     </div>
                 </article>
@@ -75,11 +75,11 @@
                     <div class="portfolio-body">
                         <h3>Gridiron Odds &mdash; NFL Picks That Retrain Themselves Every Morning</h3>
                         <ul>
-                            <li>Picks the winner of every NFL game with a win probability, and re-runs itself each morning at 6:30 with fresh injury reports and stadium weather forecasts before anyone looks at it</li>
-                            <li>Honest about its ceiling: 65% of all games correct across 3,000+ backtested games from 2015&ndash;2025 (Vegas manages 66%), so instead of overclaiming it stars only its confident picks &mdash; and those hit 73% historically</li>
-                            <li>Every player at QB, RB, WR and TE carries his own rolling performance rating, so a star ruled Out moves his team&rsquo;s number by how much he actually plays, not by a flat penalty</li>
-                            <li>Click any game and it explains the pick in plain English &mdash; ratings gap, recent form, rest, who&rsquo;s hurt, and the forecast if the roof is open</li>
-                            <li>Stack: Python, a 538-style Elo blended with XGBoost, walk-forward backtesting (no peeking at the future), nflverse play-by-play data, Open-Meteo forecasts, and a static page rebuilt daily by cron behind nginx on DigitalOcean</li>
+                            <li>Picks every NFL game with a win probability, retraining each morning at 6:30 on fresh injury reports and stadium weather</li>
+                            <li>Honest about its ceiling: 65% accurate over 3,000+ backtested games (Vegas: 66%), so it stars only its confident picks &mdash; those hit 73%</li>
+                            <li>Every QB, RB, WR and TE carries a rolling performance rating, so a star ruled Out moves the number by how much he actually plays</li>
+                            <li>Click any game for the why: ratings gap, form, rest, injuries, and the forecast if the roof is open</li>
+                            <li>Stack: Python, 538-style Elo blended with XGBoost, walk-forward backtesting, nflverse data, Open-Meteo forecasts, and a daily cron rebuild behind nginx on DigitalOcean</li>
                         </ul>
                         <a href="http://104.248.12.129/nfl/" target="_blank">Visit Live Site &rarr;</a>
                     </div>
@@ -104,9 +104,9 @@
                         </table>
                         <p class="project-channels"><span>Google Analytics 4</span><span>Google Search Console &mdash; verified</span></p>
                         <ul>
-                            <li>A website, online booking, and an AI assistant that answers the phone for a gutter company in York County, PA, live and taking real customers</li>
-                            <li>Gutter work depends on the weather, so the site checks the forecast before offering you a time and moves the job itself if rain is coming</li>
-                            <li>Stack: Node/Express + SQLite on DigitalOcean, an ElevenLabs voice agent that performs no date arithmetic of its own, the National Weather Service API, Google Workspace SMTP with ICS invites, and a Python cron for SEO</li>
+                            <li>Website, online booking, and an AI assistant that answers the phone for a gutter company in York County, PA &mdash; live and taking real customers</li>
+                            <li>Checks the forecast before offering a time slot and moves the job itself if rain is coming</li>
+                            <li>Stack: Node/Express + SQLite on DigitalOcean, an ElevenLabs voice agent, the National Weather Service API, Google Workspace SMTP with ICS invites, and a Python SEO cron</li>
                         </ul>
                         <a href="https://nemoseamlessgutter.com" target="_blank">Visit NEMO Seamless Gutter &rarr;</a> &nbsp;&nbsp;<a href="https://github.com/divinedavis/nemo-seamless-gutter" target="_blank">View on GitHub &rarr;</a>
                     </div>
@@ -120,10 +120,10 @@
                         <h3>Arina Tanacheva &mdash; A Business Card That Lives at a Web Address</h3>
                         <p class="project-date">Client work</p>
                         <ul>
-                            <li>A digital business card for an acquisitions associate at a Brooklyn private equity firm &mdash; one link and one QR code doing the job the paper card used to do</li>
-                            <li>Every number dials when you tap it, and Save Contact drops a proper contact card into the phone, so nobody retypes a digit wrong</li>
-                            <li>Built to her firm&rsquo;s existing card design, rebuilt in the layout she picked, and sized so the card holds its exact proportions on any screen instead of reflowing like a web page</li>
-                            <li>Stack: one static page on nginx and DigitalOcean, portrait cut out of the printed card and embedded in the file itself, no JavaScript and nothing loaded from anywhere else, so it opens on bad reception in a lobby</li>
+                            <li>A digital business card for a Brooklyn private-equity acquisitions associate &mdash; one link and a QR code replace the paper card</li>
+                            <li>Every number dials on tap, and Save Contact drops a real contact card into the phone</li>
+                            <li>Matches the firm&rsquo;s printed card design and holds its exact proportions on any screen</li>
+                            <li>Stack: one static page on nginx and DigitalOcean, portrait embedded in the file, zero JavaScript &mdash; opens on bad reception in a lobby</li>
                         </ul>
                         <a href="https://arinatanacheva.com" target="_blank">Visit the Card &rarr;</a>
                     </div>
@@ -137,9 +137,9 @@
                         <h3>Jordan&rsquo;s Job Finder &mdash; A Job Search That Runs Itself</h3>
                         <p class="project-channels"><span>Google Ads &mdash; running now, and it tracks sign-ups</span></p>
                         <ul>
-                            <li>Checks more than 340 company job pages every day and keeps only the senior product and program manager jobs that fit your city, pay, and level</li>
-                            <li>You set up your search once and get a short list by email each morning, so you see a handful of real matches instead of hundreds of postings</li>
-                            <li>Stack: Flask + Jinja2, SQLAlchemy / SQLite, Requests + BeautifulSoup + Playwright scrapers, Gunicorn + nginx on DigitalOcean, and a daily cron pipeline</li>
+                            <li>Checks 340+ company job pages daily and keeps only the senior product and program manager roles that fit your city, pay, and level</li>
+                            <li>Set up your search once and get a short email list each morning &mdash; a handful of real matches, not hundreds of postings</li>
+                            <li>Stack: Flask + Jinja2, SQLAlchemy / SQLite, BeautifulSoup + Playwright scrapers, Gunicorn + nginx on DigitalOcean, and a daily cron pipeline</li>
                         </ul>
                         <a href="https://jordansjobfinder.com" target="_blank">Visit Live Site &rarr;</a> &nbsp;&nbsp;
                         <a href="https://github.com/divinedavis/JordansJobFinder" target="_blank">View on GitHub &rarr;</a>
@@ -155,9 +155,9 @@
                         <p class="project-metrics"><strong data-stat="bc_total">82</strong> people have signed up (<strong data-stat="bc_players">58</strong> players, <strong data-stat="bc_coaches">24</strong> coaches)</p>
                         <p class="project-channels"><span>Google Analytics 4</span><span>Google Search Console &mdash; verified</span></p>
                         <ul>
-                            <li>Gives a high school football player one page with their highlight video, stats, and contact details, so college coaches find it all in one place</li>
-                            <li>Players and coaches message each other instantly, and sharing a profile in a text shows a real preview instead of a bare link</li>
-                            <li>Stack: FastAPI, SQLite, Jinja2 templates, a DigitalOcean Spaces + CDN video pipeline, and nginx + Let&rsquo;s Encrypt SSL on DigitalOcean</li>
+                            <li>One page per high school player &mdash; highlight video, stats, and contact details &mdash; so college coaches find it all in one place</li>
+                            <li>Players and coaches message instantly, and a profile shared in a text shows a real preview, not a bare link</li>
+                            <li>Stack: FastAPI, SQLite, Jinja2, a DigitalOcean Spaces + CDN video pipeline, and nginx + Let&rsquo;s Encrypt on DigitalOcean</li>
                         </ul>
                         <a href="https://caprecruiting.com" target="_blank">Visit Live Site &rarr;</a> &nbsp;&nbsp;
                         <a href="https://github.com/divinedavis/CAPRecruiting" target="_blank">View on GitHub &rarr;</a>
@@ -172,10 +172,10 @@
                         <h3>Kinnkolk &mdash; Shared Family Tree</h3>
                         <p class="project-date">Private app</p>
                         <ul>
-                            <li>One family tree the whole family adds to, drawn out by generation with marriages, parents and children, and whose birthday is coming up</li>
-                            <li>An edit shows up on everyone else&rsquo;s screen right away, and you can plan a reunion, RSVP, and look relatives up in public records</li>
+                            <li>One shared family tree drawn by generation &mdash; marriages, parents, children, and whose birthday is next</li>
+                            <li>Edits appear on everyone&rsquo;s screen instantly; plan reunions, RSVP, and look relatives up in public records</li>
                             <li>Stack: single-file vanilla JS, Supabase (Auth + Postgres RLS + Realtime), Photon / OpenStreetMap geocoding, and nginx + Let&rsquo;s Encrypt on DigitalOcean</li>
-                            <li>Private app &mdash; invite-only for family, so there is no public link</li>
+                            <li>Invite-only for family &mdash; no public link</li>
                         </ul>
                     </div>
                 </article>
@@ -188,11 +188,11 @@
                         <h3>Crease &mdash; Dry Cleaning Picked Up and Delivered (iPhone App + Shop Portal)</h3>
                         <p class="project-date">TestFlight</p>
                         <ul>
-                            <li>You book a pickup, a courier takes your bag to a partner cleaner, and a second courier brings it back &mdash; two separate trips, because no delivery network will hold a package for the two days a cleaner needs it</li>
-                            <li>Nobody can price a bag before opening it, so the card is authorised at checkout and only charged once the shop has counted; if the count lands above the hold the order stops and asks you rather than quietly charging more</li>
-                            <li>The shop portal is built for a tablet on a counter, operated one-handed &mdash; the total updates as the counter types, next to the customer&rsquo;s original estimate, so an unusual gap is obvious in the moment instead of in a dispute two days later</li>
-                            <li>Live courier quotes made the economics measurable rather than assumed: $12.99 a leg in Brooklyn, $25.98 a round trip &mdash; 78% of a median order&rsquo;s cleaning value, which is the number the whole business turns on</li>
-                            <li>Stack: SwiftUI (iOS 17+), Next.js portal, a Fastify dispatch service on DigitalOcean, Supabase Postgres with RLS, Stripe authorise-then-capture plus Connect payouts, and Uber Direct behind a carrier interface with a simulator standing in for it</li>
+                            <li>Book a pickup, one courier takes your bag to the cleaner, a second brings it back &mdash; two trips, because no delivery network will hold a package for two days</li>
+                            <li>Nobody can price a bag before opening it, so the card is authorised at checkout and charged only after the shop counts; a count above the hold stops and asks instead of quietly charging more</li>
+                            <li>The shop portal runs one-handed on a counter tablet &mdash; the running total sits next to the customer&rsquo;s estimate, so a gap is obvious in the moment, not in a dispute two days later</li>
+                            <li>Live courier quotes measured the economics: $25.98 a Brooklyn round trip &mdash; 78% of a median order&rsquo;s cleaning value, the number the whole business turns on</li>
+                            <li>Stack: SwiftUI (iOS 17+), Next.js portal, a Fastify dispatch service on DigitalOcean, Supabase Postgres with RLS, Stripe authorise-then-capture plus Connect payouts, and Uber Direct behind a carrier interface</li>
                         </ul>
                         <a href="https://crease.divinedavis.com" target="_blank">Visit Live Site &rarr;</a> &nbsp;&nbsp;
                         <a href="https://github.com/divinedavis/Crease" target="_blank">View on GitHub &rarr;</a>
@@ -207,9 +207,9 @@
                         <h3>Spendcap &mdash; Know the Moment You&rsquo;re Over Budget (iPhone App)</h3>
                         <p class="project-date">TestFlight</p>
                         <ul>
-                            <li>You pick one number, a daily spending cap, and connect your bank; the app watches the day&rsquo;s spending against it</li>
-                            <li>Most budgeting apps tell you what you overspent on last month &mdash; this one taps you on the shoulder at 80% and again at 100%, while you can still do something about it</li>
-                            <li>Stack: SwiftUI (iOS 17+), Plaid for bank transactions, Supabase (Postgres with RLS + Edge Functions + hourly pg_cron sync), and APNs push, with the bank access tokens kept server-side only</li>
+                            <li>Pick one number &mdash; a daily spending cap &mdash; connect your bank, and the app watches the day against it</li>
+                            <li>Taps you on the shoulder at 80% and again at 100%, while you can still do something about it &mdash; not a report next month</li>
+                            <li>Stack: SwiftUI (iOS 17+), Plaid, Supabase (Postgres RLS + Edge Functions + hourly pg_cron sync), and APNs push, with bank tokens kept server-side only</li>
                         </ul>
                         <a href="https://github.com/divinedavis/spendcap" target="_blank">View on GitHub &rarr;</a>
                     </div>
@@ -223,8 +223,8 @@
                         <h3>Encounter &mdash; Records System for a Disability Support Agency</h3>
                         <p class="project-date">Synthetic-data MVP</p>
                         <ul>
-                            <li>Replaces the paper forms at a Pennsylvania agency that supports people with disabilities: visit notes, goals, scheduling, and proof a caregiver showed up</li>
-                            <li>Everyone sees only what their job allows, notes can be spoken instead of typed, the app switches between English and Spanish, and state reports save as a PDF</li>
+                            <li>Replaces the paper forms at a Pennsylvania disability-support agency: visit notes, goals, scheduling, and proof a caregiver showed up</li>
+                            <li>Role-based access, spoken notes, English/Spanish switching, and state reports that save as a PDF</li>
                             <li>Stack: Next.js 15 (App Router) + TypeScript, Tailwind + shadcn/ui, Prisma + Postgres, Auth.js v5, and @react-pdf/renderer</li>
                         </ul>
                         <a href="https://encountersystem.com" target="_blank">Visit Live Site &rarr;</a>
