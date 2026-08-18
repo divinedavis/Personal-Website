@@ -59,6 +59,7 @@
                     <div class="portfolio-body">
                         <h3>Crease &mdash; Dry Cleaning Picked Up and Delivered (iPhone App + Shop Portal)</h3>
                         <p class="project-date">TestFlight</p>
+                        <p class="project-metrics"><strong data-stat="crease_total">479</strong> Brooklyn shops mapped (<strong data-stat="crease_dry_cleaners">146</strong> dry cleaners, <strong data-stat="crease_laundromats">333</strong> laundromats) &mdash; <strong data-stat="crease_contacted">5</strong> visited, <strong data-stat="crease_interested">1</strong> interested, <strong data-stat="crease_following_up">3</strong> to follow up, <strong data-stat="crease_declined">1</strong> declined</p>
                         <ul>
                             <li>Book a pickup, one courier takes your bag to the cleaner, a second brings it back &mdash; two trips, because no delivery network will hold a package for two days</li>
                             <li>Nobody can price a bag before opening it, so the card is authorised at checkout and charged only after the shop counts; a count above the hold stops and asks instead of quietly charging more</li>
@@ -309,6 +310,29 @@
                 Object.keys(d).forEach(function (key) {
                     var nodes = document.querySelectorAll('[data-stat="' + key + '"]');
                     for (var i = 0; i < nodes.length; i++) { nodes[i].textContent = d[key]; }
+                });
+            })
+            .catch(function () {});
+    })();
+    </script>
+    <!-- Crease canvass counters, read live from the dispatch API instead of the
+         daily stats.json: these change while he is standing at a shop counter,
+         and a figure a day behind would be wrong on exactly the days it moves.
+         The API caches for 60s and the HTML above carries the last-known
+         numbers, so a page load costs nothing and a dead API shows stale
+         rather than blank. -->
+    <script>
+    (function () {
+        fetch('https://api.usecreaseapp.com/public/canvass-stats')
+            .then(function (r) { return r.ok ? r.json() : null; })
+            .then(function (d) {
+                if (!d) return;
+                Object.keys(d).forEach(function (key) {
+                    var nodes = document.querySelectorAll('[data-stat="crease_' + key + '"]');
+                    for (var i = 0; i < nodes.length; i++) {
+                        nodes[i].textContent =
+                            typeof d[key] === 'number' ? d[key].toLocaleString() : d[key];
+                    }
                 });
             })
             .catch(function () {});
