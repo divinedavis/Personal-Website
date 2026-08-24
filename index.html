@@ -86,6 +86,67 @@
                 <div class="gh-table-wrap" data-gh-table hidden></div>
             </section>
 
+
+            <!-- Where the activity above ranks against other New York accounts.
+                 Every number is a last-known value that nycrank.js overwrites
+                 from nycrank.json, so this reads correctly with JS off. The
+                 ladder is deliberately four rungs and not one headline: the
+                 rank falls as the bar rises, and hiding that would make the
+                 top line a boast instead of a measurement. -->
+            <section class="nyc" id="nyc-rank">
+                <div class="gh-head">
+                    <h2>Where that ranks in New York</h2>
+                    <span class="loc-scope">measured against a live sample, not claimed</span>
+                </div>
+
+                <div class="gh-hero">
+                    <span class="gh-hero-value" data-nyc-stat="top_pct">Top 2%</span>
+                    <span class="gh-hero-label">of New York developers on GitHub, by commits in the last six months</span>
+                </div>
+
+                <div class="gh-stats">
+                    <div>
+                        <span class="gh-stat-label">My commits</span>
+                        <span class="gh-stat-value" data-nyc-stat="commits">1,791</span>
+                        <span class="gh-stat-note">last six months</span>
+                    </div>
+                    <div>
+                        <span class="gh-stat-label">Days I shipped</span>
+                        <span class="gh-stat-value" data-nyc-stat="active_days">166</span>
+                        <span class="gh-stat-note" data-nyc-days-note>of 184 days</span>
+                    </div>
+                    <div>
+                        <span class="gh-stat-label">New Yorkers ahead</span>
+                        <span class="gh-stat-value" data-nyc-stat="above">455</span>
+                        <span class="gh-stat-note">accounts, citywide</span>
+                    </div>
+                    <div>
+                        <span class="gh-stat-label">Median New Yorker</span>
+                        <span class="gh-stat-value" data-nyc-stat="median">17</span>
+                        <span class="gh-stat-note">commits, same window</span>
+                    </div>
+                </div>
+
+                <div class="nyc-rows" data-nyc-rows>
+                    <div class="nyc-row is-max"><span class="nyc-label">Everyone with a New York profile who committed at all</span><span class="nyc-track"><span class="nyc-fill" style="width:98.1%"></span></span><span class="nyc-val">98th</span><span class="nyc-pop">24,132 people</span></div>
+                    <div class="nyc-row"><span class="nyc-label">Accounts past 50 commits &mdash; real, in-use accounts</span><span class="nyc-track"><span class="nyc-fill" style="width:94.6%"></span></span><span class="nyc-val">95th</span><span class="nyc-pop">8,440 people</span></div>
+                    <div class="nyc-row"><span class="nyc-label">Accounts committing at a full-time pace</span><span class="nyc-track"><span class="nyc-fill" style="width:82.5%"></span></span><span class="nyc-val">83rd</span><span class="nyc-pop">2,595 people</span></div>
+                    <div class="nyc-row"><span class="nyc-label">Accounts past 1,000 commits in six months</span><span class="nyc-track"><span class="nyc-fill" style="width:42.9%"></span></span><span class="nyc-val">43rd</span><span class="nyc-pop">798 people</span></div>
+                </div>
+
+                <div class="gh-foot">
+                    <p class="loc-note">Recomputed every morning against a stratified random sample of
+                        <strong data-nyc-sample>965</strong> of the
+                        <strong data-nyc-frame-pop>110,157</strong> GitHub accounts whose profile
+                        location says New York, drawn fresh each month and weighted back to the full
+                        population. Public commits only, on both sides &mdash; my private work is
+                        excluded, because nobody else&rsquo;s private work is visible to count.
+                        Commit count measures output, not judgment, and it is trivially inflatable;
+                        the ladder is here so you can pick the bar you find convincing.</p>
+                    <time class="gh-stamp" data-nyc-stamp></time>
+                </div>
+            </section>
+
             <!-- Weekly rhythm and Lines of code share a row: neither fills the
                  measure on its own, and both are bar lists in the same hue at
                  the same scale, so they read as one comparison rather than two
@@ -253,6 +314,7 @@
     </div>
     <script src="github-activity.js?v=3" defer></script>
     <script src="loc.js?v=1" defer></script>
+    <script src="nycrank.js?v=1" defer></script>
     <script src="apps.js?v=1" defer></script>
 </body>
 </html>

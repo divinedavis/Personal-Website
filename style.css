@@ -1243,3 +1243,90 @@ html[data-theme="dark"] {
         display: none;
     }
 }
+
+/* Where that ranks in New York — four percentile bars in the same single green
+   as every other bar on the page. These differ from the magnitude bars above in
+   one way that matters: a percentile is a fraction of a fixed 100, not of the
+   largest value in the set, so the track is drawn rather than left invisible.
+   Without it "43rd" and "98th" are just two bars of different length with no
+   scale behind them. Population sits after the value, in the muted token, so
+   the row reads label -> bar -> rank -> how many people that rank is out of. */
+.nyc {
+    margin-top: 56px;
+}
+
+.nyc-rows {
+    display: grid;
+    gap: 10px;
+    margin-top: 24px;
+    max-width: 720px;
+}
+
+.nyc-row {
+    display: grid;
+    grid-template-columns: minmax(0, 20em) 1fr 3.2em 7em;
+    align-items: center;
+    gap: 12px;
+}
+
+.nyc-label {
+    font-size: 0.85em;
+    color: var(--muted-3);
+    line-height: 1.4;
+}
+
+.nyc-track {
+    display: block;
+    height: 10px;
+    background: var(--rule-soft);
+    border-radius: 3px;
+}
+
+/* Square at the baseline it grows from, rounded at the data end. */
+.nyc-fill {
+    display: block;
+    height: 100%;
+    background: var(--gh-bar);
+    border-radius: 0 3px 3px 0;
+}
+
+.nyc-val {
+    font-size: 0.85em;
+    text-align: right;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+}
+
+.nyc-pop {
+    font-size: 0.78em;
+    text-align: right;
+    color: var(--muted-3);
+    font-variant-numeric: tabular-nums;
+}
+
+.nyc-row.is-max .nyc-label,
+.nyc-row.is-max .nyc-val {
+    color: var(--text-strong);
+    font-weight: 600;
+}
+
+.nyc .loc-note {
+    margin-top: 4px;
+}
+
+/* Phones: the four-column row can't hold a sentence-length label, so the label
+   takes its own line and the bar keeps the rank and count beside it. */
+@media (max-width: 640px) {
+    .nyc-row {
+        grid-template-columns: 1fr 3.2em;
+        grid-template-areas:
+            "label label"
+            "track val";
+        gap: 6px 10px;
+    }
+
+    .nyc-label { grid-area: label; }
+    .nyc-track { grid-area: track; }
+    .nyc-val   { grid-area: val; }
+    .nyc-pop   { display: none; }
+}

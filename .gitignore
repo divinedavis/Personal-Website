@@ -29,6 +29,14 @@ github.json
 stats.json
 loc.json
 apps.json
+nycrank.json
+
+# The NYC ranking panel: real people's GitHub logins, sampled on the droplet.
+# The repo is public and they did not opt into being listed in it, so the panel
+# stays on the box and only the aggregates it produces get published.
+nyc-cohort.json
+tools/nyc-cohort.json
+tools/nycrank.json
 
 # Bare mirrors + per-repo cache the lines-of-code counter keeps on the droplet.
 tools/loc-repos/
