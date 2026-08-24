@@ -90,9 +90,9 @@
             <!-- Where the activity above ranks against other New York accounts.
                  Every number is a last-known value that nycrank.js overwrites
                  from nycrank.json, so this reads correctly with JS off. The
-                 ladder is deliberately four rungs and not one headline: the
-                 rank falls as the bar rises, and hiding that would make the
-                 top line a boast instead of a measurement. -->
+                 percentile and the median both come from the widest cohort the
+                 generator publishes: every New York account that committed at
+                 all in the window. -->
             <section class="nyc" id="nyc-rank">
                 <div class="gh-head">
                     <h2>Where that ranks in New York</h2>
@@ -127,22 +127,7 @@
                     </div>
                 </div>
 
-                <div class="nyc-rows" data-nyc-rows>
-                    <div class="nyc-row is-max"><span class="nyc-label">Everyone with a New York profile who committed at all</span><span class="nyc-track"><span class="nyc-fill" style="width:98.1%"></span></span><span class="nyc-val">98th</span><span class="nyc-pop">24,132 people</span></div>
-                    <div class="nyc-row"><span class="nyc-label">Accounts past 50 commits &mdash; real, in-use accounts</span><span class="nyc-track"><span class="nyc-fill" style="width:94.6%"></span></span><span class="nyc-val">95th</span><span class="nyc-pop">8,440 people</span></div>
-                    <div class="nyc-row"><span class="nyc-label">Accounts committing at a full-time pace</span><span class="nyc-track"><span class="nyc-fill" style="width:82.5%"></span></span><span class="nyc-val">83rd</span><span class="nyc-pop">2,595 people</span></div>
-                    <div class="nyc-row"><span class="nyc-label">Accounts past 1,000 commits in six months</span><span class="nyc-track"><span class="nyc-fill" style="width:42.9%"></span></span><span class="nyc-val">43rd</span><span class="nyc-pop">798 people</span></div>
-                </div>
-
                 <div class="gh-foot">
-                    <p class="loc-note">Recomputed every morning against a stratified random sample of
-                        <strong data-nyc-sample>965</strong> of the
-                        <strong data-nyc-frame-pop>110,157</strong> GitHub accounts whose profile
-                        location says New York, drawn fresh each month and weighted back to the full
-                        population. Public commits only, on both sides &mdash; my private work is
-                        excluded, because nobody else&rsquo;s private work is visible to count.
-                        Commit count measures output, not judgment, and it is trivially inflatable;
-                        the ladder is here so you can pick the bar you find convincing.</p>
                     <time class="gh-stamp" data-nyc-stamp></time>
                 </div>
             </section>
