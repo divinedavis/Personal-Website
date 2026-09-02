@@ -567,6 +567,15 @@ main h1 {
     width: 240px;
 }
 
+/* A project shipped as both a site and an app: web thumb on top, phone
+   below, sharing the one thumb column. */
+.portfolio-thumb-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
 /* Featured pinned-to-top portfolio item — bigger thumb, slight
    accent border so it reads as the headline project. */
 .portfolio-item-featured .portfolio-thumb-mobile {

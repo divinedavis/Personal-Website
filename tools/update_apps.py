@@ -59,6 +59,8 @@ BETA = [
     ("Pulse",              "com.divinedavis.pulse"),
     ("Clock In",           "com.divinedavis.ClockIn"),
     ("ShypQuick",          "com.Dev.Shyp-Quick"),
+    ("Less Spent",         "com.divinedavis.lessspent"),
+    ("Find A Crib",        "com.divinedavis.findacrib"),
 ]
 
 # Live web products. Counted only if they answer — see FAIL_STREAK.
@@ -70,10 +72,12 @@ WEB = [
     ("Jordan's Job Finder",          "jordansjobfinder.com"),
     ("Kinnkolk",                     "kinnkolk.com"),
     ("Trent's Fresh Spaces",         "trentsfreshspaces.com"),
-    ("Polinear",                     "polinear.org"),
     ("SlottingCal",                  "slottingcal.com"),
     ("WorkComp+ for Professionals",  "workcompapp.com"),
-    ("Crease",                       "crease.divinedavis.com"),
+    ("Crease",                       "creasenyc.com"),
+    ("Sputter Bets",                 "sputterbets.com"),
+    ("Tech Job Recession Watch",     "divinedavis.com/tech-recession/"),
+    ("Arina Tanacheva",              "arinatanacheva.com"),
     ("This site",                    "divinedavis.com"),
 ]
 
