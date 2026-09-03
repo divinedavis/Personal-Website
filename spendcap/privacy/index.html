@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy — Spendcap</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        .container { max-width: 720px; }
+        h1 { font-size: 1.8em; font-weight: 600; margin-bottom: 8px; color: #000; }
+        h2 { font-size: 1.2em; font-weight: 600; margin-top: 28px; margin-bottom: 10px; color: #000; }
+        p, ul { margin-bottom: 14px; color: #444; }
+        ul { padding-left: 24px; }
+        li { margin-bottom: 6px; }
+        .updated { color: #888; font-size: 0.9em; margin-bottom: 24px; }
+        a { color: #0066cc; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h2 class="site-title">Divine Davis</h2>
+            <nav>
+                <a href="/">Home</a> &raquo;
+                <a href="/portfolio.html">Portfolio</a> &raquo;
+                <a href="/spendcap/privacy/">Privacy</a> &raquo;
+            </nav>
+        </header>
+
+        <main>
+            <h1>Spendcap — Privacy Policy</h1>
+            <p class="updated">Last updated: September 3, 2026</p>
+
+            <p>Spendcap ("the app") is an iOS app that connects to your bank account and tells you when a day's spending crosses a cap you set. Because it works with your financial data, this policy is specific about what is collected, where it lives, who processes it, and how you get rid of it.</p>
+
+            <h2>Information we collect</h2>
+            <ul>
+                <li><strong>Account information</strong> &mdash; the email address and password you sign up with, or the identity Apple or Google shares when you use Sign in with Apple or Google. If you use Apple's Hide My Email, we receive only the relay address.</li>
+                <li><strong>Bank connection data</strong> &mdash; when you connect a bank through Plaid we store the institution name, each account's name, type, and the last four digits of its number, and the account balance. We never see or store your online banking username or password; those go directly to Plaid.</li>
+                <li><strong>Transactions</strong> &mdash; the date, merchant, amount, category, and pending status of transactions on the accounts you connect, typically the last 24 months at first and new ones as they post.</li>
+                <li><strong>Bank statements (optional)</strong> &mdash; if you turn on statements, PDF copies of your monthly statements are fetched from your bank through Plaid and stored so you can open them from the app. Statements contain full account numbers. They are kept in private storage that only your signed-in account can read.</li>
+                <li><strong>Your settings</strong> &mdash; the daily and monthly caps, budget lines, category rules, trips, debt items, and your timezone.</li>
+                <li><strong>Push notification token</strong> &mdash; the device token Apple issues so we can send you the "getting close" and "over cap" alerts, plus a log of which alerts were sent on which day so you are not sent the same one twice.</li>
+            </ul>
+            <p>We do <strong>not</strong> collect advertising identifiers, contacts, location, health data, or anything used to track you across other apps or websites. There are no ads and no analytics SDKs in the app.</p>
+
+            <h2>How we use your information</h2>
+            <p>Solely to run the app: signing you in, mirroring your transactions, totalling the day's spending against your cap, sending the alert, and drawing the charts and budgets you see. We do not sell your information, share it with data brokers, or use it for advertising or credit decisions.</p>
+
+            <h2>Service providers</h2>
+            <ul>
+                <li><strong>Plaid</strong> &mdash; connects the app to your bank and delivers transactions and statements. Plaid has its own end-user privacy policy at <a href="https://plaid.com/legal/#end-user-privacy-policy">plaid.com/legal</a>, and you can see and revoke every connection you have made through Plaid at <a href="https://my.plaid.com">my.plaid.com</a>.</li>
+                <li><strong>Supabase</strong> &mdash; hosts the database, authentication, and file storage that hold everything listed above, in the United States. See <a href="https://supabase.com/privacy">supabase.com/privacy</a>.</li>
+                <li><strong>Apple</strong> &mdash; delivers push notifications and, if you choose it, Sign in with Apple. See <a href="https://www.apple.com/legal/privacy/">apple.com/legal/privacy</a>.</li>
+                <li><strong>Google</strong> &mdash; only if you choose Sign in with Google. See <a href="https://policies.google.com/privacy">policies.google.com/privacy</a>.</li>
+            </ul>
+            <p>Each of these processes data on our behalf and under their own security commitments. We do not share your information with anyone else.</p>
+
+            <h2>Security</h2>
+            <p>The credentials Plaid issues for your bank connection are stored in a table that the app itself can never read; only our server-side functions can. Every table is protected by row-level security so an account can only ever read its own rows. Statement PDFs are served through short-lived links minted for you at the moment you open one. Financial figures are hidden from the iOS app switcher.</p>
+
+            <h2>Data retention and deletion</h2>
+            <p>Your data is kept for as long as your account exists. You can delete your account yourself from <em>Settings &rarr; Delete account</em> inside the app. That removes your account, bank connections, transactions, statements, settings, and push tokens immediately. Disconnecting a bank from Settings removes that connection and its transactions without deleting the account. You can also email the address below and we will delete everything within 30 days.</p>
+
+            <h2>Your choices</h2>
+            <ul>
+                <li>Connect and disconnect banks at any time from Settings.</li>
+                <li>Turn notifications off in iOS Settings; the app keeps working without them.</li>
+                <li>Statements are off until you turn them on and grant the extra permission at your bank.</li>
+                <li>Delete your account from inside the app.</li>
+            </ul>
+
+            <h2>Children</h2>
+            <p>Spendcap is not directed at children under 13, and we do not knowingly collect personal information from anyone under 13.</p>
+
+            <h2>Changes</h2>
+            <p>If this policy changes in a way that matters, the date at the top moves and the change is described here.</p>
+
+            <h2>Contact</h2>
+            <p>Questions about this policy or requests about your data: <a href="mailto:divinejdavis@gmail.com">divinejdavis@gmail.com</a></p>
+        </main>
+    </div>
+</body>
+</html>
