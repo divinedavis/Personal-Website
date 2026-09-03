@@ -78,6 +78,7 @@ WEB = [
     ("Sputter Bets",                 "sputterbets.com"),
     ("Tech Job Recession Watch",     "divinedavis.com/tech-recession/"),
     ("Arina Tanacheva",              "arinatanacheva.com"),
+    ("Skills in Bloom",              "skillsinbloom.com"),
     ("This site",                    "divinedavis.com"),
 ]
 
