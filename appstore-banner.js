@@ -34,7 +34,9 @@
     if (until && Date.now() < until) return;
   } catch (e) { /* private mode: show it, it's just a banner */ }
 
-  fetch('https://itunes.apple.com/lookup?id=' + id + '&country=us')
+  // Apple caches this lookup per URL for hours; an hourly bucket in the query
+  // means a launch shows up here within the hour instead of tomorrow.
+  fetch('https://itunes.apple.com/lookup?id=' + id + '&country=us&_=' + Math.floor(Date.now() / 36e5))
     .then(function (r) { return r.ok ? r.json() : null; })
     .then(function (d) {
       var app = d && d.results && d.results[0];

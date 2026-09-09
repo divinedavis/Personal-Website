@@ -53,13 +53,13 @@ ARTIST_ID = 980132489
 # CanSub AI is deliberately absent — retired 2026-07-26, the ASC record outlives
 # the product.
 BETA = [
+    # Find A Crib went live 2026-09-09 and was pruned the same day.
     ("Crease",             "com.divinedavis.crease"),
     ("Spendcap",           "com.divinedavis.spendcap"),
     ("Lovili",             "com.divinedavis.lovili"),
     ("Pulse",              "com.divinedavis.pulse"),
     ("Clock In",           "com.divinedavis.ClockIn"),
     ("ShypQuick",          "com.Dev.Shyp-Quick"),
-    ("Find A Crib",        "com.divinedavis.findacrib"),
 ]
 
 # Live web products. Counted only if they answer — see FAIL_STREAK.
@@ -90,6 +90,10 @@ def log(msg):
 
 
 def itunes(params):
+    # Apple caches the lookup per URL for hours; a per-run stamp gets a fresh
+    # answer, which is the difference between a launch showing in 15 minutes
+    # and showing tomorrow.
+    params = dict(params, _=int(datetime.now(timezone.utc).timestamp()))
     url = "https://itunes.apple.com/lookup?" + urllib.parse.urlencode(params)
     req = urllib.request.Request(url, headers={"User-Agent": UA})
     with urllib.request.urlopen(req, timeout=TIMEOUT) as r:
