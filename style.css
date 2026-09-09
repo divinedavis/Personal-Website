@@ -1265,3 +1265,84 @@ html[data-theme="dark"] {
 .nyc {
     margin-top: 56px;
 }
+
+/* "Get the iPhone app" banner (appstore-banner.js). Empty and zero-height on
+   every device but iPhone/iPad, where it becomes a compact top strip. */
+.appstore-banner {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--rule);
+    box-shadow: var(--card-shadow);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    color: var(--text);
+}
+
+.appstore-banner-close {
+    flex: none;
+    width: 28px;
+    height: 28px;
+    border: 0;
+    background: transparent;
+    color: var(--muted);
+    font-size: 22px;
+    line-height: 1;
+    padding: 0;
+    cursor: pointer;
+}
+
+.appstore-banner-icon {
+    flex: none;
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    border: 1px solid var(--rule-soft);
+}
+
+.appstore-banner-text {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    line-height: 1.25;
+}
+
+.appstore-banner-text strong {
+    color: var(--text-strong);
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.appstore-banner-text span {
+    font-size: 0.82em;
+    color: var(--muted);
+}
+
+.appstore-banner-cta {
+    flex: none;
+    background: var(--link);
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.9em;
+    padding: 7px 16px;
+    border-radius: 16px;
+    text-decoration: none;
+}
+
+.appstore-banner-cta:hover,
+.appstore-banner-cta:focus {
+    text-decoration: none;
+    filter: brightness(1.1);
+}
+
+/* Portfolio: an entry whose app is on the App Store gets a status line and a
+   store link written by portfolio.html's lookup script. */
+.project-date.is-live {
+    color: var(--chip-ink);
+    font-style: normal;
+    font-weight: 600;
+}

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio - Divine Davis</title>
-    <link rel="stylesheet" href="style.css?v=23">
+    <link rel="stylesheet" href="style.css?v=24">
     <script src="theme.js?v=1"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -37,6 +37,7 @@
                     </div>
                     <div class="portfolio-body">
                         <h3>Find A Crib &mdash; NYC Rent-Stabilized Apartment Finder (Web + iPhone App)</h3>
+                        <p class="project-date" data-app-store="6807549249">iPhone app in TestFlight</p>
                         <div class="metrics-grid">
                         <table class="metrics-table">
                             <caption>Traffic</caption>
@@ -67,7 +68,7 @@
                         <ul>
                             <li>A map of every rent-capped apartment building in NYC, San Francisco, and LA, checked nightly for new openings</li>
                             <li>Each building shows its owner, manager, and city violations; $4.99/month adds email alerts and agent phone numbers</li>
-                            <li>New in September: a StreetEasy-style iPhone app, now in TestFlight &mdash; same map and filters, plus Rent / Stabilized / Vouchers modes, with Apple Look Around street photos and no API keys in the app</li>
+                            <li>New in September: a StreetEasy-style iPhone app &mdash; same map and filters, plus Rent / Stabilized / Vouchers modes, with Apple Look Around street photos and no API keys in the app</li>
                             <li>Stack: single-file Leaflet map, SwiftUI on iOS, Supabase (Auth + Postgres), Stripe subscriptions, a key-metered REST API, nightly Apify refresh, and nginx on DigitalOcean</li>
                         </ul>
                         <a href="https://findacrib.com" target="_blank">Visit Live Site &rarr;</a> &nbsp;&nbsp;
@@ -81,7 +82,7 @@
                     </div>
                     <div class="portfolio-body">
                         <h3>Crease &mdash; Dry Cleaning Picked Up and Delivered (iPhone App + Shop Portal)</h3>
-                        <p class="project-date">TestFlight</p>
+                        <p class="project-date" data-app-store="6797080792">TestFlight</p>
                         <table class="metrics-table">
                             <tbody>
                                 <tr><th scope="row">Brooklyn shops mapped</th><td data-stat="crease_total">479</td></tr>
@@ -129,7 +130,7 @@
                     </div>
                     <div class="portfolio-body">
                         <h3>Spendcap &mdash; Know the Moment You&rsquo;re Over Budget (iPhone App)</h3>
-                        <p class="project-date">TestFlight</p>
+                        <p class="project-date" data-app-store="6792398287">TestFlight</p>
                         <ul>
                             <li>Pick one number &mdash; a daily spending cap &mdash; connect your bank, and the app watches the day against it</li>
                             <li>Taps you on the shoulder at 80% and again at 100%, while you can still do something about it &mdash; not a report next month</li>
@@ -349,6 +350,46 @@
                     for (var i = 0; i < nodes.length; i++) {
                         nodes[i].textContent =
                             typeof d[key] === 'number' ? d[key].toLocaleString() : d[key];
+                    }
+                });
+            })
+            .catch(function () {});
+    })();
+    </script>
+    <!-- App Store status. Each iPhone-app entry carries its App Store id; one
+         public iTunes lookup says which are live, and those entries get an
+         "On the App Store" line and a store link. Ships before approval, turns
+         itself on when the listing appears, needs no edit here. The static
+         text is the last-known state for no-JS visitors. -->
+    <script>
+    (function () {
+        var nodes = document.querySelectorAll('[data-app-store]');
+        if (!nodes.length) return;
+        var ids = Array.prototype.map.call(nodes, function (n) { return n.getAttribute('data-app-store'); });
+        fetch('https://itunes.apple.com/lookup?id=' + ids.join(',') + '&country=us')
+            .then(function (r) { return r.ok ? r.json() : null; })
+            .then(function (d) {
+                if (!d || !d.results) return;
+                d.results.forEach(function (app) {
+                    var node = document.querySelector('[data-app-store="' + app.trackId + '"]');
+                    if (!node || !/^https:\/\/apps\.apple\.com\//.test(app.trackViewUrl || '')) return;
+                    var when = app.releaseDate ? new Date(app.releaseDate)
+                        .toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '';
+                    node.textContent = 'On the App Store' + (when ? ' \u00b7 released ' + when : '');
+                    node.classList.add('is-live');
+                    var body = node.closest('.portfolio-body');
+                    if (!body || body.querySelector('a[href*="apps.apple.com"]')) return;
+                    var link = document.createElement('a');
+                    link.href = app.trackViewUrl;
+                    link.target = '_blank';
+                    link.rel = 'noopener';
+                    link.textContent = 'Download on the App Store \u2192';
+                    var github = body.querySelector('a[href*="github.com"]');
+                    if (github) {
+                        body.insertBefore(link, github);
+                        body.insertBefore(document.createTextNode(' \u00a0\u00a0 '), github);
+                    } else {
+                        body.appendChild(link);
                     }
                 });
             })
