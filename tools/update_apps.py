@@ -59,7 +59,6 @@ BETA = [
     ("Pulse",              "com.divinedavis.pulse"),
     ("Clock In",           "com.divinedavis.ClockIn"),
     ("ShypQuick",          "com.Dev.Shyp-Quick"),
-    ("Less Spent",         "com.divinedavis.lessspent"),
     ("Find A Crib",        "com.divinedavis.findacrib"),
 ]
 
@@ -68,7 +67,6 @@ WEB = [
     ("Find A Crib",                  "findacrib.com"),
     ("Collegiate Athletic Planning", "caprecruiting.com"),
     ("NEMO Seamless Gutter",         "nemoseamlessgutter.com"),
-    ("Encounter",                    "encountersystem.com"),
     ("Jordan's Job Finder",          "jordansjobfinder.com"),
     ("Kinnkolk",                     "kinnkolk.com"),
     ("Trent's Fresh Spaces",         "trentsfreshspaces.com"),
@@ -76,7 +74,6 @@ WEB = [
     ("WorkComp+ for Professionals",  "workcompapp.com"),
     ("Crease",                       "creasenyc.com"),
     ("Sputter Bets",                 "sputterbets.com"),
-    ("Tech Job Recession Watch",     "divinedavis.com/tech-recession/"),
     ("Arina Tanacheva",              "arinatanacheva.com"),
     ("Skills in Bloom",              "skillsinbloom.com"),
     ("This site",                    "divinedavis.com"),
