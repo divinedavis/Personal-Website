@@ -60,6 +60,7 @@ BETA = [
     ("Pulse",              "com.divinedavis.pulse"),
     ("Clock In",           "com.divinedavis.ClockIn"),
     ("ShypQuick",          "com.Dev.Shyp-Quick"),
+    ("Haukley",            "com.haukley.app"),
 ]
 
 # Live web products. Counted only if they answer — see FAIL_STREAK.
@@ -76,6 +77,8 @@ WEB = [
     ("Sputter Bets",                 "sputterbets.com"),
     ("Arina Tanacheva",              "arinatanacheva.com"),
     ("Skills in Bloom",              "skillsinbloom.com"),
+    ("Marracat",                     "marracat.com"),
+    ("Haukley",                      "haukley.com"),
     ("This site",                    "divinedavis.com"),
 ]
 
