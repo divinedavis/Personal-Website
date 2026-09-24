@@ -61,6 +61,7 @@ BETA = [
     ("Clock In",           "com.divinedavis.ClockIn"),
     ("ShypQuick",          "com.Dev.Shyp-Quick"),
     ("Haukley",            "com.haukley.app"),
+    ("Milepost",           "com.divinedavis.milepost"),
 ]
 
 # Live web products. Counted only if they answer — see FAIL_STREAK.

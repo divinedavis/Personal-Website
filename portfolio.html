@@ -103,6 +103,25 @@
 
                 <article class="portfolio-item">
                     <div class="portfolio-thumb portfolio-thumb-mobile">
+                        <img src="screenshots/milepost.jpg?v=1" alt="Milepost recording a run through Prospect Park, with time, average pace and distance under the route" width="202" height="440" loading="lazy" decoding="async">
+                    </div>
+                    <div class="portfolio-body">
+                        <h3>Milepost &mdash; Run, Walk &amp; Ride Tracker (iPhone + Apple Watch App)</h3>
+                        <p class="project-date" data-app-store="6808740421">Approved by Apple &middot; App Store listing going live</p>
+                        <ul>
+                            <li>Press start and your route draws in on the map as you go &mdash; time, pace, distance, mile splits, fastest mile and elevation gain, readable mid-stride</li>
+                            <li>Runs, stroller runs, walks and bike rides; a ride reads in mph, everything else in pace, because a 45-minute mile is a normal walk and a 36 mph descent is a normal ride</li>
+                            <li>An Apple Watch app that records with no phone nearby and adds heart rate; the Dynamic Island and lock screen show the mile in progress with a Pause button, and a recorded voice calls out every mile</li>
+                            <li>No account needed to record. Optional friends see your stats only &mdash; routes never leave the phone, and Apple Health writing is off until you turn it on</li>
+                            <li>Stack: SwiftUI, MapKit, CoreLocation, SwiftData, ActivityKit, HealthKit + WatchConnectivity on watchOS, Sign in with Apple, Supabase (Postgres RLS), and ElevenLabs voice clips rendered once at build time</li>
+                        </ul>
+                        <a href="/milepost/support/">Support &rarr;</a> &nbsp;&nbsp;
+                        <a href="/milepost/privacy/">Privacy &rarr;</a>
+                    </div>
+                </article>
+
+                <article class="portfolio-item">
+                    <div class="portfolio-thumb portfolio-thumb-mobile">
                         <img src="screenshots/crease.jpg?v=1" alt="Crease order list showing two-leg dry cleaning progress" width="202" height="440" loading="lazy" decoding="async">
                     </div>
                     <div class="portfolio-body">
@@ -414,6 +433,7 @@
                         body.insertBefore(link, github);
                         body.insertBefore(document.createTextNode(' \u00a0\u00a0 '), github);
                     } else {
+                        body.appendChild(document.createTextNode(' \u00a0\u00a0 '));
                         body.appendChild(link);
                     }
                 });
