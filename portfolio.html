@@ -107,7 +107,7 @@
                     </div>
                     <div class="portfolio-body">
                         <h3>Milepost &mdash; Run, Walk &amp; Ride Tracker (iPhone + Apple Watch App)</h3>
-                        <p class="project-date" data-app-store="6808740421">Approved by Apple &middot; App Store listing going live</p>
+                        <p class="project-date" data-app-store="6808740421" data-app-platforms="iPhone and Apple Watch">Approved by Apple &middot; App Store listing going live</p>
                         <ul>
                             <li>Press start and your route draws in on the map as you go &mdash; time, pace, distance, mile splits, fastest mile and elevation gain, readable mid-stride</li>
                             <li>Runs, stroller runs, walks and bike rides; a ride reads in mph, everything else in pace, because a 45-minute mile is a normal walk and a 36 mph descent is a normal ride</li>
@@ -419,7 +419,9 @@
                     if (!node || !/^https:\/\/apps\.apple\.com\//.test(app.trackViewUrl || '')) return;
                     var when = app.releaseDate ? new Date(app.releaseDate)
                         .toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '';
-                    node.textContent = 'On the App Store' + (when ? ' \u00b7 released ' + when : '');
+                    var platforms = node.getAttribute('data-app-platforms');
+                    node.textContent = 'On the App Store' + (platforms ? ' for ' + platforms : '') +
+                        (when ? ' \u00b7 released ' + when : '');
                     node.classList.add('is-live');
                     var body = node.closest('.portfolio-body');
                     if (!body || body.querySelector('a[href*="apps.apple.com"]')) return;
