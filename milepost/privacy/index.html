@@ -33,16 +33,16 @@
 
         <main>
             <h1>Milepost — Privacy Policy</h1>
-            <p class="updated">Last updated: September 16, 2026</p>
+            <p class="updated">Last updated: September 24, 2026</p>
 
-            <p>Milepost ("the app") is an iOS and Apple Watch app that records your runs, walks and bike rides: time, distance, pace, mile or kilometre splits, and the route you took. Recording needs no account. An optional friends feature lets you share the stats of your activities with people you accept. There are no ads and no analytics.</p>
+            <p>Milepost ("the app") is an iOS and Apple Watch app that records your runs, walks and bike rides: time, distance, pace, mile or kilometre splits, and the route you took. Recording needs no account. An optional friends feature lets you share the stats of your activities, and if you choose, the streets you covered, with people you accept. There are no ads and no analytics.</p>
 
             <h2>What stays on your phone</h2>
             <ul>
                 <li><strong>Your activities</strong> &mdash; the start time, duration, distance, pace, splits, the GPS points that make up your route, and the title you give each one. These are saved in a database on your phone.</li>
                 <li><strong>Your settings</strong> &mdash; miles or kilometres, voice cues, whether you share with friends, and your Apple Health choices.</li>
             </ul>
-            <p>Routes, GPS points and splits never leave your phone, whether or not you use friends.</p>
+            <p>Routes, GPS points and splits never leave your phone, whether or not you use friends. The one exception is the optional <em>Share streets with friends</em> switch described below, which is off unless you turn it on.</p>
 
             <h2>Apple Watch</h2>
             <p>If you record an activity on your Apple Watch, the watch measures your heart rate and the calories you burn as well as your location, and sends the finished activity to your iPhone over Apple&rsquo;s own encrypted link between your two devices. Nothing recorded on the watch is sent anywhere else. While a workout is running on the watch, your iPhone can show it and pause or end it; that also travels only between your devices.</p>
@@ -57,7 +57,8 @@
             <p>Apple Health is a database on your own device. Everything Milepost writes to it or reads from it stays on your device. Health data is never sent to our server, never shared with your friends, and never used for advertising or analytics. Deleting an activity in Milepost also deletes the workout Milepost wrote for it.</p>
 
             <h2>Location</h2>
-            <p>The app asks for location access when you press Start, and only then. While an activity is being recorded it reads your GPS position, including with the screen off, to measure distance and pace and to draw the route. Recording stops when you press Finish. Location is never read while nothing is being recorded, and it is never sent off the device.</p>
+            <p>The app asks for location access when you press Start, and only then. While an activity is being recorded it reads your GPS position, including with the screen off, to measure distance and pace and to draw the route. Recording stops when you press Finish. Location is never read while nothing is being recorded, and it is never sent off the device unless you turn on <em>Share streets with friends</em>.</p>
+            <p>The Record screen draws your past activities on the map from the routes saved on your phone: orange for streets you covered, darker each time you cover them again. That drawing is made on your phone.</p>
 
             <h2>Friends (optional)</h2>
             <p>If you choose Sign in with Apple to use friends, the following is stored on our server (Supabase, hosted in the United States) and linked to your account:</p>
@@ -66,17 +67,19 @@
                 <li><strong>Your profile</strong> &mdash; the username you pick and an optional display name. Apple offers your name the first time you sign in; it is only used to suggest a display name and is not stored unless you keep it.</li>
                 <li><strong>Your friends</strong> &mdash; who you are friends with, requests sent and received, and people you have blocked.</li>
                 <li><strong>Shared activities</strong> &mdash; for each activity you save while sharing is on: sport, title, start time, distance and moving time. No route, map, GPS point or split.</li>
+                <li><strong>Shared streets</strong> &mdash; only if you turn on <em>Share streets with friends</em> (off by default): for each of your 500 most recent activities, the streets it covered, as the 15-metre squares of a map grid the route passed through, in order, plus its start date. The first and last 200 metres of every activity are removed on your phone before anything is sent, so where you start and finish (usually home) is not shared. No times, speeds, altitude or exact GPS points are sent. Friends see these streets in blue on their map, and in green where they covered the same street.</li>
                 <li><strong>Reports</strong> &mdash; if you report someone, who you reported and the reason you picked.</li>
             </ul>
 
             <h2>Who can see it</h2>
-            <p>People you have accepted as friends see your username, display name and shared activities. Anyone signed in can find you by searching for your username, and sees only your username and display name. Blocking someone ends the friendship and hides you from them. We can see the stored data to run the service and to review reports; it is never sold, never used for advertising, and never shared with anyone else.</p>
+            <p>People you have accepted as friends see your username, display name, shared activities and any streets you share. Anyone signed in can find you by searching for your username, and sees only your username and display name. Blocking someone ends the friendship and hides you from them. We can see the stored data to run the service and to review reports; it is never sold, never used for advertising, and never shared with anyone else.</p>
 
             <h2>Deleting your data</h2>
             <ul>
                 <li>Delete any activity from the Block tab; if it was shared, it is deleted from the server too.</li>
-                <li>Turn off <em>Share activities with friends</em> on the You tab to delete every activity you have shared.</li>
-                <li><em>Delete account</em> on the You tab deletes your account, profile, friendships and shared activities from the server immediately. Activities on your phone stay until you delete them or the app.</li>
+                <li>Turn off <em>Share streets with friends</em> on the You tab to delete every street you have shared.</li>
+                <li>Turn off <em>Share activities with friends</em> on the You tab to delete every activity and street you have shared.</li>
+                <li><em>Delete account</em> on the You tab deletes your account, profile, friendships, shared activities and shared streets from the server immediately. Activities on your phone stay until you delete them or the app.</li>
             </ul>
 
             <h2>Children</h2>
