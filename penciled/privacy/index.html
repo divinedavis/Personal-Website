@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy — Penciled</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        .container { max-width: 720px; }
+        h1 { font-size: 1.8em; font-weight: 600; margin-bottom: 8px; color: #000; }
+        h2 { font-size: 1.2em; font-weight: 600; margin-top: 28px; margin-bottom: 10px; color: #000; }
+        p, ul { margin-bottom: 14px; color: #444; }
+        ul { padding-left: 24px; }
+        li { margin-bottom: 6px; }
+        .updated { color: #888; font-size: 0.9em; margin-bottom: 24px; }
+        a { color: #0066cc; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h2 class="site-title">Divine Davis</h2>
+            <nav>
+                <a href="/">Home</a> &raquo;
+                <a href="/portfolio.html">Portfolio</a> &raquo;
+                <a href="/penciled/privacy/">Privacy</a> &raquo;
+            </nav>
+        </header>
+
+        <main>
+            <h1>Penciled — Privacy Policy</h1>
+            <p class="updated">Last updated: September 27, 2026</p>
+
+            <p>Penciled ("the app") is an iOS calendar of New York City events gathered from public event listings and public social media pages. It has no accounts and no sign-in. There are no ads, no analytics and no tracking.</p>
+
+            <h2>What stays on your phone</h2>
+            <ul>
+                <li><strong>Your plans</strong> &mdash; the events you save are stored in a database on your phone.</li>
+                <li><strong>Calendar</strong> &mdash; only if you turn on calendar sync in Settings, the app asks for calendar access and adds your saved events to a calendar called "Penciled". It only creates and updates events in that calendar; it does not read or upload your other calendar events. If you sync that calendar with iCloud or Google, those services carry the events under their own policies.</li>
+                <li><strong>Instagram export file</strong> &mdash; if you import the "following" file from Instagram's data download, it is read on your phone and never uploaded.</li>
+            </ul>
+
+            <h2>What goes to our server</h2>
+            <ul>
+                <li><strong>Loading events</strong> &mdash; the app downloads the public event list and flyer images from our server. Our hosting provider records the IP address and time of requests in short-lived logs.</li>
+                <li><strong>Find accounts I follow</strong> (optional) &mdash; if you type a public Instagram username, it is sent to our server, which uses <strong>Apify</strong> to read that account's public list of follows and checks each one for a public Linktree page. The username and the matching event pages are cached for 24 hours. A one-way hash of your IP address is stored with the time of each scan to enforce a daily limit.</li>
+                <li><strong>Following a source</strong> &mdash; when you tap Follow on an account found by the scan or the import, that account's public Linktree handle is queued for review, with a count of requests. A one-way hash of your IP address is stored to enforce a daily limit. Nothing identifies you.</li>
+                <li>The app also opens linktr.ee pages directly from your phone to check whether an account you follow has one.</li>
+            </ul>
+
+            <h2>Service providers</h2>
+            <ul>
+                <li><strong>Supabase</strong> (United States) &mdash; hosts the event database, images and the follow-scan function.</li>
+                <li><strong>Apify</strong> &mdash; reads public Instagram follow lists and posts for the scan above and for our event gathering.</li>
+                <li><strong>Linktree</strong> &mdash; public link pages are read to find event listings.</li>
+                <li><strong>Anthropic</strong> &mdash; our server uses Anthropic's Claude model to turn public event posts and pages into calendar entries. None of your data is sent to it.</li>
+                <li><strong>Apple</strong> &mdash; Calendar (EventKit) on your device and app distribution.</li>
+            </ul>
+            <p>We do not sell your data or share it for advertising.</p>
+
+            <h2>How long we keep it, and deleting it</h2>
+            <p>Your saved plans stay on your phone until you remove them or delete the app. Turning off calendar sync, or deleting the "Penciled" calendar in Apple Calendar, removes the events the app added. Follow-scan results are cached for 24 hours; the hashed rate-limit records are kept only to enforce the daily limits. Since there is no account, we cannot link server records to you, but you can email us with a username you scanned and we will delete it.</p>
+
+            <h2>Your rights</h2>
+            <p>Wherever you live, you can ask us to tell you what personal information Penciled holds about you, give you a copy, correct it, or delete it. Email <a href="mailto:divinejdavis@gmail.com">divinejdavis@gmail.com</a>; we answer within 30 days and will not treat you differently for asking.</p>
+            <ul>
+                <li><strong>California (CCPA/CPRA)</strong> &mdash; you have the right to know, access, correct and delete your personal information and to opt out of its sale or sharing. We do not sell personal information or share it for cross-context behavioral advertising, and have not done so in the past 12 months.</li>
+                <li><strong>EEA and UK (GDPR / UK GDPR)</strong> &mdash; you also have the rights to data portability, to restrict or object to processing, to withdraw consent at any time (for example by turning a permission off in iOS Settings), and to complain to your local data protection authority (in the UK, the ICO). We rely on performing the service you asked for (contract) and, for device permissions, your consent. Our service providers are in the United States; data sent to them is transferred there under their standard contractual clauses or equivalent safeguards.</li>
+            </ul>
+
+            <h2>Children</h2>
+            <p>Penciled is not directed at children under 13 and we do not knowingly collect personal information from them. If you believe a child under 13 has given us information, email us and we will delete it.</p>
+
+            <h2>Changes</h2>
+            <p>If this policy changes in a way that matters, the date at the top moves and the change is described here.</p>
+
+            <h2>Contact</h2>
+            <p>Penciled is made by Divine Davis, an independent developer, who is responsible for the data described here. Questions or requests: <a href="mailto:divinejdavis@gmail.com">divinejdavis@gmail.com</a></p>
+        </main>
+    </div>
+</body>
+</html>

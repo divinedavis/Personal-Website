@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy — Lovili</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        .container { max-width: 720px; }
+        h1 { font-size: 1.8em; font-weight: 600; margin-bottom: 8px; color: #000; }
+        h2 { font-size: 1.2em; font-weight: 600; margin-top: 28px; margin-bottom: 10px; color: #000; }
+        p, ul { margin-bottom: 14px; color: #444; }
+        ul { padding-left: 24px; }
+        li { margin-bottom: 6px; }
+        .updated { color: #888; font-size: 0.9em; margin-bottom: 24px; }
+        a { color: #0066cc; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h2 class="site-title">Divine Davis</h2>
+            <nav>
+                <a href="/">Home</a> &raquo;
+                <a href="/portfolio.html">Portfolio</a> &raquo;
+                <a href="/lovili/privacy/">Privacy</a> &raquo;
+            </nav>
+        </header>
+
+        <main>
+            <h1>Lovili — Privacy Policy</h1>
+            <p class="updated">Last updated: September 27, 2026</p>
+
+            <p>Lovili ("the app") is a voice-first iOS app that helps blind and low-vision people ask about places nearby and how accessible they are. You tap a button, ask a question out loud, and the app answers in speech and large text. There are no accounts, no ads, no analytics and no tracking.</p>
+
+            <h2>What the app uses, and when</h2>
+            <ul>
+                <li><strong>Microphone and speech recognition</strong> &mdash; only while you hold a conversation. Your voice is turned into text by Apple's speech recognition, which may process the audio on Apple's servers under Apple's privacy policy. Lovili never stores or sends your audio anywhere else.</li>
+                <li><strong>Location</strong> &mdash; your current location, read only when you ask a question and only while the app is in use, to find places near you. It is never tracked in the background or stored.</li>
+                <li><strong>Your questions and the answers</strong> &mdash; the text of your question and the recent turns of the conversation, kept in memory while the app is open so follow-up questions make sense. Nothing is saved on the phone or on our servers once you close the app.</li>
+            </ul>
+
+            <h2>Where your requests go</h2>
+            <p>To keep the app's service keys off your phone, requests go through our own small relay (hosted by <strong>Supabase</strong> in the United States), which passes them to these providers:</p>
+            <ul>
+                <li><strong>Google Places</strong> (Google LLC) &mdash; receives your question as a search and your exact coordinates, and returns nearby places with their names, addresses and accessibility details.</li>
+                <li><strong>Anthropic</strong> (Claude) &mdash; receives the text of your question, the recent conversation, and the list of nearby places with their addresses and how far away they are, and writes the answer. Your exact coordinates are not sent to Anthropic, but the nearby addresses reveal roughly where you are.</li>
+                <li><strong>ElevenLabs</strong> &mdash; receives the text of the answer and turns it into the spoken voice you hear. It does not receive your voice, your location or your question.</li>
+                <li><strong>Apple</strong> &mdash; speech recognition, as above, and app distribution.</li>
+            </ul>
+            <p>These providers process the data to answer you and may keep it for a limited time under their own policies (for example for abuse monitoring); they are not allowed to use it to advertise to you. We do not sell your data or share it for advertising.</p>
+
+            <h2>What our relay keeps</h2>
+            <p>To stop abuse and cap costs, the relay keeps a counter of how many requests came from each IP address and how much was spent each day. It does not keep your questions, answers, location or audio. The counter is overwritten as each time window resets and is not linked to who you are.</p>
+
+            <h2>How long we keep it, and deleting it</h2>
+            <p>Lovili has no account and saves no conversation, so there is nothing for you to delete: closing the app clears the conversation. You can withdraw microphone, speech recognition or location access at any time in iOS Settings &rarr; Lovili. To ask about the request counters, email us.</p>
+
+            <h2>Your rights</h2>
+            <p>Wherever you live, you can ask us to tell you what personal information Lovili holds about you, give you a copy, correct it, or delete it. Email <a href="mailto:divinejdavis@gmail.com">divinejdavis@gmail.com</a>; we answer within 30 days and will not treat you differently for asking.</p>
+            <ul>
+                <li><strong>California (CCPA/CPRA)</strong> &mdash; you have the right to know, access, correct and delete your personal information and to opt out of its sale or sharing. We do not sell personal information or share it for cross-context behavioral advertising, and have not done so in the past 12 months.</li>
+                <li><strong>EEA and UK (GDPR / UK GDPR)</strong> &mdash; you also have the rights to data portability, to restrict or object to processing, to withdraw consent at any time (for example by turning a permission off in iOS Settings), and to complain to your local data protection authority (in the UK, the ICO). We rely on performing the service you asked for (contract) and, for device permissions, your consent. Our service providers are in the United States; data sent to them is transferred there under their standard contractual clauses or equivalent safeguards.</li>
+            </ul>
+
+            <h2>Children</h2>
+            <p>Lovili is not directed at children under 13 and we do not knowingly collect personal information from them. If you believe a child under 13 has given us information, email us and we will delete it.</p>
+
+            <h2>Changes</h2>
+            <p>If this policy changes in a way that matters, the date at the top moves and the change is described here.</p>
+
+            <h2>Contact</h2>
+            <p>Lovili is made by Divine Davis, an independent developer, who is responsible for the data described here. Questions or requests: <a href="mailto:divinejdavis@gmail.com">divinejdavis@gmail.com</a></p>
+        </main>
+    </div>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy — Pothole Radar</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        .container { max-width: 720px; }
+        h1 { font-size: 1.8em; font-weight: 600; margin-bottom: 8px; color: #000; }
+        h2 { font-size: 1.2em; font-weight: 600; margin-top: 28px; margin-bottom: 10px; color: #000; }
+        p, ul { margin-bottom: 14px; color: #444; }
+        ul { padding-left: 24px; }
+        li { margin-bottom: 6px; }
+        .updated { color: #888; font-size: 0.9em; margin-bottom: 24px; }
+        a { color: #0066cc; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h2 class="site-title">Divine Davis</h2>
+            <nav>
+                <a href="/">Home</a> &raquo;
+                <a href="/portfolio.html">Portfolio</a> &raquo;
+                <a href="/pothole-radar/privacy/">Privacy</a> &raquo;
+            </nav>
+        </header>
+
+        <main>
+            <h1>Pothole Radar — Privacy Policy</h1>
+            <p class="updated">Last updated: September 27, 2026</p>
+
+            <p>Pothole Radar ("the app") is an iOS app that feels potholes as you bike or drive and lets you report them with a photo. Detection works without an account. An optional Community tab lets you sign in with Apple and share photo and video posts. There are no ads, no analytics and no tracking.</p>
+
+            <h2>What stays on your phone</h2>
+            <ul>
+                <li><strong>Motion</strong> &mdash; while a ride or drive is recording, the app reads the accelerometer to detect bumps. Motion readings are analysed on the phone and never stored or sent.</li>
+                <li><strong>Location</strong> &mdash; while a ride or drive is recording, the app reads your GPS position, including in the background with the screen off, so each bump is stamped with where it happened. Location is read only while recording or when you make a report, and never when the app is idle.</li>
+                <li><strong>Your detections and reports</strong> &mdash; the time, location, strength, nearest street or intersection, any note and any photo of each pothole are saved in a database on your phone. They leave the phone only if you share or export them yourself, or post them to the Community tab.</li>
+            </ul>
+            <p>Camera, photo library and microphone are used only when you take or pick a photo or video; the microphone records sound only as part of a video you shoot.</p>
+
+            <h2>Looking up street names</h2>
+            <p>To name the nearest intersection, the app sends the coordinates of a pothole to <strong>Overpass API</strong> (overpass-api.de, a free service run by the OpenStreetMap community in Germany) and, if that fails, to <strong>Apple's</strong> reverse geocoding service. Only the coordinates are sent, with no identifier of you, and results are cached on the phone.</p>
+
+            <h2>Community (optional)</h2>
+            <p>If you sign in with Apple to use Community, the following is stored on our server (<strong>Supabase</strong>, United States) and linked to your account:</p>
+            <ul>
+                <li><strong>Your account</strong> &mdash; the identifier Sign in with Apple gives the app and the email Apple shares (often a private relay address). The email is never shown to anyone.</li>
+                <li><strong>Your profile</strong> &mdash; username, display name and bio.</li>
+                <li><strong>Your posts</strong> &mdash; each photo or video (up to 60 seconds, with sound if you recorded it), caption, the location and place name of the pothole it shows, and the time.</li>
+                <li><strong>Your activity</strong> &mdash; comments, likes, @mentions, people you block, and reports you file (who or what you reported and why).</li>
+            </ul>
+            <p>Posts, comments, likes, profiles and the location on each post are public: anyone using the app can see them, including people who are not signed in, and media is served from a public web address. Blocking hides you and the other person from each other. Reports are visible only to us.</p>
+
+            <h2>Service providers</h2>
+            <ul>
+                <li><strong>Supabase</strong> &mdash; account system, database and media storage for Community.</li>
+                <li><strong>Apple</strong> &mdash; Sign in with Apple, maps, reverse geocoding and app distribution.</li>
+                <li><strong>OpenStreetMap / Overpass API</strong> &mdash; intersection lookups, as above.</li>
+            </ul>
+            <p>We do not sell your data, share it for advertising, or give it to anyone else except where the law requires it.</p>
+
+            <h2>How long we keep it, and deleting it</h2>
+            <ul>
+                <li>Detections and reports on your phone stay until you delete them in the app or delete the app.</li>
+                <li>Community posts and comments stay until you delete them; deleting a post removes its photo or video from storage.</li>
+                <li><em>Settings &rarr; Delete account</em> removes your uploaded media, then your account, profile, posts, comments, likes, mentions and blocks from the server immediately. Reports you filed are deleted with your account.</li>
+                <li>Our hosting provider keeps short-lived server logs (IP address and request time) for security.</li>
+            </ul>
+            <p>You can turn off location, motion, camera, microphone or photo access at any time in iOS Settings &rarr; Pothole Radar.</p>
+
+            <h2>Your rights</h2>
+            <p>Wherever you live, you can ask us to tell you what personal information Pothole Radar holds about you, give you a copy, correct it, or delete it. Email <a href="mailto:divinejdavis@gmail.com">divinejdavis@gmail.com</a>; we answer within 30 days and will not treat you differently for asking.</p>
+            <ul>
+                <li><strong>California (CCPA/CPRA)</strong> &mdash; you have the right to know, access, correct and delete your personal information and to opt out of its sale or sharing. We do not sell personal information or share it for cross-context behavioral advertising, and have not done so in the past 12 months.</li>
+                <li><strong>EEA and UK (GDPR / UK GDPR)</strong> &mdash; you also have the rights to data portability, to restrict or object to processing, to withdraw consent at any time (for example by turning a permission off in iOS Settings), and to complain to your local data protection authority (in the UK, the ICO). We rely on performing the service you asked for (contract) and, for device permissions, your consent. Our service providers are in the United States; data sent to them is transferred there under their standard contractual clauses or equivalent safeguards.</li>
+            </ul>
+
+            <h2>Children</h2>
+            <p>Pothole Radar is not directed at children under 13 and we do not knowingly collect personal information from them. If you believe a child under 13 has given us information, email us and we will delete it.</p>
+
+            <h2>Changes</h2>
+            <p>If this policy changes in a way that matters, the date at the top moves and the change is described here.</p>
+
+            <h2>Contact</h2>
+            <p>Pothole Radar is made by Divine Davis, an independent developer, who is responsible for the data described here. Questions or requests: <a href="mailto:divinejdavis@gmail.com">divinejdavis@gmail.com</a></p>
+        </main>
+    </div>
+</body>
+</html>
