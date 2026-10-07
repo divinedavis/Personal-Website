@@ -1,5 +1,6 @@
-/* divinedavis.com home: menu toggle, hero crossfade, Brooklyn clock, and
-   wheel-to-sideways scrolling on the project strips. */
+/* divinedavis.com home: menu toggle, hero crossfade and Brooklyn clock.
+   The project strips scroll sideways natively (trackpad swipe or touch);
+   hijacking the vertical wheel there trapped page scrolling on MacBooks. */
 (function () {
   var bar = document.querySelector('[data-bar]');
   var burger = document.querySelector('[data-burger]');
@@ -52,19 +53,4 @@
       slides[i].classList.add('is-on');
     }, 5000);
   }
-
-  // A vertical wheel over a strip scrolls it sideways until it hits an end,
-  // then lets the page carry on scrolling.
-  document.querySelectorAll('[data-strip]').forEach(function (strip) {
-    strip.addEventListener('wheel', function (e) {
-      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
-      var max = strip.scrollWidth - strip.clientWidth;
-      if (max <= 0) return;
-      var atStart = strip.scrollLeft <= 0 && e.deltaY < 0;
-      var atEnd = strip.scrollLeft >= max - 1 && e.deltaY > 0;
-      if (atStart || atEnd) return;
-      e.preventDefault();
-      strip.scrollLeft += e.deltaY;
-    }, { passive: false });
-  });
 })();
