@@ -4,310 +4,132 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Divine Davis</title>
-    <link rel="stylesheet" href="style.css?v=22">
-    <script src="theme.js?v=1"></script>
+    <meta name="description" content="Divine Davis builds and ships iOS, web and AI apps from Brooklyn.">
+    <meta name="theme-color" content="#0e0f10">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="home.css?v=1">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h2 class="site-title">Divine Davis</h2>
-            <nav>
-                <a href="index.html" class="active">Home</a> &raquo; 
-                <a href="portfolio.html">Portfolio</a> &raquo; 
-                <a href="resume.html">Resume</a> &raquo;
-                <button type="button" id="theme-toggle" class="theme-toggle" aria-label="Switch to dark mode" title="Switch to dark mode">☾ Dark</button>
-            </nav>
-        </header>
-
-        <main>
-            <section class="intro">
-                <div class="intro-content">
-                    <h1>Welcome to my website</h1>
-                    <div class="bio">
-                        <p>I'm from York, PA. Right now I work for JPMorgan Chase in Manhattan and live in Brooklyn. Most of my projects will include web/mobile and LLM/agent apps. I use Claude almost everyday at this point. The best way to contact me is by LinkedIn or email.</p>
-                    </div>
-                </div>
-                <div class="intro-image">
-                    <img src="profile.jpg" alt="Divine Davis">
-                </div>
-            </section>
-
-            <!-- GitHub activity. Every number here is a last-known value that
-                 github-activity.js overwrites from github.json, so the section
-                 still reads correctly with JS off or the file unreachable. -->
-            <section class="gh" id="gh-activity">
-                <div class="gh-head">
-                    <h2>GitHub activity</h2>
-                    <a href="https://github.com/divinedavis" target="_blank" rel="noopener">github.com/divinedavis &raquo;</a>
-                </div>
-
-                <div class="gh-hero">
-                    <span class="gh-hero-value" data-gh-stat="total_year">2,571</span>
-                    <span class="gh-hero-label">contributions in the last year</span>
-                </div>
-
-                <div class="gh-stats">
-                    <div>
-                        <span class="gh-stat-label">Today</span>
-                        <span class="gh-stat-value" data-gh-stat="today">1</span>
-                    </div>
-                    <div>
-                        <span class="gh-stat-label">Current streak</span>
-                        <span class="gh-stat-value" data-gh-stat="current_streak">46</span>
-                        <span class="gh-stat-note">days</span>
-                    </div>
-                    <div>
-                        <span class="gh-stat-label">Longest streak</span>
-                        <span class="gh-stat-value" data-gh-stat="longest_streak">46</span>
-                        <span class="gh-stat-note">days</span>
-                    </div>
-                    <div>
-                        <span class="gh-stat-label">Busiest day</span>
-                        <span class="gh-stat-value" data-gh-stat="best_day">75</span>
-                        <span class="gh-stat-note" data-gh-best-date>on Apr 19, 2026</span>
-                    </div>
-                </div>
-
-                <div class="gh-controls">
-                    <div class="gh-ranges" data-gh-ranges></div>
-                </div>
-
-                <div class="gh-plot" data-gh-plot>
-                    <div class="gh-tip" data-gh-tip hidden></div>
-                </div>
-
-                <div class="gh-foot">
-                    <button type="button" class="gh-table-toggle" data-gh-table-toggle aria-expanded="false">Show the numbers</button>
-                    <time class="gh-stamp" data-gh-stamp></time>
-                </div>
-                <div class="gh-table-wrap" data-gh-table hidden></div>
-            </section>
-
-
-            <!-- Where the activity above ranks against other New York accounts.
-                 Every number is a last-known value that nycrank.js overwrites
-                 from nycrank.json, so this reads correctly with JS off. The
-                 percentile and the median both come from the widest cohort the
-                 generator publishes: every New York account that committed at
-                 all in the window. -->
-            <section class="nyc" id="nyc-rank">
-                <div class="gh-head">
-                    <h2>Where that ranks in New York</h2>
-                    <span class="loc-scope">measured against a live sample, not claimed</span>
-                </div>
-
-                <div class="gh-hero">
-                    <span class="gh-hero-value" data-nyc-stat="top_pct">Top 2%</span>
-                    <span class="gh-hero-label">of New York developers on GitHub, by commits in the last six months</span>
-                </div>
-
-                <div class="gh-stats">
-                    <div>
-                        <span class="gh-stat-label">My commits</span>
-                        <span class="gh-stat-value" data-nyc-stat="commits">1,791</span>
-                        <span class="gh-stat-note">last six months</span>
-                    </div>
-                    <div>
-                        <span class="gh-stat-label">Days I shipped</span>
-                        <span class="gh-stat-value" data-nyc-stat="active_days">166</span>
-                        <span class="gh-stat-note" data-nyc-days-note>of 184 days</span>
-                    </div>
-                    <div>
-                        <span class="gh-stat-label">New Yorkers ahead</span>
-                        <span class="gh-stat-value" data-nyc-stat="above">455</span>
-                        <span class="gh-stat-note">accounts, citywide</span>
-                    </div>
-                    <div>
-                        <span class="gh-stat-label">Median New Yorker</span>
-                        <span class="gh-stat-value" data-nyc-stat="median">17</span>
-                        <span class="gh-stat-note">commits, same window</span>
-                    </div>
-                </div>
-
-                <div class="gh-foot">
-                    <time class="gh-stamp" data-nyc-stamp></time>
-                </div>
-            </section>
-
-            <!-- Weekly rhythm and Lines of code share a row: neither fills the
-                 measure on its own, and both are bar lists in the same hue at
-                 the same scale, so they read as one comparison rather than two
-                 half-empty bands. Source order is rhythm-then-code, which is
-                 what a phone gets and what the section above leads into; the
-                 desktop grid places code first by column, not by reordering. -->
-            <div class="split">
-                <!-- Which weekday I actually ship on. Averages over the last 52
-                     weeks, so every bar is drawn from the same 52 samples. -->
-                <section class="gh-week" id="gh-week">
-                    <div class="gh-head">
-                        <h2>Weekly rhythm</h2>
-                    </div>
-                    <p class="gh-week-lede" data-gh-week-lede>Saturday is my busiest day &mdash; 8.3 contributions a day on average, against 5.1 on Friday.</p>
-                    <div class="gh-week-rows" data-gh-week>
-                        <div class="gh-week-row"><span class="gh-week-day">Mon</span><span class="gh-week-track"><span class="gh-week-fill" style="width:94.6%"></span></span><span class="gh-week-val">7.8</span></div>
-                        <div class="gh-week-row"><span class="gh-week-day">Tue</span><span class="gh-week-track"><span class="gh-week-fill" style="width:74.4%"></span></span><span class="gh-week-val">6.1</span></div>
-                        <div class="gh-week-row"><span class="gh-week-day">Wed</span><span class="gh-week-track"><span class="gh-week-fill" style="width:92.1%"></span></span><span class="gh-week-val">7.6</span></div>
-                        <div class="gh-week-row"><span class="gh-week-day">Thu</span><span class="gh-week-track"><span class="gh-week-fill" style="width:91.6%"></span></span><span class="gh-week-val">7.6</span></div>
-                        <div class="gh-week-row"><span class="gh-week-day">Fri</span><span class="gh-week-track"><span class="gh-week-fill" style="width:61.3%"></span></span><span class="gh-week-val">5.1</span></div>
-                        <div class="gh-week-row is-max"><span class="gh-week-day">Sat</span><span class="gh-week-track"><span class="gh-week-fill" style="width:100%"></span></span><span class="gh-week-val">8.3</span></div>
-                        <div class="gh-week-row"><span class="gh-week-day">Sun</span><span class="gh-week-track"><span class="gh-week-fill" style="width:85.3%"></span></span><span class="gh-week-val">7.0</span></div>
-                    </div>
-                    <p class="gh-week-foot">Average contributions per day, last 52 weeks.</p>
-                </section>
-
-                <!-- Lines of code. Same contract as the section above: every number
-                     here is a last-known value that loc.js overwrites from loc.json,
-                     so it still reads correctly with JS off or the file unreachable. -->
-                <section class="loc" id="loc">
-                    <div class="gh-head">
-                        <h2>Lines of code</h2>
-                        <span class="loc-scope">every project touched this year, public and private</span>
-                    </div>
-
-                    <div class="gh-hero">
-                        <span class="gh-hero-value" data-loc-stat="added">269,349</span>
-                        <span class="gh-hero-label">lines of code written</span>
-                    </div>
-
-                    <div class="gh-stats">
-                        <div>
-                            <span class="gh-stat-label">Repositories</span>
-                            <span class="gh-stat-value" data-loc-stat="repos">22</span>
-                        </div>
-                        <div>
-                            <span class="gh-stat-label">Commits</span>
-                            <span class="gh-stat-value" data-loc-stat="commits">1,849</span>
-                        </div>
-                        <div>
-                            <span class="gh-stat-label">Still standing</span>
-                            <span class="gh-stat-value" data-loc-stat="net">234,264</span>
-                            <span class="gh-stat-note">net of deletions</span>
-                        </div>
-                        <div>
-                            <span class="gh-stat-label">Most written</span>
-                            <span class="gh-stat-value" data-loc-lead>Python</span>
-                            <span class="gh-stat-note" data-loc-lead-note>78,929 lines</span>
-                        </div>
-                    </div>
-
-                    <div class="loc-langs" data-loc-langs>
-                        <div class="loc-row is-max"><span class="loc-lang">Python</span><span class="loc-track"><span class="loc-fill" style="width:100%"></span></span><span class="loc-val">78,929</span></div>
-                        <div class="loc-row"><span class="loc-lang">TypeScript</span><span class="loc-track"><span class="loc-fill" style="width:66.9%"></span></span><span class="loc-val">52,840</span></div>
-                        <div class="loc-row"><span class="loc-lang">HTML</span><span class="loc-track"><span class="loc-fill" style="width:65.0%"></span></span><span class="loc-val">51,277</span></div>
-                        <div class="loc-row"><span class="loc-lang">Swift</span><span class="loc-track"><span class="loc-fill" style="width:59.0%"></span></span><span class="loc-val">46,591</span></div>
-                        <div class="loc-row"><span class="loc-lang">JavaScript</span><span class="loc-track"><span class="loc-fill" style="width:19.1%"></span></span><span class="loc-val">15,110</span></div>
-                        <div class="loc-row"><span class="loc-lang">CSS</span><span class="loc-track"><span class="loc-fill" style="width:12.7%"></span></span><span class="loc-val">10,033</span></div>
-                        <div class="loc-row"><span class="loc-lang">SQL</span><span class="loc-track"><span class="loc-fill" style="width:12.5%"></span></span><span class="loc-val">9,889</span></div>
-                        <div class="loc-row"><span class="loc-lang">Shell</span><span class="loc-track"><span class="loc-fill" style="width:3.8%"></span></span><span class="loc-val">3,037</span></div>
-                        <div class="loc-row"><span class="loc-lang">Other</span><span class="loc-track"><span class="loc-fill" style="width:2.1%"></span></span><span class="loc-val">1,643</span></div>
-                    </div>
-
-                    <div class="gh-foot">
-                        <p class="loc-note">Lines added in commits I authored, counted on each
-                            repository&rsquo;s default branch, across every project I have
-                            worked on this year. Lockfiles, <code>node_modules</code>,
-                            Pods, Xcode project files and other generated output are excluded, so
-                            this is smaller than what GitHub attributes to me &mdash; and
-                            closer to what I actually typed.</p>
-                        <time class="gh-stamp" data-loc-stamp></time>
-                    </div>
-                </section>
+    <!-- Floating bar + menu. The panel holds everything that used to be the
+         footer: LinkedIn, email, city and the resume. -->
+    <div class="bar" data-bar>
+        <div class="bar-top">
+            <a class="bar-logo" href="#top" aria-label="Divine Davis, back to top">DD</a>
+            <span class="bar-tag" data-bar-tag>Built in Brooklyn</span>
+            <button class="bar-burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="Open menu" data-burger>
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+        <nav class="menu" id="menu" hidden data-menu>
+            <a class="menu-row" href="https://www.linkedin.com/in/divinejdavis" target="_blank" rel="noopener">
+                <span>LinkedIn</span><span class="menu-meta">/in/divinejdavis ↗</span>
+            </a>
+            <a class="menu-row" href="mailto:divinejdavis@gmail.com">
+                <span>Email</span><span class="menu-meta">divinejdavis@gmail.com</span>
+            </a>
+            <div class="menu-row is-static">
+                <span>Brooklyn, NY</span><span class="menu-meta" data-clock>NYC</span>
             </div>
-
-            <!-- Apps shipped. apps.js overwrites all of this from apps.json;
-                 the lists below are the last-known state so the section still
-                 reads with JS off or the file unreachable. -->
-            <section class="apps" id="apps">
-                <div class="gh-head">
-                    <h2>Apps shipped</h2>
-                    <span class="loc-scope">iOS and web</span>
-                </div>
-
-                <div class="gh-stats">
-                    <div>
-                        <span class="gh-stat-label">iOS apps</span>
-                        <span class="gh-stat-value" data-apps-stat="ios_total">13</span>
-                    </div>
-                    <div>
-                        <span class="gh-stat-label">On the App Store</span>
-                        <span class="gh-stat-value" data-apps-stat="ios_live">5</span>
-                    </div>
-                    <div>
-                        <span class="gh-stat-label">In TestFlight</span>
-                        <span class="gh-stat-value" data-apps-stat="ios_beta">8</span>
-                    </div>
-                    <div>
-                        <span class="gh-stat-label">Web apps live</span>
-                        <span class="gh-stat-value" data-apps-stat="web_live">15</span>
-                    </div>
-                </div>
-
-                <div class="apps-cols">
-                    <div class="apps-col">
-                        <h3 class="apps-col-head">iOS</h3>
-                        <ul class="apps-list" data-apps-ios>
-                            <li><a href="https://apps.apple.com/us/app/marracat/id6810905687" target="_blank" rel="noopener">Marracat</a><span class="apps-chip">App Store</span></li>
-                            <li><a href="https://apps.apple.com/us/app/find-a-crib/id6807549249" target="_blank" rel="noopener">Find A Crib</a><span class="apps-chip">App Store</span></li>
-                            <li><a href="https://apps.apple.com/us/app/workcomp/id6773055992" target="_blank" rel="noopener">WorkComp+</a><span class="apps-chip">App Store</span></li>
-                            <li><a href="https://apps.apple.com/us/app/hidden-gems-local-picks/id6762203841" target="_blank" rel="noopener">Hidden Gems: Local Picks</a><span class="apps-chip">App Store</span></li>
-                            <li><a href="https://apps.apple.com/us/app/barrel-baseball/id6762527182" target="_blank" rel="noopener">Barrel Baseball</a><span class="apps-chip">App Store</span></li>
-                            <li><span>Crease</span><span class="apps-chip is-beta">TestFlight</span></li>
-                            <li><span>Spendcap</span><span class="apps-chip is-beta">TestFlight</span></li>
-                            <li><span>Lovili</span><span class="apps-chip is-beta">TestFlight</span></li>
-                            <li><span>Pulse</span><span class="apps-chip is-beta">TestFlight</span></li>
-                            <li><span>Clock In</span><span class="apps-chip is-beta">TestFlight</span></li>
-                            <li><span>ShypQuick</span><span class="apps-chip is-beta">TestFlight</span></li>
-                            <li><span>Haukley</span><span class="apps-chip is-beta">TestFlight</span></li>
-                            <li><span>Milepost</span><span class="apps-chip is-beta">TestFlight</span></li>
-                        </ul>
-                    </div>
-                    <div class="apps-col">
-                        <h3 class="apps-col-head">Web</h3>
-                        <ul class="apps-list" data-apps-web>
-                            <li><a href="https://findacrib.com" target="_blank" rel="noopener">Find A Crib</a><span class="apps-host">findacrib.com</span></li>
-                            <li><a href="https://caprecruiting.com" target="_blank" rel="noopener">Collegiate Athletic Planning</a><span class="apps-host">caprecruiting.com</span></li>
-                            <li><a href="https://nemoseamlessgutter.com" target="_blank" rel="noopener">NEMO Seamless Gutter</a><span class="apps-host">nemoseamlessgutter.com</span></li>
-                            <li><a href="https://jordansjobfinder.com" target="_blank" rel="noopener">Jordan's Job Finder</a><span class="apps-host">jordansjobfinder.com</span></li>
-                            <li><a href="https://kinnkolk.com" target="_blank" rel="noopener">Kinnkolk</a><span class="apps-host">kinnkolk.com</span></li>
-                            <li><a href="https://trentsfreshspaces.com" target="_blank" rel="noopener">Trent's Fresh Spaces</a><span class="apps-host">trentsfreshspaces.com</span></li>
-                            <li><a href="https://slottingcal.com" target="_blank" rel="noopener">SlottingCal</a><span class="apps-host">slottingcal.com</span></li>
-                            <li><a href="https://workcompapp.com" target="_blank" rel="noopener">WorkComp+ for Professionals</a><span class="apps-host">workcompapp.com</span></li>
-                            <li><a href="https://creasenyc.com" target="_blank" rel="noopener">Crease</a><span class="apps-host">creasenyc.com</span></li>
-                            <li><a href="https://sputterbets.com" target="_blank" rel="noopener">Sputter Bets</a><span class="apps-host">sputterbets.com</span></li>
-                            <li><a href="https://arinatanacheva.com" target="_blank" rel="noopener">Arina Tanacheva</a><span class="apps-host">arinatanacheva.com</span></li>
-                            <li><a href="https://skillsinbloom.com" target="_blank" rel="noopener">Skills in Bloom</a><span class="apps-host">skillsinbloom.com</span></li>
-                            <li><a href="https://marracat.com" target="_blank" rel="noopener">Marracat</a><span class="apps-host">marracat.com</span></li>
-                            <li><a href="https://haukley.com" target="_blank" rel="noopener">Haukley</a><span class="apps-host">haukley.com</span></li>
-                            <li><a href="https://divinedavis.com" target="_blank" rel="noopener">This site</a><span class="apps-host">divinedavis.com</span></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="gh-foot">
-                    <p class="loc-note">App Store status comes from Apple on every check, so an
-                        app moves out of TestFlight here the day it goes live. Web apps are
-                        counted by actually fetching them.</p>
-                    <time class="gh-stamp" data-apps-stamp></time>
-                </div>
-            </section>
-        </main>
-
-        <footer>
-            <hr>
-            <p class="contact">Divine Davis, <a href="mailto:divinejdavis@gmail.com">divinejdavis@gmail.com</a></p>
-            <div class="social-links">
-                <a href="https://github.com/divinedavis" target="_blank">github</a>
-                <a href="https://www.linkedin.com/in/divinejdavis" target="_blank">linkedin</a>
+            <div class="menu-actions">
+                <a class="menu-btn" href="resume.html">View resume</a>
             </div>
-        </footer>
+        </nav>
     </div>
-    <script src="github-activity.js?v=3" defer></script>
-    <script src="loc.js?v=1" defer></script>
-    <script src="nycrank.js?v=1" defer></script>
-    <script src="apps.js?v=1" defer></script>
+
+    <header class="hero" id="top">
+        <div class="hero-bg" aria-hidden="true">
+            <img src="work/hero/1.jpg" alt="" class="is-on">
+            <img src="work/hero/2.jpg" alt="" loading="lazy">
+            <img src="work/hero/3.jpg" alt="" loading="lazy">
+            <img src="work/hero/4.jpg" alt="" loading="lazy">
+        </div>
+        <div class="hero-grain" aria-hidden="true"></div>
+        <div class="hero-inner">
+            <p class="kicker">[ Divine Davis ]</p>
+            <h1>I build apps and ship them.</h1>
+            <p class="hero-copy">From York, PA. I work at JPMorgan Chase in Manhattan and live in Brooklyn. Nights and weekends I build iPhone apps, websites and LLM agents, and take them all the way to the App Store.</p>
+        </div>
+        <div class="hero-foot">
+            <span>iPhone · Web · AI</span>
+            <span>Brooklyn, NY</span>
+            <a href="#work">Selected work ↓</a>
+        </div>
+    </header>
+
+    <main class="work" id="work">
+        <p class="work-intro">A few of the apps I've designed, built and shipped myself, from the first screen to the store listing.</p>
+
+        <article class="row">
+            <div class="row-head">
+                <h2><a href="https://apps.apple.com/us/app/hidden-gems-local-picks/id6762203841" target="_blank" rel="noopener">Hidden Gems</a></h2>
+                <ul class="tags"><li>iOS</li><li>Social</li><li>App Store</li></ul>
+                <p class="row-blurb">Short posts about local spots, on a feed and a map.</p>
+                <span class="row-count">( 5 )</span>
+            </div>
+            <div class="strip" data-strip>
+                <img src="work/hidden-gems/1.jpg" alt="Hidden Gems feed" loading="lazy" class="is-phone">
+                <img src="work/hidden-gems/2.jpg" alt="Hidden Gems map" loading="lazy" class="is-phone">
+                <img src="work/hidden-gems/3.jpg" alt="Hidden Gems place detail" loading="lazy" class="is-phone">
+                <img src="work/hidden-gems/4.jpg" alt="Hidden Gems quick comment" loading="lazy" class="is-phone">
+                <img src="work/hidden-gems/5.jpg" alt="Hidden Gems search" loading="lazy" class="is-phone">
+            </div>
+        </article>
+
+        <article class="row">
+            <div class="row-head">
+                <h2><a href="https://creasenyc.com" target="_blank" rel="noopener">Crease</a></h2>
+                <ul class="tags"><li>iOS</li><li>Web</li><li>Delivery</li></ul>
+                <p class="row-blurb">Laundry pickup and delivery in Brooklyn.</p>
+                <span class="row-count">( 5 )</span>
+            </div>
+            <div class="strip" data-strip>
+                <img src="work/crease/1.jpg" alt="creasenyc.com" loading="lazy" class="is-wide">
+                <img src="work/crease/2.jpg" alt="Crease orders" loading="lazy" class="is-phone">
+                <img src="work/crease/3.jpg" alt="Crease choose a service" loading="lazy" class="is-phone">
+                <img src="work/crease/4.jpg" alt="Crease order total" loading="lazy" class="is-phone">
+                <img src="work/crease/5.jpg" alt="Crease order tracking" loading="lazy" class="is-phone">
+            </div>
+        </article>
+
+        <article class="row">
+            <div class="row-head">
+                <h2><a href="https://apps.apple.com/us/app/workcomp/id6773055992" target="_blank" rel="noopener">WorkComp+</a></h2>
+                <ul class="tags"><li>iOS</li><li>Web</li><li>Health</li></ul>
+                <p class="row-blurb">A daily recovery log for injured workers, with an AI summary to share with their lawyer.</p>
+                <span class="row-count">( 4 )</span>
+            </div>
+            <div class="strip" data-strip>
+                <img src="work/workcomp/1.jpg" alt="workcompapp.com" loading="lazy" class="is-wide">
+                <img src="work/workcomp/2.jpg" alt="WorkComp+ daily check-in" loading="lazy" class="is-phone">
+                <img src="work/workcomp/3.jpg" alt="WorkComp+ weekly report" loading="lazy" class="is-phone">
+                <img src="work/workcomp/4.jpg" alt="WorkComp+ AI summary" loading="lazy" class="is-phone">
+            </div>
+        </article>
+
+        <article class="row">
+            <div class="row-head">
+                <h2><a href="https://divinedavis.com/hoophouse/">Hoop House</a></h2>
+                <ul class="tags"><li>iOS</li><li>Web</li><li>Concept</li></ul>
+                <p class="row-blurb">A concept booking app and website for a basketball gym in Lancaster, PA.</p>
+                <span class="row-count">( 5 )</span>
+            </div>
+            <div class="strip" data-strip>
+                <img src="work/hoop-house/1.jpg" alt="Hoop House website" loading="lazy" class="is-wide">
+                <img src="work/hoop-house/2.jpg" alt="Hoop House on iPhone" loading="lazy" class="is-phone">
+                <img src="work/hoop-house/3.jpg" alt="Hoop House schedule" loading="lazy" class="is-phone">
+                <img src="work/hoop-house/4.jpg" alt="Hoop House memberships" loading="lazy" class="is-phone">
+                <img src="work/hoop-house/5.jpg" alt="Hoop House member portal" loading="lazy" class="is-wide">
+            </div>
+        </article>
+    </main>
+
+    <footer class="foot">
+        <span>© Divine Davis</span>
+        <a href="mailto:divinejdavis@gmail.com">divinejdavis@gmail.com</a>
+    </footer>
+
+    <script src="home.js?v=1" defer></script>
 </body>
 </html>
-
