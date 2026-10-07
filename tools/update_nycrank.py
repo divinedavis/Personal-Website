@@ -28,7 +28,7 @@ gitignored and nycrank.json carries aggregates only — publishing a list of
 named New Yorkers ranked by how much they commit is not the point of the
 section, and they did not opt into it.
 
-Runs from cron on 167.71.170.219 and scp's the result to the web host (159).
+Runs from cron on 167.71.170.219 and pushes the result to the web host (104.236, via WEB_DROP).
 """
 
 import json
@@ -47,7 +47,11 @@ WINDOW_DAYS = 183                      # the trailing six months
 BASE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(BASE, "nycrank.json")
 COHORT = os.path.join(BASE, "nyc-cohort.json")
-DEST = "root@159.203.110.79:/var/www/divinedavis/nycrank.json"
+# divinedavis.com moved to 104.236.120.144 on 2026-10-07. The cron on 167
+# pushes through a restricted key: ssh alias "divinedavis-webdrop" (user webdrop,
+# forced command /usr/local/bin/webdrop on the web host) that accepts only
+# "put <name>.json" with the JSON on stdin. Override with WEB_DROP=<ssh target>.
+WEB_DROP = os.environ.get("WEB_DROP", "divinedavis-webdrop")
 ENV_FILE = os.path.join(BASE, ".env")
 
 GRAPHQL_URL = "https://api.github.com/graphql"
@@ -351,10 +355,9 @@ def main():
 
     with open(OUT, "w") as f:
         json.dump(data, f, separators=(",", ":"))
-    subprocess.run(["scp", "-q", OUT, DEST], check=True)
-    subprocess.run(["ssh", "root@159.203.110.79",
-                    "chown www-data:www-data /var/www/divinedavis/nycrank.json"],
-                   check=True)
+    with open(OUT, "rb") as fh:
+        subprocess.run(["ssh", "-o", "BatchMode=yes", WEB_DROP, "put nycrank.json"],
+                       stdin=fh, check=True)
     print(f"{data['updated']} ok — {data['commits']} commits, "
           f"{data['percentile']}th pct of {data['population']:,} NYC accounts "
           f"({data['sample_n']} sampled)")

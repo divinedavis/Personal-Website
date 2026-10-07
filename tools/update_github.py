@@ -18,7 +18,7 @@ Layout of the output is a dense array, not a list of {date, count} objects:
 `counts[i]` is the day `start + i`, so a three-year window is ~4KB of JSON
 instead of ~60KB.
 
-Runs from cron on 167.71.170.219 and scp's the result to the web host (159).
+Runs from cron on 167.71.170.219 and pushes the result to the web host (104.236, via WEB_DROP).
 """
 
 import json
@@ -34,7 +34,11 @@ from zoneinfo import ZoneInfo
 USER = "divinedavis"
 YEARS_BACK = 2          # this calendar year plus the two before it
 OUT = "/root/portfolio-stats/github.json"
-DEST = "root@159.203.110.79:/var/www/divinedavis/github.json"
+# divinedavis.com moved to 104.236.120.144 on 2026-10-07. The cron on 167
+# pushes through a restricted key: ssh alias "divinedavis-webdrop" (user webdrop,
+# forced command /usr/local/bin/webdrop on the web host) that accepts only
+# "put <name>.json" with the JSON on stdin. Override with WEB_DROP=<ssh target>.
+WEB_DROP = os.environ.get("WEB_DROP", "divinedavis-webdrop")
 
 # A classic PAT with NO scopes is enough — contributionsCollection on a public
 # profile needs no permission beyond being authenticated. Kept out of the repo;
@@ -293,10 +297,9 @@ def main():
 
     with open(OUT, "w") as f:
         json.dump(data, f, separators=(",", ":"))
-    subprocess.run(["scp", "-q", OUT, DEST], check=True)
-    subprocess.run(["ssh", "root@159.203.110.79",
-                    "chown www-data:www-data /var/www/divinedavis/github.json"],
-                   check=True)
+    with open(OUT, "rb") as fh:
+        subprocess.run(["ssh", "-o", "BatchMode=yes", WEB_DROP, "put github.json"],
+                       stdin=fh, check=True)
     print(f"{data['updated']} ok — {data['total_year']} in the last year, "
           f"{data['today']} today, streak {data['current_streak']}")
     return 0

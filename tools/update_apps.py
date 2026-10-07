@@ -2,7 +2,7 @@
 """What Divine has actually shipped — iOS apps and live web apps.
 
 Feeds the "Apps shipped" section on divinedavis.com. Same contract as the other
-two generators: runs on the droplet, writes apps.json, scp's it to the web host,
+two generators: runs on the droplet, writes apps.json, pushes it to the web host,
 and the page ships with the last-known numbers baked into the HTML.
 
 NO APP STORE CONNECT KEY LIVES HERE, ON PURPOSE
@@ -29,6 +29,7 @@ Deployed to /root/portfolio-stats/update_apps.py on 167.71.170.219, cron
 
 import json
 import ssl
+import os
 import subprocess
 import sys
 import urllib.error
@@ -40,7 +41,11 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 STATE_PATH = HERE / "apps-state.json"
 OUT_PATH = HERE / "apps.json"
-DEPLOY = "root@159.203.110.79:/var/www/divinedavis/apps.json"
+# divinedavis.com moved to 104.236.120.144 on 2026-10-07. The cron on 167
+# pushes through a restricted key: ssh alias "divinedavis-webdrop" (user webdrop,
+# forced command /usr/local/bin/webdrop on the web host) that accepts only
+# "put <name>.json" with the JSON on stdin. Override with WEB_DROP=<ssh target>.
+WEB_DROP = os.environ.get("WEB_DROP", "divinedavis-webdrop")
 
 # The App Store developer id. Everything published under it is discovered
 # automatically — new releases need no change here.
@@ -207,14 +212,11 @@ def main():
         f"{len(web)} web" + (f"; down: {', '.join(down)}" if down else ""))
 
     if "--no-deploy" not in sys.argv:
-        p = subprocess.run(["scp", "-q", "-o", "BatchMode=yes",
-                            str(OUT_PATH), DEPLOY], capture_output=True, text=True)
+        with open(OUT_PATH, "rb") as fh:
+            p = subprocess.run(["ssh", "-o", "BatchMode=yes", WEB_DROP, "put apps.json"],
+                               stdin=fh, capture_output=True)
         if p.returncode != 0:
-            log(f"WARN scp failed: {p.stderr.strip()[:200]}")
-        else:
-            subprocess.run(["ssh", "-o", "BatchMode=yes", "root@159.203.110.79",
-                            "chown www-data:www-data /var/www/divinedavis/apps.json"],
-                           capture_output=True, text=True)
+            log(f"WARN deploy failed: {p.stderr.decode(errors='replace').strip()[:200]}")
     return 0
 
 

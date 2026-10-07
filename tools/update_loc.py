@@ -2,7 +2,7 @@
 """Total lines of code Divine has written across every GitHub repo.
 
 Feeds the "Lines of code" section on divinedavis.com. Same shape as
-update_github.py: this runs on the droplet, writes loc.json, and scp's it to the
+update_github.py: this runs on the droplet, writes loc.json, and pushes it to the
 web host; the page ships with the last-known numbers baked into the HTML so it
 still reads correctly if the file is unreachable.
 
@@ -56,7 +56,11 @@ MIRRORS = HERE / "loc-repos"
 STATE_PATH = HERE / "loc-state.json"
 OUT_PATH = HERE / "loc.json"
 LOCK_PATH = HERE / ".loc.lock"
-DEPLOY = "root@159.203.110.79:/var/www/divinedavis/loc.json"
+# divinedavis.com moved to 104.236.120.144 on 2026-10-07. The cron on 167
+# pushes through a restricted key: ssh alias "divinedavis-webdrop" (user webdrop,
+# forced command /usr/local/bin/webdrop on the web host) that accepts only
+# "put <name>.json" with the JSON on stdin. Override with WEB_DROP=<ssh target>.
+WEB_DROP = os.environ.get("WEB_DROP", "divinedavis-webdrop")
 
 # Commits with these author emails are Divine's. Everything else on the graph is
 # a deploy bot, a growth engine, or a collaborator, and none of it is his typing.
@@ -389,14 +393,11 @@ def main():
         + (f", {len(failed)} failed" if failed else ""))
 
     if "--no-deploy" not in sys.argv:
-        p = subprocess.run(["scp", "-q", "-o", "BatchMode=yes",
-                            str(OUT_PATH), DEPLOY], capture_output=True, text=True)
+        with open(OUT_PATH, "rb") as fh:
+            p = subprocess.run(["ssh", "-o", "BatchMode=yes", WEB_DROP, "put loc.json"],
+                               stdin=fh, capture_output=True)
         if p.returncode != 0:
-            log(f"WARN scp failed: {p.stderr.strip()[:200]}")
-        else:
-            subprocess.run(["ssh", "-o", "BatchMode=yes", "root@159.203.110.79",
-                            "chown www-data:www-data /var/www/divinedavis/loc.json"],
-                           capture_output=True, text=True)
+            log(f"WARN deploy failed: {p.stderr.decode(errors='replace').strip()[:200]}")
     return 0
 
 
