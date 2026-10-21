@@ -23,6 +23,11 @@ body { margin: 0; background: #fff; color: var(--ink); font-family: -apple-syste
 .edge { position: absolute; inset: -2px; border-radius: 33.0px; animation: spin 5s linear infinite;
         -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; padding: 2.5px; }
 .glow { position: absolute; inset: 4px 10px -4px; border-radius: 31.0px; filter: blur(14px); opacity: .8; animation: spin 5s linear infinite; }
+.sbar { position: absolute; left: 16px; right: 16px; bottom: 102px; height: 44px; border-radius: 22px;
+         background: rgba(52,53,57,.94); display: flex; align-items: center; gap: 8px; padding: 0 16px; color: #9a9aa0; font-size: 16px; z-index: 4; }
+.srim { position: absolute; inset: 0; border-radius: 22px; padding: 2px; animation: spin 6s linear infinite;
+        -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
+.sglass { font-size: 18px; transform: scaleX(-1); }
 @keyframes drift { from { background-position: 0% 50%; } to { background-position: 150% 50%; } }
 @keyframes spin { to { --a: 360deg; } }
 @keyframes pill { 0.00% { transform: translateX(0.0px); } 14.46% { transform: translateX(0.0px); animation-timing-function: cubic-bezier(.3,1.25,.5,1); } 20.00% { transform: translateX(68.0px); } 34.46% { transform: translateX(68.0px); animation-timing-function: cubic-bezier(.3,1.25,.5,1); } 40.00% { transform: translateX(136.0px); } 54.46% { transform: translateX(136.0px); animation-timing-function: cubic-bezier(.3,1.25,.5,1); } 60.00% { transform: translateX(204.0px); } 74.46% { transform: translateX(204.0px); animation-timing-function: cubic-bezier(.3,1.25,.5,1); } 80.00% { transform: translateX(272.0px); } 94.46% { transform: translateX(272.0px); animation-timing-function: cubic-bezier(.3,1.25,.5,1); } 100% { transform: translateX(0); } }
