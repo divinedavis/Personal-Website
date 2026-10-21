@@ -17,6 +17,11 @@ body { margin: 0; background: #fff; color: var(--ink); font-family: -apple-syste
          animation: extra 4.0600000000000005s linear infinite; }
 .dline { font-family: Futura, sans-serif; color: #fff; font-size: 11.1px; letter-spacing: 3.2px; text-align: center; max-width: 207px; line-height: 1.35; }
 .mark svg { display: block; }
+.spark { position: absolute; width: 11px; height: 11px; margin: -5px 0 0 -5px; border-radius: 50%; opacity: 0; box-shadow: 0 0 10px 2px rgba(255,220,120,.85);
+         animation: spark 4.0600000000000005s linear infinite; }
+@keyframes spark { 0% { opacity: 1; transform: translate(0, 0) scale(1); }
+  27.09% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(.4); }
+  100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(.4); } }
 .home { position: absolute; inset: 0; padding: 60px 18px; animation: home 4.0600000000000005s linear infinite; }
 .hbar { height: 40px; border-radius: 20px; background: #f1f1f1; }
 .hcard { height: 200px; border-radius: 14px; background: #ececec; margin: 18px 0; }
