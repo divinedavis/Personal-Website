@@ -26,7 +26,6 @@ figure { margin: 0; } figcaption { font-size: 11px; color: var(--muted); text-al
 .hrule { width: 100%; height: 12px; }
 .hline { font-family: Futura, sans-serif; font-size: 11px; letter-spacing: .3em; }
 figure, .col { min-width: 0; max-width: 100%; }
-@media (max-width: 780px) { iframe.ev { height: 1290px; } }
 iframe { border: 0; display: block; max-width: 100%; }
 video { max-width: 100%; height: auto; }
 .ecard { width: 520px; max-width: 100%; border-radius: 14px; overflow: hidden; border: 1px solid var(--line); background:#fff; }
@@ -307,4 +306,14 @@ code { font-size: 11.5px; background: #f5f5f5; padding: 1px 5px; border-radius: 
         <div class="ename">Brand Spotlight</div>
         <div class="eshort">This week: the story behind one brand</div>
         <div class="eapp"><span class="mini"></span>Marracat<span class="get">GET</span></div></div></div><figcaption>In-App Event card</figcaption></figure></div>
-      <table><tr><th>When</th><td>Recurring, one week each month</td></tr><tr><th>Event name</th><td>Brand Spotlight <span class=n>15/30</span></td></tr><tr><th>Short description</th><td>This week: the story behind one brand <span class=n>37/50</span></td></tr><tr><th>Long description</th><td>One brand each month: the founder&#x27;s story, best-sellers and what&#x27;s new, with follow for sale alerts. <span class=n>100/120</span></td></tr><tr><th>Opens</th><td><code>marracat://brand/&lt;id&gt;</code></td></tr><tr><th>Theme</th><td>None: splash, icon and header stay standard</td></tr></table></section></body></html>
+      <table><tr><th>When</th><td>Recurring, one week each month</td></tr><tr><th>Event name</th><td>Brand Spotlight <span class=n>15/30</span></td></tr><tr><th>Short description</th><td>This week: the story behind one brand <span class=n>37/50</span></td></tr><tr><th>Long description</th><td>One brand each month: the founder&#x27;s story, best-sellers and what&#x27;s new, with follow for sale alerts. <span class=n>100/120</span></td></tr><tr><th>Opens</th><td><code>marracat://brand/&lt;id&gt;</code></td></tr><tr><th>Theme</th><td>None: splash, icon and header stay standard</td></tr></table></section>
+      <script>
+        // Each embedded preview takes its content's height, so a phone (where
+        // the event card and details stack) has no blank gap under it.
+        function fit(f) { try { const d = f.contentDocument; if (d && d.body) f.style.height = d.documentElement.scrollHeight + "px"; } catch (e) {} }
+        document.querySelectorAll("iframe.ev").forEach((f) => {
+          f.addEventListener("load", () => fit(f));
+          if (f.contentDocument && f.contentDocument.readyState === "complete") fit(f);
+        });
+        addEventListener("resize", () => document.querySelectorAll("iframe.ev").forEach(fit));
+      </script></body></html>
