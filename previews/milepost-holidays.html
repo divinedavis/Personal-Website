@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Milepost holidays</title>
+<style>
+  @property --a { syntax:'<angle>'; inherits:false; initial-value:0deg; }
+  :root { --muted:rgba(235,235,245,.6); --accent:#3D6BE0; --accentText:#6B94FF; --ease:cubic-bezier(.32,.72,0,1); }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:#1c1c1e; color:#fff; font:15px -apple-system, "SF Pro Text", system-ui, sans-serif; padding:24px 16px 48px; }
+  h1 { font-size:22px; text-align:center; margin:8px 0 4px; }
+  .sub { text-align:center; color:var(--muted); font-size:14px; margin:0 auto 20px; max-width:780px; line-height:1.5; }
+  .picker { position:sticky; top:12px; z-index:20; display:flex; flex-wrap:wrap; justify-content:center; gap:6px; margin:0 auto 24px; padding:8px;
+            width:fit-content; max-width:min(100%, 1100px); border-radius:28px; background:rgba(40,44,48,.85);
+            backdrop-filter:blur(14px) saturate(1.4); -webkit-backdrop-filter:blur(14px) saturate(1.4);
+            box-shadow:inset 0 1px 0 rgba(255,255,255,.22), inset 0 0 0 .5px rgba(255,255,255,.14), 0 8px 24px rgba(0,0,0,.45); }
+  .picker button { font:inherit; font-size:13px; padding:5px 11px; color:#fff; background:#2c2c2e; border:1px solid #3a3a3c; border-radius:18px; cursor:pointer; white-space:nowrap; }
+  .picker button.on { background:#fff; color:#000; }
+  .row { display:flex; flex-wrap:wrap; gap:32px; justify-content:center; margin-bottom:40px; }
+  .col { display:flex; flex-direction:column; align-items:center; gap:10px; }
+  .col h2 { font-size:14px; font-weight:600; color:var(--muted); text-align:center; max-width:402px; min-height:38px; }
+  .col h2 b { color:#fff; }
+  .section { text-align:center; font-size:13px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin:8px 0 16px; }
+
+  .phone { width:402px; height:874px; border-radius:56px; overflow:hidden; position:relative; background:#0E0E0E; flex:none;
+           box-shadow:0 0 0 10px #2c2c2e, 0 30px 60px rgba(0,0,0,.6); }
+  @media (max-width:460px) { .phone { zoom:.86; } }
+  .status { position:absolute; top:0; left:0; right:0; height:54px; display:flex; justify-content:space-between; align-items:center; padding:0 34px; font-weight:600; font-size:16px; z-index:9; }
+  .island { position:absolute; top:11px; left:50%; translate:-50% 0; width:124px; height:36px; border-radius:20px; background:#000; z-index:10; }
+  .darkglass { background:rgba(40,44,48,.85); backdrop-filter:blur(14px) saturate(1.4); -webkit-backdrop-filter:blur(14px) saturate(1.4);
+               box-shadow:inset 0 1px 0 rgba(255,255,255,.22), inset 0 -1px 0 rgba(255,255,255,.06), inset 0 0 0 .5px rgba(255,255,255,.14), 0 8px 24px rgba(0,0,0,.35); }
+
+  /* splash: the holiday icon, the wordmark, the day's line in its colours */
+  .splash { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:22px; background:#0E0E0E; }
+  .splash img { width:150px; height:150px; animation:pop 3.2s var(--ease) infinite; }
+  @keyframes pop { 0% { transform:scale(.6); opacity:0 } 18%,85% { transform:scale(1); opacity:1 } 100% { opacity:0 } }
+  .wm { font:italic 900 34px/1 "Arial Rounded MT Bold", -apple-system, sans-serif; letter-spacing:.02em; }
+  .line { font-size:15px; font-weight:800; letter-spacing:.14em; background:linear-gradient(90deg, var(--c)); -webkit-background-clip:text; background-clip:text; color:transparent;
+          background-size:200% 100%; animation:flow 4s linear infinite; text-align:center; padding:0 24px; }
+  @keyframes flow { to { background-position:-200% 0 } }
+
+  /* record */
+  .map { position:absolute; inset:0; background:url(milepost-map.jpg) center/cover; }
+  .topleft { position:absolute; top:62px; left:12px; display:flex; flex-direction:column; align-items:flex-start; gap:8px; z-index:5; }
+  .chip { border-radius:999px; display:flex; align-items:center; gap:7px; }
+  .wordmark { padding:9px 16px; font:italic 900 22px/1 "Arial Rounded MT Bold", -apple-system, sans-serif; }
+  .wordmark i { color:var(--accentText); font-style:normal; }
+  .days { padding:7px 12px; font-size:13px; font-weight:600; }
+  .dot { width:8px; height:8px; border-radius:4px; background:#FF8C33; }
+  .gps { position:absolute; left:50%; translate:-50% 0; bottom:236px; padding:7px 12px; font-size:13px; font-weight:600; z-index:5; }
+  .gps .dot { background:#34C759; }
+  .panel { position:absolute; left:12px; right:12px; bottom:100px; height:124px; border-radius:30px; z-index:4; }
+  .panel .rim { position:absolute; inset:0; border-radius:inherit; padding:2px; background:conic-gradient(from var(--a), var(--c)); animation:spin 6s linear infinite;
+                -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite:xor; mask-composite:exclude; }
+  .panel.glow { box-shadow:inset 0 1px 0 rgba(255,255,255,.22), 0 0 26px var(--glow); }
+  @keyframes spin { to { --a:360deg } }
+  .controls { position:absolute; left:24px; right:24px; bottom:118px; display:flex; align-items:center; z-index:5; }
+  .ctl { flex:1; display:grid; place-items:center; }
+  .circle { width:72px; height:72px; border-radius:36px; display:grid; place-items:center; position:relative; background:rgba(255,255,255,.10); box-shadow:inset 0 1px 0 rgba(255,255,255,.25); }
+  .check { position:absolute; top:0; right:0; width:18px; height:18px; border-radius:9px; background:var(--accent); display:grid; place-items:center; }
+  .start { width:88px; height:88px; border-radius:44px; display:grid; place-items:center; background:linear-gradient(135deg, var(--c)); background-size:200% 200%;
+           animation:drift 5s ease-in-out infinite alternate; box-shadow:0 6px 22px var(--glow), inset 0 0 0 100px rgba(0,0,0,.12); }
+  @keyframes drift { to { background-position:100% 100% } }
+  .tabs { position:absolute; left:20px; right:20px; bottom:24px; height:62px; border-radius:31px; padding:5px; display:flex; z-index:6; }
+  .tab { flex:1; display:grid; place-items:center; position:relative; z-index:1; color:#E5E5EA; }
+  .pill, .trail { position:absolute; top:5px; height:52px; border-radius:26px; transition:left .45s var(--ease); }
+  .pill { background:linear-gradient(90deg, var(--c), var(--c)) 0 0 / 200% 100%; box-shadow:inset 0 0 0 100px rgba(0,0,0,.15), inset 0 1px 0 rgba(255,255,255,.35); }
+  .pill.flow { animation:pd 4s ease-in-out; }
+  @keyframes pd { from { background-position:0 0 } to { background-position:-100% 0 } }
+  .trail { background:linear-gradient(90deg, var(--c)); filter:blur(8px); opacity:.5; transition:left .7s var(--ease); }
+
+  /* App Store event card (Today tab style) */
+  .store { position:absolute; inset:0; background:#000; padding:62px 20px 0; }
+  .store .date { color:#8e8e93; font-size:13px; font-weight:600; text-transform:uppercase; }
+  .store h3 { font-size:34px; font-weight:800; margin:2px 0 18px; }
+  .ev { border-radius:22px; overflow:hidden; background:#1c1c1e; box-shadow:0 10px 30px rgba(0,0,0,.5); }
+  .ev .art { height:300px; position:relative; display:flex; flex-direction:column; justify-content:flex-end; padding:20px; }
+  .ev .bands { position:absolute; inset:0; display:flex; flex-direction:column; }
+  .ev .bands i { display:block; }
+  .ev .art::after { content:""; position:absolute; inset:0; background:linear-gradient(180deg, rgba(0,0,0,0) 35%, rgba(0,0,0,.65)); }
+  .ev .mark { position:absolute; top:24px; right:22px; width:84px; height:84px; z-index:1; filter:drop-shadow(0 4px 10px rgba(0,0,0,.4)); }
+  .ev .badge { position:relative; z-index:1; font-size:12px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; opacity:.9; }
+  .ev .name { position:relative; z-index:1; font-size:28px; font-weight:800; line-height:1.1; margin-top:4px; }
+  .ev .short { position:relative; z-index:1; font-size:15px; opacity:.9; margin-top:6px; }
+  .ev .foot { display:flex; align-items:center; gap:12px; padding:14px 16px; }
+  .ev .foot img { width:44px; height:44px; }
+  .ev .foot div { flex:1; } .ev .foot b { display:block; font-size:15px; } .ev .foot small { color:#8e8e93; font-size:13px; }
+  .ev .get { background:#2c2c2e; color:var(--accentText); font-weight:700; font-size:15px; padding:6px 18px; border-radius:16px; }
+  .store .long { color:#c7c7cc; font-size:14px; line-height:1.5; margin-top:16px; }
+
+  .grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(220px, 1fr)); gap:14px; max-width:1180px; margin:0 auto 40px; }
+  .cell { background:#2c2c2e; border-radius:18px; padding:14px; display:flex; gap:12px; align-items:center; cursor:pointer; border:1px solid transparent; }
+  .cell.on { border-color:#fff; }
+  .cell img { width:64px; height:64px; flex:none; }
+  .cell b { display:block; font-size:14px; } .cell small { display:block; color:var(--muted); font-size:12px; margin-top:2px; }
+  .cell em { display:block; font-style:normal; font-size:12px; color:var(--accentText); margin-top:4px; }
+  .notes { max-width:880px; margin:0 auto; color:var(--muted); line-height:1.55; font-size:14px; }
+  .notes p { margin-bottom:10px; } .notes b { color:#fff; }
+</style>
+</head>
+<body>
+  <h1>Milepost holidays</h1>
+  <p class="sub">Holiday themes like Marracat's, for Milepost: Marracat's 21 days minus its three shopping days, plus two running days (Global Running Day and NYC Marathon Sunday), so 20 in all. Pick one; each shows its launch screen, the Record screen in its colours, and the App Store event card. Every icon is below.</p>
+  <div class="picker" id="picker"></div>
+
+  <div class="row">
+    <div class="col"><h2><b>Launch screen</b><br>holiday icon, wordmark, the day's line</h2><div class="phone" id="splash"></div></div>
+    <div class="col"><h2><b>Record (dark glass)</b><br>Start, tab pill and a turning rim in the day's colours</h2><div class="phone" id="record"></div></div>
+    <div class="col"><h2><b>App Store in-app event</b><br>what people see on the Today tab and in search</h2><div class="phone" id="store"></div></div>
+  </div>
+
+  <div class="section">Every holiday</div>
+  <div class="grid" id="grid"></div>
+
+  <div class="notes">
+    <p><b>How it works in the app (same as Marracat):</b> one list (holidays.json) drives everything. A theme runs for the days before each holiday; when two overlap, the shorter one wins. The app icon switches to the holiday icon automatically, on by default, with a switch in Settings to turn it off. iOS shows its own "You have changed the icon" note each time it switches; there is no way around that.</p>
+    <p><b>App Store:</b> each holiday becomes an in-app event created about 3 weeks ahead with its card art, submitted automatically one at a time (Apple's rule), plus the holiday header on the App Store page during the theme. Event taps open Milepost on the Record screen.</p>
+    <p><b>New for Milepost:</b> Global Running Day (first Wednesday of June) and NYC Marathon Sunday (first Sunday of November). Black Friday, Cyber Monday and the Gift Guide are left out because they are about shopping.</p>
+  </div>
+<script>
+const H = [{"id":"halloween","name":"Halloween","kind":"Holiday","rule":"October 31","line":"HAPPY HALLOWEEN","tab":["#F26B1D","#B84A0E"],"icon_bands":[["#F26B1D",1],["#0A0A0A",2],["#F26B1D",1]],"theme":{"from":-6,"to":0},"event":{"name":"Halloween Fun Run","short":"Run in costume, light up your streets","long":"Lace up for a spooky-season run or a trick-or-treat walk. Your route lights up orange and black on the map.","from":-10,"to":0}},{"id":"nyc-marathon","name":"NYC Marathon","kind":"Running day","rule":"First Sunday in November","line":"MARATHON SUNDAY","tab":["#1D4ED8","#F26B1D"],"icon_bands":[["#F26B1D",1],["#1D4ED8",2],["#F26B1D",1]],"theme":{"from":-6,"to":0},"event":{"name":"Marathon Sunday","short":"Cheer, then run your own miles","long":"Watch 50,000 runners cross five boroughs, then get out for your own run.","from":-10,"to":0}},{"id":"veterans","name":"Veterans Day","kind":"Federal holiday","rule":"November 11","line":"VETERANS DAY","tab":["#BF0A30","#00205B"],"icon_bands":[["#00205B",1],["#FFFFFF",0.5],["#BF0A30",2],["#FFFFFF",0.5],["#00205B",1]],"theme":{"from":0,"to":0},"event":{"name":"Veterans Day Miles","short":"Run or walk in honor of those who served","long":"Log a run or walk to honor veterans. Every mile shows up in red and blue on your map.","from":-3,"to":0}},{"id":"thanksgiving","name":"Thanksgiving","kind":"Federal holiday","rule":"Fourth Thursday in November","line":"THANKSGIVING","tab":["#E8B000","#8A3B12","#C8781E"],"icon_bands":[["#E8B000",1],["#8A3B12",2],["#C8781E",1]],"theme":{"from":0,"to":0},"event":{"name":"Turkey Trot","short":"Earn your Thanksgiving dinner","long":"Join the country's biggest running day: record your Turkey Trot 5K, or a family walk after dinner.","from":-10,"to":0}},{"id":"christmas","name":"Christmas","kind":"Federal holiday","rule":"December 25","line":"HAPPY HOLIDAYS","tab":["#0F5132","#B3001B"],"icon_bands":[["#B3001B",1],["#0F5132",2],["#B3001B",1]],"theme":{"from":-6,"to":0},"event":{"name":"Holiday Lights Run","short":"See the lights on foot","long":"Run or walk your neighborhood's holiday lights. Your route draws in red and green.","from":-10,"to":0}},{"id":"kwanzaa","name":"Kwanzaa","kind":"Cultural holiday","rule":"December 26 \u2013 January 1","line":"KWANZAA","tab":["#C8102E","#3A3A3A","#007A3D"],"icon_bands":[["#C8102E",1],["#0A0A0A",1],["#007A3D",1]],"theme":{"from":0,"to":4},"event":{"name":"Kwanzaa Walks","short":"Seven days, seven walks","long":"Walk together for each day of Kwanzaa, from Umoja to Imani.","from":-7,"to":6}},{"id":"watch-night","name":"Watch Night / Freedom's Eve","kind":"Observance","rule":"December 31","line":"FREEDOM'S EVE","tab":["#2A3570","#141B3C","#E8B000"],"icon_bands":[["#2A3570",1],["#141B3C",2],["#E8B000",1]],"theme":{"from":0,"to":0},"event":{"name":"Watch Night Run","short":"Close the year on your feet","long":"Get one more run in before midnight and see every street you covered this year.","from":-5,"to":0}},{"id":"new-year","name":"New Year's Day","kind":"Federal holiday","rule":"January 1","line":"HAPPY NEW YEAR","tab":["#C9A227","#3A3A3A"],"icon_bands":[["#C9A227",1],["#0A0A0A",2],["#C9A227",1]],"theme":{"from":0,"to":0},"event":{"name":"New Year's Day Run","short":"Start the year with a mile","long":"Make your first activity of the year a run or a walk. Your 2027 map starts here.","from":-3,"to":10}},{"id":"mlk","name":"Martin Luther King Jr. Day","kind":"Federal holiday","rule":"Third Monday in January","line":"MLK DAY","tab":["#FFFFFF","#9A9A9A","#5A5A5A"],"icon_bands":[["#2B2B2B",1],["#0A0A0A",2],["#2B2B2B",1]],"theme":{"from":0,"to":0},"event":{"name":"MLK Day of Service Walk","short":"Walk for your community","long":"Honor Dr. King with a walk or run through your neighborhood on the national day of service.","from":-4,"to":0}},{"id":"bhm","name":"Black History Month","kind":"Observance","rule":"February","line":"BLACK HISTORY MONTH","tab":["#C8102E","#3A3A3A","#007A3D","#E8B000"],"icon_bands":[["#C8102E",1],["#0A0A0A",2],["#007A3D",1],["#E8B000",1]],"theme":{"from":0,"to":27},"event":{"name":"Black History Month Miles","short":"28 days of running and walking","long":"Log miles all February and celebrate Black runners, walkers and history-makers.","from":0,"to":27}},{"id":"presidents","name":"Washington's Birthday (Presidents' Day)","kind":"Federal holiday","rule":"Third Monday in February","line":"PRESIDENTS' DAY","tab":["#BF0A30","#00205B"],"icon_bands":[["#BF0A30",1],["#00205B",2],["#BF0A30",1]],"theme":{"from":0,"to":0},"event":{"name":"Presidents' Day Long Run","short":"A long weekend, a long run","long":"Use the long weekend for your longest run of the winter.","from":-3,"to":0}},{"id":"emancipation","name":"Emancipation Day (DC)","kind":"Observance","rule":"April 16","line":"EMANCIPATION DAY","tab":["#C8102E","#3A3A3A","#C9A227"],"icon_bands":[["#C8102E",1],["#0A0A0A",2],["#C9A227",1]],"theme":{"from":0,"to":0},"event":{"name":"Emancipation Day Walk","short":"Walk in remembrance","long":"Mark DC Emancipation Day with a walk or run.","from":-4,"to":0}},{"id":"malcolm-x","name":"Malcolm X Day","kind":"Observance","rule":"May 19","line":"MALCOLM X DAY","tab":["#C8102E","#3A3A3A"],"icon_bands":[["#C8102E",1],["#0A0A0A",2],["#C8102E",1]],"theme":{"from":0,"to":0},"event":{"name":"Malcolm X Day Run","short":"Run with purpose","long":"Honor Malcolm X's birthday with a run or walk.","from":-4,"to":0}},{"id":"ald","name":"African Liberation Day","kind":"Observance","rule":"May 25","line":"AFRICA DAY","tab":["#007A3D","#3A3A3A","#E8B000","#C8102E"],"icon_bands":[["#007A3D",1],["#0A0A0A",2],["#E8B000",1],["#C8102E",1]],"theme":{"from":0,"to":0},"event":{"name":"African Liberation Day Run","short":"Run in the colors of liberation","long":"Celebrate African Liberation Day with a run or walk; your map wears its colors.","from":-6,"to":0}},{"id":"memorial","name":"Memorial Day","kind":"Federal holiday","rule":"Last Monday in May","line":"MEMORIAL DAY","tab":["#BF0A30","#00205B"],"icon_bands":[["#BF0A30",0.4],["#FFFFFF",0.8],["#00205B",2],["#FFFFFF",0.8],["#BF0A30",0.4]],"theme":{"from":0,"to":0},"event":{"name":"Memorial Day Miles","short":"Remember on the move","long":"Honor the fallen with a run or walk on Memorial Day weekend.","from":-4,"to":0}},{"id":"global-running-day","name":"Global Running Day","kind":"Running day","rule":"First Wednesday in June","line":"HAPPY GLOBAL RUNNING DAY","tab":["#3D6BE0","#22D3EE"],"icon_bands":[["#3D6BE0",1],["#22D3EE",2],["#3D6BE0",1]],"theme":{"from":-2,"to":0},"event":{"name":"Global Running Day","short":"Everyone runs today","long":"Join runners worldwide: any distance counts, from one mile to a marathon.","from":-10,"to":0}},{"id":"juneteenth","name":"Juneteenth","kind":"Federal holiday","rule":"June 19","line":"JUNETEENTH","tab":["#3C3B6E","#B22234"],"icon_bands":[["#3C3B6E",1],["#B22234",2],["#3C3B6E",1]],"theme":{"from":0,"to":0},"event":{"name":"Juneteenth Freedom Run","short":"Run or walk for freedom","long":"Celebrate Juneteenth with a freedom run or a community walk.","from":-7,"to":0}},{"id":"july4","name":"Independence Day","kind":"Federal holiday","rule":"July 4","line":"FOURTH OF JULY","tab":["#BF0A30","#00205B"],"icon_bands":[["#BF0A30",1],["#FFFFFF",0.5],["#00205B",2],["#FFFFFF",0.5],["#BF0A30",1]],"theme":{"from":0,"to":0},"event":{"name":"Fourth of July 5K","short":"Run before the fireworks","long":"Get a 5K in before the cookout and the fireworks.","from":-6,"to":0}},{"id":"labor","name":"Labor Day","kind":"Federal holiday","rule":"First Monday in September","line":"LABOR DAY","tab":["#BF0A30","#00205B"],"icon_bands":[["#BF0A30",1],["#00205B",2],["#BF0A30",1]],"theme":{"from":0,"to":0},"event":{"name":"Labor Day Run","short":"One more summer run","long":"Close out summer with a long weekend run or walk.","from":-4,"to":0}},{"id":"indigenous","name":"Indigenous Peoples' Day","kind":"Federal holiday (Columbus Day)","rule":"Second Monday in October","line":"INDIGENOUS PEOPLES' DAY","tab":["#B5532F","#0E7C7B","#E8B000"],"icon_bands":[["#B5532F",1],["#0E7C7B",2],["#E8B000",1]],"theme":{"from":0,"to":0},"event":{"name":"Indigenous Peoples' Day Run","short":"Run the land, honor its peoples","long":"Mark Indigenous Peoples' Day with a run or walk.","from":-3,"to":0}}];
+const sw = 'fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"';
+const icon = {
+  record: `<svg width="27" height="27" viewBox="0 0 24 24" ${sw}><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4" fill="currentColor"/></svg>`,
+  block: `<svg width="27" height="27" viewBox="0 0 24 24" ${sw}><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M7 9h10M7 13h10M7 17h6"/></svg>`,
+  profile: `<svg width="27" height="27" viewBox="0 0 24 24" ${sw}><circle cx="12" cy="12" r="9.5"/><circle cx="12" cy="10" r="3.2"/><path d="M6 18.5a7 7 0 0 1 12 0"/></svg>`,
+  runner: `<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#6B94FF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="14.5" cy="4" r="2" fill="#6B94FF" stroke="none"/><path d="M8 21l3-6 3 2v5M6 11l3-3 4 1 3 4 3 1M11 15l2-6"/></svg>`,
+  play: `<svg width="34" height="34" viewBox="0 0 24 24" fill="#fff"><path d="M7 4.5v15l13-7.5z"/></svg>`,
+  history: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 12a8.5 8.5 0 1 0 2.5-6L3.5 8.5"/><path d="M3.5 4v4.5H8"/><path d="M12 7.5V12l3 2"/></svg>`,
+};
+const chrome = `<div class="island"></div><div class="status"><span>9:41</span><span>●●● ▮</span></div>`;
+const splash = document.getElementById("splash"), record = document.getElementById("record"), store = document.getElementById("store");
+record.innerHTML = chrome + `<div class="map"></div>
+  <div class="topleft"><div class="chip wordmark darkglass"><i>/</i>MILEPOST</div><div class="chip days darkglass"><span class="dot"></span>30 days ⌄</div></div>
+  <div class="chip gps darkglass"><span class="dot"></span>GPS ready</div>
+  <div class="panel darkglass glow"><i class="rim"></i></div>
+  <div class="controls"><div class="ctl"><div class="circle">${icon.runner}<span class="check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="4"><path d="M5 12l5 5 9-10"/></svg></span></div></div>
+    <div class="ctl"><div class="start">${icon.play}</div></div><div class="ctl"><div class="circle">${icon.history}</div></div></div>
+  <div class="tabs darkglass"><i class="trail"></i><i class="pill"></i><div class="tab">${icon.record}</div><div class="tab">${icon.block}</div><div class="tab">${icon.profile}</div></div>`;
+
+function bands(h) {
+  const total = h.icon_bands.reduce((s, b) => s + b[1], 0);
+  return `<div class="bands">${h.icon_bands.map(b => `<i style="background:${b[0]};flex:${b[1] / total}"></i>`).join("")}</div>`;
+}
+function show(id) {
+  const h = H.find(x => x.id === id) || H[0];
+  const c = [...h.tab, h.tab[0]].join(",");
+  for (const el of [splash, record, store]) { el.style.setProperty("--c", c); el.style.setProperty("--glow", h.tab[0] + "99"); }
+  splash.innerHTML = chrome + `<div class="splash"><img src="milepost-holidays/icons/${h.id}.png" alt=""><div class="wm">MILEPOST</div><div class="line">${h.line}</div></div>`;
+  store.innerHTML = chrome + `<div class="store"><div class="date">Happening now</div><h3>Today</h3>
+    <div class="ev"><div class="art">${bands(h)}<img class="mark" src="milepost-holidays/icons/${h.id}.png" alt=""><div class="badge">Special event</div><div class="name">${h.event.name}</div><div class="short">${h.event.short}</div></div>
+    <div class="foot"><img src="icon-rounded.png" alt=""><div><b>Milepost: Run, Walk &amp; Ride</b><small>GPS run, walk &amp; ride tracker</small></div><span class="get">Open</span></div></div>
+    <p class="long">${h.event.long}</p></div>`;
+  document.querySelectorAll("#picker button").forEach(b => b.classList.toggle("on", b.dataset.id === h.id));
+  document.querySelectorAll(".cell").forEach(b => b.classList.toggle("on", b.dataset.id === h.id));
+  history.replaceState(null, "", "?holiday=" + h.id);
+}
+const picker = document.getElementById("picker"), grid = document.getElementById("grid");
+H.forEach(h => {
+  const b = document.createElement("button"); b.textContent = h.name; b.dataset.id = h.id; b.title = h.kind + " · " + h.rule; b.onclick = () => show(h.id); picker.append(b);
+  const cell = document.createElement("div"); cell.className = "cell"; cell.dataset.id = h.id;
+  cell.innerHTML = `<img src="milepost-holidays/icons/${h.id}.png" alt=""><div><b>${h.name}</b><small>${h.rule}</small><em>${h.event.name}</em></div>`;
+  cell.onclick = () => { show(h.id); window.scrollTo({ top: 0, behavior: "smooth" }); };
+  grid.append(cell);
+});
+show(new URLSearchParams(location.search).get("holiday") || "halloween");
+let tab = 0;
+function place() {
+  const bar = record.querySelector(".tabs"), w = (bar.clientWidth - 10) / 3;
+  for (const p of bar.querySelectorAll(".pill, .trail")) { p.style.width = w + "px"; p.style.left = (5 + w * tab) + "px"; }
+  const pill = bar.querySelector(".pill"); pill.classList.remove("flow"); void pill.offsetWidth; pill.classList.add("flow");
+}
+place();
+if (!new URLSearchParams(location.search).has("still")) setInterval(() => { tab = (tab + 1) % 3; place(); }, 2600);
+</script>
+</body>
+</html>
