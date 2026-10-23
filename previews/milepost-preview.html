@@ -101,13 +101,27 @@
   .li { display:flex; justify-content:space-between; padding:13px 16px; border-bottom:.5px solid #333; font-size:16px; }
   .li:last-child { border:0; } .li span:last-child { color:#8e8e93; }
 
+  /* building now: no captions under the tab icons or the Record buttons */
+  .nolabels .tab span, .nolabels .ctl > span { display:none; }
+  .nolabels .tab svg { width:27px; height:27px; }
+  .nolabels .controls { align-items:center; }
+  .nolabels .panel { height:124px; }
+  .nolabels.floating .controls { bottom:118px; }
+  .nolabels.floating .gps { bottom:236px; }
+  .badge-new { display:inline-block; background:#3D6BE0; color:#fff; font-size:11px; font-weight:700; padding:2px 8px; border-radius:10px; margin-left:6px; vertical-align:2px; }
   .notes { max-width:880px; margin:0 auto; color:var(--muted); line-height:1.55; font-size:14px; }
   .notes p { margin-bottom:10px; } .notes b { color:#fff; }
 </style>
 </head>
 <body>
   <h1>Milepost preview</h1>
-  <p class="sub">The app today next to two glass looks: clear Liquid Glass, and dark glass like Instagram's tab bar (the same tint as the Marracat preview). The map and routes are a real Apple Maps render of Fort Greene; the Profile screen scrolls so you can see the cards pass under the bar.</p>
+  <p class="sub"><b style="color:#fff">Update 10/22:</b> dark glass is being built into the app, with no text under the tab icons or the Record buttons (top row). The rows below are the original comparison. The app today next to two glass looks: clear Liquid Glass, and dark glass like Instagram's tab bar (the same tint as the Marracat preview). The map and routes are a real Apple Maps render of Fort Greene; the Profile screen scrolls so you can see the cards pass under the bar.</p>
+
+  <div class="section">Building now <span class="badge-new">NEW</span></div>
+  <div class="row">
+    <div class="col"><h2><b>Record: dark glass, no captions</b><br>icons only on the tab bar; no Run / Start / History text</h2><div class="phone" data-screen="record" data-style="darkglass" data-nolabels="1"></div></div>
+    <div class="col"><h2><b>Profile: dark glass, no captions</b><br>icons only on the floating tab bar</h2><div class="phone" data-screen="profile" data-style="darkglass" data-nolabels="1"></div></div>
+  </div>
 
   <div class="section">Record</div>
   <div class="row">
@@ -188,6 +202,7 @@ document.querySelectorAll(".phone").forEach(el => {
   const style = el.dataset.style;
   el.classList.add(style === "live" ? "live" : "floating");
   if (style === "darkglass") el.classList.add("darkpanel");
+  if (el.dataset.nolabels === "1") el.classList.add("nolabels");
   el.innerHTML = `<div class="island"></div><div class="status"><span>9:41</span><span>●●● ▮</span></div>` +
     (el.dataset.screen === "record" ? record(style) : profile(style));
 });
