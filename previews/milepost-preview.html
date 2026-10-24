@@ -111,35 +111,39 @@
   .badge-new { display:inline-block; background:#3D6BE0; color:#fff; font-size:11px; font-weight:700; padding:2px 8px; border-radius:10px; margin-left:6px; vertical-align:2px; }
   .notes { max-width:880px; margin:0 auto; color:var(--muted); line-height:1.55; font-size:14px; }
   .notes p { margin-bottom:10px; } .notes b { color:#fff; }
+  /* the hovering bar, as on the Marracat preview: page switch + this page's controls, floating while you scroll */
+  .floatbar { position:sticky; top:12px; z-index:20; display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:6px;
+              margin:0 auto 24px; padding:8px; width:fit-content; max-width:min(100%, 1100px); border-radius:28px;
+              background:rgba(40,44,48,.85); backdrop-filter:blur(14px) saturate(1.4); -webkit-backdrop-filter:blur(14px) saturate(1.4);
+              box-shadow:inset 0 1px 0 rgba(255,255,255,.22), inset 0 0 0 .5px rgba(255,255,255,.14), 0 8px 24px rgba(0,0,0,.45); }
+  .floatbar .subnav { margin:0; }
+  .floatbar .rowbreak { flex-basis:100%; height:0; }
+  .floatbar button { flex:none; white-space:nowrap; font:inherit; font-size:13px; color:#fff; background:#2c2c2e; border:1px solid #3a3a3c; border-radius:18px; padding:5px 11px; cursor:pointer; }
+  .floatbar button.on { background:#fff; color:#000; }
+  .subnav { display:flex; justify-content:center; gap:4px; margin:0 auto 14px; padding:3px; background:#2c2c2e; border:1px solid #3a3a3c; border-radius:20px; width:max-content; }
+  .subnav a { font-size:13px; font-weight:600; color:#fff; text-decoration:none; padding:6px 16px; border-radius:16px; }
+  .subnav a.on { background:#fff; color:#000; }
 </style>
 </head>
 <body>
   <h1>Milepost preview</h1>
-  <p class="sub"><b style="color:#fff">Update 10/22:</b> dark glass is being built into the app, with no text under the tab icons or the Record buttons (top row). The rows below are the original comparison. The app today next to two glass looks: clear Liquid Glass, and dark glass like Instagram's tab bar (the same tint as the Marracat preview). The map and routes are a real Apple Maps render of Fort Greene; the Profile screen scrolls so you can see the cards pass under the bar.</p>
+  <div class="floatbar"><nav class="subnav"><a href="milepost-preview.html" class="on">Glass tab bar</a><a href="milepost-holidays.html">Holidays</a></nav></div>
+  <p class="sub"><b style="color:#fff">Shipped:</b> dark glass is live in Milepost 1.6, with no text under the tab icons or the Record buttons. Below it, the app before 1.6 for comparison. The map and routes are a real Apple Maps render of Fort Greene; the Profile screen scrolls so you can see the cards pass under the bar. Updated October 24, 2026.</p>
 
-  <div class="section">Building now <span class="badge-new">NEW</span></div>
+  <div class="section">Live in 1.6 <span class="badge-new">SHIPPED</span></div>
   <div class="row">
     <div class="col"><h2><b>Record: dark glass, no captions</b><br>icons only on the tab bar; no Run / Start / History text</h2><div class="phone" data-screen="record" data-style="darkglass" data-nolabels="1"></div></div>
     <div class="col"><h2><b>Profile: dark glass, no captions</b><br>icons only on the floating tab bar</h2><div class="phone" data-screen="profile" data-style="darkglass" data-nolabels="1"></div></div>
   </div>
 
-  <div class="section">Record</div>
+  <div class="section">Before 1.6, for comparison</div>
   <div class="row">
-    <div class="col"><h2><b>Today</b><br>solid sheet and solid tab bar under the map</h2><div class="phone" data-screen="record" data-style="live"></div></div>
-    <div class="col"><h2><b>Glass</b><br>map runs edge to edge, clear glass controls and floating tab bar</h2><div class="phone" data-screen="record" data-style="glass"></div></div>
-    <div class="col"><h2><b>Dark glass (Instagram)</b><br>same layout, ~85% dark tint, light rim on top</h2><div class="phone" data-screen="record" data-style="darkglass"></div></div>
-  </div>
-
-  <div class="section">Profile</div>
-  <div class="row">
-    <div class="col"><h2><b>Today</b><br>solid tab bar</h2><div class="phone" data-screen="profile" data-style="live"></div></div>
-    <div class="col"><h2><b>Glass</b><br>cards scroll under a clear floating bar</h2><div class="phone" data-screen="profile" data-style="glass"></div></div>
-    <div class="col"><h2><b>Dark glass (Instagram)</b><br>cards show through faintly</h2><div class="phone" data-screen="profile" data-style="darkglass"></div></div>
+    <div class="col"><h2><b>Record before 1.6</b><br>solid sheet and solid tab bar under the map</h2><div class="phone" data-screen="record" data-style="live"></div></div>
+    <div class="col"><h2><b>Profile before 1.6</b><br>solid tab bar</h2><div class="phone" data-screen="profile" data-style="live"></div></div>
   </div>
 
   <div class="notes">
-    <p><b>What changes with glass:</b> the opaque sheet under Start goes away, so the map (and your orange past routes) fills the whole screen. Sport, Start and History sit on a floating glass panel, the Milepost / 30 days / GPS pills and the locate button turn to glass, and the tab bar becomes a floating capsule with a pill behind the selected tab, the way Marracat's does.</p>
-    <p><b>Clear glass vs dark glass:</b> clear glass shows the most map, but street names under the bar fight with the tab labels. Dark glass keeps the labels as readable as today while still letting colour and movement through.</p>
+    <p><b>What changed with dark glass:</b> the opaque sheet under Start goes away, so the map (and your orange past routes) fills the whole screen. Sport, Start and History sit on a floating glass panel, the Milepost / 30 days / GPS pills and the locate button turn to glass, and the tab bar becomes a floating capsule with a pill behind the selected tab, the way Marracat's does.</p>
     <p><b>On the phone:</b> this is iOS 26's own Liquid Glass (<code>glassEffect</code>), which bends light at the edges more than a browser can show. Milepost supports iOS 17+, so older phones would get the system's frosted material instead.</p>
   </div>
 

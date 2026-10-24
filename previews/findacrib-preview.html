@@ -89,26 +89,34 @@
 
   .notes { max-width:880px; margin:0 auto; color:var(--muted); line-height:1.55; font-size:14px; }
   .notes p { margin-bottom:10px; } .notes b { color:#fff; }
+  .subnav { display:flex; justify-content:center; gap:4px; margin:0 auto 14px; padding:3px; background:#2c2c2e; border:1px solid #3a3a3c; border-radius:20px; width:max-content; }
+  .subnav a { font-size:13px; font-weight:600; color:#fff; text-decoration:none; padding:6px 16px; border-radius:16px; }
+  .subnav a.on { background:#fff; color:#000; }
+  /* the hovering bar, as on the Marracat preview: page switch + this page's controls, floating while you scroll */
+  .floatbar { position:sticky; top:12px; z-index:20; display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:6px;
+              margin:0 auto 24px; padding:8px; width:fit-content; max-width:min(100%, 1100px); border-radius:28px;
+              background:rgba(40,44,48,.85); backdrop-filter:blur(14px) saturate(1.4); -webkit-backdrop-filter:blur(14px) saturate(1.4);
+              box-shadow:inset 0 1px 0 rgba(255,255,255,.22), inset 0 0 0 .5px rgba(255,255,255,.14), 0 8px 24px rgba(0,0,0,.45); }
+  .floatbar .subnav { margin:0; }
+  .floatbar .rowbreak { flex-basis:100%; height:0; }
+  .floatbar button { flex:none; white-space:nowrap; font:inherit; font-size:13px; color:#fff; background:#2c2c2e; border:1px solid #3a3a3c; border-radius:18px; padding:5px 11px; cursor:pointer; }
+  .floatbar button.on { background:#fff; color:#000; }
+  html, body { overflow-x:clip; }   /* a few px of phone-width overflow (10/24) */
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
   <h1>Find A Crib preview</h1>
-  <p class="sub">The Search results screen with the floating Map pill and tab bar redone in glass, next to how it looks today. The list scrolls on its own so you can see the cards pass under the glass.</p>
-  <div class="toggle"><button class="on" data-run="1">Scrolling</button><button data-run="0">Paused</button></div>
+  <p class="sub">You picked A, light glass: the Map pill and tab bar are clear glass in 1.3.5 (build 156), which is with App Review now. Next to it, the live 1.3.4 for comparison. The list scrolls on its own so you can see the cards pass under the glass. Updated October 24, 2026.</p>
+  <div class="floatbar toggle"><nav class="subnav"><a href="findacrib-preview.html" class="on">Glass tab bar</a><a href="findacrib-holidays.html">Holidays</a></nav><button class="on" data-run="1">Scrolling</button><button data-run="0">Paused</button></div>
 
   <div class="row">
-    <div class="col"><h2><b>A. Light glass</b><br>Map pill and tab bar both clear glass</h2><div class="phone light" data-map="glass" data-tabs="glass"></div></div>
-    <div class="col"><h2><b>B. Dark glass tab bar</b> (the Marracat bar)<br>Map pill clear glass, tab bar dark glass</h2><div class="phone dark" data-map="glass" data-tabs="darkglass"></div></div>
-  </div>
-  <div class="row">
-    <div class="col"><h2><b>C. All dark glass</b><br>Map pill matches the tab bar</h2><div class="phone dark" data-map="darkglass" data-tabs="darkglass"></div></div>
-    <div class="col"><h2><b>Live now</b>, for comparison<br>solid white Map pill and tab bar</h2><div class="phone now" data-map="" data-tabs=""></div></div>
+    <div class="col"><h2><b>Light glass</b> (1.3.5, in App Review)<br>Map pill and tab bar both clear glass</h2><div class="phone light" data-map="glass" data-tabs="glass"></div></div>
+    <div class="col"><h2><b>Live now (1.3.4)</b>, for comparison<br>solid white Map pill and tab bar</h2><div class="phone now" data-map="" data-tabs=""></div></div>
   </div>
 
   <div class="notes">
     <p><b>What's real:</b> sizes, spacing and colours come from the app's code: PillTabBar in RootView.swift (five 72×66 items, 4pt inset), FloatingPill in Components.swift (56pt tall), and Theme.swift. The card photo is from your screenshot. On the iPhone the glass would be iOS's own Liquid Glass, which bends light at the edges a little more than a browser can show.</p>
-    <p><b>Dark glass:</b> the same tint and rim as the Marracat bar. The selected tab's label switches from the app's dark teal to a pale teal, because dark teal on charcoal fails Apple's contrast check.</p>
   </div>
 <script>
 const icon = {

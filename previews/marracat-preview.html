@@ -23,6 +23,9 @@
             box-shadow:inset 0 1px 0 rgba(255,255,255,.22), inset 0 0 0 .5px rgba(255,255,255,.14), 0 8px 24px rgba(0,0,0,.45); }
   .picker::-webkit-scrollbar { display:none; }
   .picker button { flex:none; white-space:nowrap; font:inherit; font-size:13px; padding:5px 11px !important; color:#fff; background:#2c2c2e; border:1px solid #3a3a3c; border-radius:18px; padding:7px 14px; cursor:pointer; }
+  .subnav { display:flex; justify-content:center; gap:4px; margin:0 0 2px; padding:3px; background:#2c2c2e; border:1px solid #3a3a3c; border-radius:20px; width:max-content; }
+  .subnav a { font-size:13px; font-weight:600; color:#fff; text-decoration:none; padding:6px 16px; border-radius:16px; }
+  .subnav a.on { background:#fff; color:#000; }
   .picker button.on { background:#fff; color:#000; }
 
   /* iPhone 17 Pro: 402 x 874 pt */
@@ -56,10 +59,11 @@
   .holiday .rim { display:block; }
   .holiday .field { box-shadow:inset 0 1px 0 rgba(255,255,255,.35), 0 0 22px var(--glow); }
 
-  /* dark glass, sampled off the Instagram bar (3x screenshot): body ~#2E3236
-     over a light photo, so ~85% dark tint; light rim along the top edge; the
-     selected pill a lighter frosted grey (~#565253 over the same photo) */
-  .darkglass { background:rgba(40,44,48,.85); backdrop-filter:blur(14px) saturate(1.4); -webkit-backdrop-filter:blur(14px) saturate(1.4);
+  /* the tab bar as of build 166 (FloatingTabBar.swift, 10/24): the owner's
+     "medium tint", dark ink at 60% over a blur (was 85% Instagram dark frost
+     in 164-165); light rim along the top edge; the selected pill a lighter
+     frosted grey */
+  .darkglass { background:rgba(40,44,48,.60); backdrop-filter:blur(14px) saturate(1.4); -webkit-backdrop-filter:blur(14px) saturate(1.4);
                box-shadow:inset 0 1px 0 rgba(255,255,255,.22), inset 0 -1px 0 rgba(255,255,255,.06), inset 0 0 0 .5px rgba(255,255,255,.14), 0 8px 24px rgba(0,0,0,.35); }
   .tabs.darkglass .pill { background:linear-gradient(180deg, rgba(255,255,255,.20), rgba(255,255,255,.13));
                           box-shadow:inset 0 1px 0 rgba(255,255,255,.25), inset 0 0 0 .5px rgba(255,255,255,.12), 0 0 12px rgba(255,255,255,.06); }
@@ -84,18 +88,106 @@
   .old .dock { height:44px; }
   .old .field { border-radius:22px; background:rgba(44,44,46,.85); backdrop-filter:blur(30px); -webkit-backdrop-filter:blur(30px);
                 box-shadow:inset 0 0 0 .5px rgba(255,255,255,.12), 0 4px 10px rgba(0,0,0,.25); }
+  /* ---- Receipt (proposed): Order details › Receipt prints, stamps and tears ---- */
+  .section { max-width:880px; margin:8px auto 18px; text-align:center; }
+  .section h1 { margin-bottom:6px; }
+  .rp { background:#000; font-size:15px; }
+  .rp .nav { position:absolute; top:58px; left:16px; right:16px; display:flex; align-items:center; gap:6px; color:#fff; font-size:15px; }
+  .rp .nav svg { flex:none; }
+  .rp .h { position:absolute; top:96px; left:16px; font-size:30px; font-weight:700; }
+  .rp .body { position:absolute; top:148px; left:16px; right:16px; display:flex; flex-direction:column; gap:12px; }
+  .rp .cardx { background:#1C1C1E; border:1px solid #3d3d3d; border-radius:12px; padding:16px; text-align:left; }
+  .rp .cardx h3 { font-size:17px; margin-bottom:6px; }
+  .rp .cardx p { font-size:14px; color:#fff; margin:2px 0; }
+  .rp .cardx .dim { color:#9e9e9e; font-size:12px; }
+  .rp .sumrow { display:flex; justify-content:space-between; font-size:14px; margin-top:4px; }
+  .rp .sumrow.b { font-weight:700; }
+  .rp .item { display:flex; gap:12px; align-items:center; }
+  .rp .thumb { width:64px; height:64px; border-radius:10px; background:linear-gradient(160deg,#4b2a6b,#0f3b3a 60%,#111); flex:none; position:relative; }
+  .rp .thumb::after { content:""; position:absolute; inset:16px 12px 14px; border-radius:4px; border:2px solid rgba(255,255,255,.55); border-top-width:6px; }
+  /* OrderPill: surface capsule, grey (#8E8E93) rim; the primary one light grey with black text */
+  .opill { font:inherit; font-size:14px; color:#fff; background:#1C1C1E; border:1px solid #8E8E93; border-radius:999px; padding:8px 14px; display:inline-flex; align-items:center; gap:6px; cursor:pointer; }
+  .opill.primary { background:#E6E6E6; color:#000; border-color:transparent; }
+  .rp .pills { display:flex; gap:8px; flex-wrap:wrap; }
+  .tap { position:absolute; width:44px; height:44px; margin:-22px 0 0 -22px; border-radius:50%; background:rgba(255,255,255,.35); pointer-events:none; z-index:30; opacity:0; }
+  .tap.go { animation:tap .5s ease-out; }
+  @keyframes tap { from { opacity:.9; transform:scale(.4) } to { opacity:0; transform:scale(1.4) } }
+
+  /* the sheet Receipt opens */
+  .scrim { position:absolute; inset:0; background:rgba(0,0,0,.45); opacity:0; pointer-events:none; transition:opacity .35s; z-index:10; }
+  .sheet { position:absolute; left:0; right:0; bottom:0; top:70px; background:#1C1C1E; border-radius:38px 38px 0 0; z-index:11;
+           transform:translateY(102%); transition:transform .5s var(--ease); display:flex; flex-direction:column; align-items:center; }
+  .open .scrim { opacity:1; pointer-events:auto; }
+  .open .sheet { transform:none; }
+  .grab { width:36px; height:5px; border-radius:3px; background:#5a5a5e; margin:8px 0 6px; }
+  .sheet .close { position:absolute; right:16px; top:14px; width:32px; height:32px; border-radius:50%; background:#2D2E31; display:grid; place-items:center; cursor:pointer; }
+
+  /* the printer: a glossy dark bar with a slot the paper feeds out of */
+  .printer { position:relative; margin-top:34px; width:330px; height:44px; z-index:3; border-radius:16px;
+             background:linear-gradient(180deg,#3a3f4b 0%,#1b1e26 38%,#0d0f14 70%,#1a1d24 100%);
+             box-shadow:inset 0 1px 0 rgba(255,255,255,.28), inset 0 -2px 0 rgba(0,0,0,.6), 0 10px 22px rgba(0,0,0,.55); }
+  .printer::before { content:""; position:absolute; left:18%; right:18%; top:5px; height:3px; border-radius:2px; background:linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent); }
+  .printer::after { content:""; position:absolute; left:10px; right:10px; bottom:9px; height:3px; border-radius:2px; background:#000; box-shadow:0 1px 0 rgba(255,255,255,.08); }
+  .printer.busy { animation:hum .12s linear infinite; }
+  @keyframes hum { 50% { transform:translateX(.6px) } }
+  .feedwin { position:relative; width:300px; height:470px; margin-top:-11px; overflow:hidden; z-index:2; padding:0 0 14px; }
+  .receipt { position:relative; width:290px; margin:0 auto; background:#FBFBF8; color:#1d1d1f; padding:18px 18px 16px; text-align:left;
+             font:11px/1.45 ui-monospace, "SF Mono", Menlo, monospace; transform:translateY(-102%);
+             box-shadow:0 6px 18px rgba(0,0,0,.35); }
+  .receipt::after { content:""; position:absolute; left:0; right:0; bottom:-7px; height:7px;
+                    background:linear-gradient(135deg,#FBFBF8 50%,transparent 50%) 0 0/10px 7px repeat-x,
+                               linear-gradient(225deg,#FBFBF8 50%,transparent 50%) 0 0/10px 7px repeat-x; }
+  .receipt .top { display:flex; justify-content:space-between; align-items:flex-start; }
+  .receipt .word { font:700 15px/1 -apple-system, system-ui, sans-serif; letter-spacing:.32em; }
+  .receipt .kind { color:#6b6b70; letter-spacing:.06em; margin-top:4px; }
+  .receipt .mark { width:26px; height:26px; border-radius:6px; background:#111; color:#fff; display:grid; place-items:center; font:700 15px/1 -apple-system, system-ui; }
+  .receipt .band { background:#EFEFEC; margin:12px -6px 8px; padding:5px 6px; display:flex; justify-content:space-between; font-weight:700; letter-spacing:.03em; }
+  .receipt .amt { font-size:24px; font-weight:700; letter-spacing:-.01em; }
+  .receipt .meta { color:#6b6b70; letter-spacing:.04em; font-size:9.5px; }
+  .receipt hr { border:0; border-top:1px dashed #c9c9c4; margin:10px 0; }
+  .receipt .ln { display:flex; justify-content:space-between; gap:8px; }
+  .receipt .ln.b { font-weight:700; font-size:12px; margin-top:6px; padding-top:8px; border-top:1px solid #d8d8d3; }
+  .receipt .thx { text-align:center; letter-spacing:.06em; color:#45454a; margin:12px 0 8px; font-size:9.5px; }
+  .receipt .bars { height:34px; display:flex; justify-content:center; gap:0; }
+  .receipt .bars i { display:block; height:100%; background:#111; }
+  .receipt .txn { text-align:center; font-size:9px; color:#6b6b70; letter-spacing:.08em; margin-top:3px; }
+  .stamp { position:absolute; right:16px; top:92px; padding:4px 9px 3px; border:2.5px dashed #D2232A; border-radius:7px; color:#D2232A;
+           font:800 19px/1 -apple-system, system-ui, sans-serif; letter-spacing:.08em; text-align:center; transform:rotate(-12deg); opacity:0;
+           background:rgba(255,255,255,.4); mix-blend-mode:multiply; }
+  .stamp small { display:block; font:700 8px/1.2 ui-monospace, Menlo, monospace; letter-spacing:.06em; }
+  .sheet .msg { margin-top:4px; text-align:center; min-height:44px; }
+  .sheet .msg b { display:block; font-size:19px; }
+  .sheet .msg span { color:#9e9e9e; font-size:13px; }
+  .sheet .acts { display:flex; gap:8px; margin-top:14px; }
+  .sheet .acts .opill[disabled] { opacity:.75; cursor:default; }
+  .spin { animation:pulse .7s ease-in-out infinite alternate; }
+  @keyframes pulse { to { opacity:.35 } }
+
   .notes { max-width:880px; margin:0 auto; color:var(--muted); line-height:1.55; font-size:14px; }
   .notes b { color:#fff; }
+  html, body { overflow-x:clip; }   /* a few px of phone-width overflow (10/24) */
 </style>
 </head>
 <body>
   <h1>Marracat preview</h1>
-  <p class="sub">Where upcoming app changes are previewed before they ship. Pick a holiday; the tab selection moves on its own so you can see the pill slide, the colours drift and the glow trail. All 21 holidays and commemorations from holidays.json are in the floating bar, in calendar order from Halloween; hovering a pill shows its date.</p>
-  <div class="picker" id="picker"></div>
+  <p class="sub">Where app changes are previewed before they ship, and what has shipped since. Updated October 24, 2026.</p>
+  <div class="picker" id="picker"><div style="display:flex;justify-content:center;width:100%"><nav class="subnav"><a href="marracat-preview.html" class="on">Receipt &amp; tab bar</a><a href="marracat-holidays.html">Holidays</a></nav></div></div>
+
+  <div class="section">
+    <h1>Built: Receipt on an order (1.9 on TestFlight, from build 165)</h1>
+    <p class="sub">Order details has a Receipt button, in 1.9 on TestFlight (not yet in the live 1.8). It opens a sheet where the receipt feeds out of a printer, gets a PAID stamp, and can be torn off, re-printed or copied. The left phone plays on its own; the right one is yours to tap.</p>
+  </div>
+  <div class="row">
+    <div class="col"><h2><b>Playing on its own</b><br>Receipt › print › stamp › tear › print again</h2><div class="phone rp" data-auto="1"></div></div>
+    <div class="col"><h2><b>Try it</b><br>tap Receipt, then Re-print, Tear or Copy</h2><div class="phone rp"></div></div>
+  </div>
+
+  <div class="section"><h1>Tab bar: medium tint (1.9 on TestFlight, build 166)</h1>
+  <p class="sub">Pick a holiday; the tab selection moves on its own so you can see the pill slide, the colours drift and the glow trail. All 21 holidays and commemorations from holidays.json are in the floating bar, in calendar order from Halloween; hovering a pill shows its date.</p></div>
 
   <div class="row">
-    <div class="col"><h2><b>Tonight's build (1.9)</b><br>iMessage glass search bar, Instagram dark-frost tab bar</h2><div class="phone" data-tabs="darkglass" data-holiday="0"></div></div>
-    <div class="col"><h2><b>Tonight's build on a holiday</b><br>turning rim and glow on the search bar, the day's colours in the tab pill</h2><div class="phone" data-tabs="darkglass" data-holiday="1"></div></div>
+    <div class="col"><h2><b>Build 166 (1.9)</b><br>iMessage glass search bar, medium-tint tab bar</h2><div class="phone" data-tabs="darkglass" data-holiday="0"></div></div>
+    <div class="col"><h2><b>Build 166 on a holiday</b><br>turning rim and glow on the search bar, the day's colours in the tab pill</h2><div class="phone" data-tabs="darkglass" data-holiday="1"></div></div>
   </div>
   <div class="row">
     <div class="col"><h2><b>Live now (1.8), for comparison</b><br>near-solid grey search bar, charcoal tab bar</h2><div class="phone" data-tabs="charcoal" data-holiday="0" data-old="1"></div></div>
@@ -103,8 +195,9 @@
   </div>
 
   <div class="notes">
-    <p><b>What's real:</b> sizes, spacing and holiday colours come from the app's code (FloatingTabBar.swift, Navigation.swift, holidays.json). On the iPhone the glass is iOS's own Liquid Glass, which bends light at the edges a little more than a browser can show.</p>
-    <p><b>Dark-frost tab bar, sampled off your Instagram screenshot:</b> the same 62pt bar 20pt from the edges, tinted about 85% dark so the page only shows through faintly, with a light rim along its top edge (Liquid Glass with a dark tint). The selected tab gets a larger, lighter frosted-grey pill, like Instagram's Home pill. On a holiday the pill fills with the day's colours and drifts as it does today.</p>
+    <p><b>Receipt, what's real:</b> the order screen, colours and button style are the app's (OrdersView.swift's OrderPill, Theme.swift). The receipt is filled from what the app already keeps for each order: brand, items, quantities, subtotal, shipping, discounts, tax, total, order number, date and payment method. A row the brand didn't report is left off, as on Order details today. The sample is a real Brandon Blackwood product at its real price; the order number is made up. On the iPhone, the stamp lands with a light haptic tap, and with Reduce Motion on, the receipt fades in and out instead of feeding and falling. Copy puts the receipt's text on the clipboard.</p>
+    <p><b>What's real:</b> sizes, spacing and holiday colours come from the app's code (FloatingTabBar.swift, Navigation.swift, holidays.json). On the iPhone the search bar is iOS's own Liquid Glass, which bends light at the edges a little more than a browser can show.</p>
+    <p><b>Medium-tint tab bar (build 166, 10/24):</b> you picked the "medium tint" from simulator renders. The same 62pt bar 20pt from the edges, its dark ink at 60% (the Instagram dark frost in builds 164-165 was 85%), so photos and names show through more as they scroll under it, with a light rim along the top edge. It is drawn as a blur rather than Liquid Glass, because Liquid Glass on the bar made taps on Cart and Browse miss in the UI tests; the search bar keeps real Liquid Glass. The selected tab gets a lighter frosted-grey pill; on a holiday the pill fills with the day's colours and drifts as before.</p>
   </div>
 <script>
 const holidays = {
@@ -141,7 +234,7 @@ const icons = [
   `<svg width="22" height="24" viewBox="0 0 22 24" ${sw}><circle cx="11" cy="7.5" r="4.5"/><path d="M2.5 22a8.5 8.5 0 0 1 17 0"/></svg>`,
 ];
 const lens = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(235,235,245,.75)" stroke-width="2.4" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="7"/><path d="m16 16 5 5"/></svg>`;
-const phones = [...document.querySelectorAll(".phone")];
+const phones = [...document.querySelectorAll(".phone:not(.rp)")];
 phones.forEach(el => {
   const cards = [...names, ...names].map((n,i)=>`<div class="card" style="background:linear-gradient(160deg,${colors[i%12]},#111)"><span>${n}</span></div>`).join("");
   el.innerHTML = `<div class="island"></div><div class="status"><span>9:41</span><span>●●● ▮</span></div>
@@ -172,6 +265,164 @@ const q = new URLSearchParams(location.search);
 setHoliday(holidays[q.get("holiday")] ? q.get("holiday") : "Halloween");
 let tab = 1; place(tab);
 if (!q.has("still")) setInterval(() => { tab = (tab + 1) % 5; place(tab); }, 2600);
+
+// ---- Receipt (proposed) ----
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const order = { brand:"Brandon Blackwood", number:"#BB1042", date:"Oct 23, 2026", pay:"Apple Pay",
+  lines:[{q:1, t:"Slim Trunk", v:"Black", p:290.00}], shipping:0, tax:25.74 };
+const usd = v => "$" + v.toFixed(2);
+const sub = order.lines.reduce((s,l)=>s + l.q*l.p, 0), total = sub + order.shipping + order.tax;
+const chev = `<svg width="12" height="20" viewBox="0 0 12 20" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2 2 10l8 8"/></svg>`;
+const ico = {
+  receipt:`<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M5 2h14v20l-3-2-2 2-2-2-2 2-2-2-3 2z"/><path d="M9 7h6M9 11h6M9 15h4" stroke-linecap="round"/></svg>`,
+  print:`<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M7 14h10v7H7z"/></svg>`,
+  tear:`<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><path d="M5 3h14v9l-2 2-2-2-2 2-2-2-2 2-2-2-2 2z"/><path d="M5 17v4h14v-4"/></svg>`,
+  copy:`<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="8" y="8" width="13" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></svg>`,
+  check:`<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m4 12 5 5L20 6"/></svg>`,
+  x:`<svg width="12" height="12" viewBox="0 0 12 12" stroke="#bbb" stroke-width="2" stroke-linecap="round"><path d="m1 1 10 10M11 1 1 11"/></svg>`,
+};
+// A barcode drawn from the order number, so each order's looks different
+function bars(code) {
+  let h = 7, out = "";
+  for (let i = 0; i < 58; i++) { h = (h * 31 + code.charCodeAt(i % code.length) + i) % 9973; out += `<i style="width:${1 + h % 3}px;margin-right:${1 + (h >> 3) % 2}px"></i>`; }
+  return out;
+}
+const receiptHTML = `<div class="top"><div><div class="word">MARRACAT</div><div class="kind">ORDER RECEIPT</div></div><div class="mark">M</div></div>
+  <div class="band"><span>SOLD BY</span><span>${order.brand.toUpperCase()}</span></div>
+  <div class="amt">${usd(total)}</div><div class="meta">${order.date.toUpperCase()} | ORDER ${order.number}</div><div class="meta">PAID WITH ${order.pay.toUpperCase()}</div><hr>
+  ${order.lines.map(l=>`<div class="ln"><span>${l.q}X ${l.t} · ${l.v}</span><span>${usd(l.q*l.p)}</span></div>`).join("")}<hr>
+  <div class="ln"><span>Item(s) subtotal</span><span>${usd(sub)}</span></div>
+  <div class="ln"><span>Shipping &amp; handling</span><span>${order.shipping ? usd(order.shipping) : "Free"}</span></div>
+  <div class="ln"><span>Tax</span><span>${usd(order.tax)}</span></div>
+  <div class="ln b"><span>GRAND TOTAL</span><span>${usd(total)}</span></div>
+  <div class="thx">THANK YOU FOR SHOPPING ${order.brand.toUpperCase()}<br>ON MARRACAT</div>
+  <div class="bars">${bars(order.number)}</div><div class="txn">${order.number.replace("#","")} · MARRACAT.COM</div>
+  <div class="stamp">PAID<small>${order.date.toUpperCase()}</small></div>`;
+const receiptText = [`Marracat order receipt`, `Sold by ${order.brand}`, `Order ${order.number} · ${order.date}`,
+  ...order.lines.map(l=>`${l.q} × ${l.t} (${l.v}) ${usd(l.q*l.p)}`), `Subtotal ${usd(sub)}`, `Shipping Free`, `Tax ${usd(order.tax)}`, `Total ${usd(total)} · paid with ${order.pay}`].join("\n");
+
+document.querySelectorAll(".phone.rp").forEach(ph => {
+  ph.innerHTML = `<div class="island"></div><div class="status"><span>9:41</span><span>●●● ▮</span></div>
+    <div class="nav">${chev}<span>Your Orders</span></div><div class="h">Order details</div>
+    <div class="body">
+      <div class="cardx"><div class="item"><div class="thumb"></div><div><p><b>Slim Trunk</b></p><p class="dim">Sold by: ${order.brand}</p><p class="dim">Qty: 1</p></div></div>
+        <div class="pills" style="margin-top:12px"><button class="opill primary">Buy it again</button><button class="opill">View product</button></div></div>
+      <div class="cardx"><h3>Order summary</h3><p>Order placed October 23, 2026</p><p>Order ${order.number}</p>
+        <div class="sumrow"><span>Item(s) Subtotal:</span><span>${usd(sub)}</span></div>
+        <div class="sumrow"><span>Shipping &amp; Handling:</span><span>Free</span></div>
+        <div class="sumrow"><span>Tax:</span><span>${usd(order.tax)}</span></div>
+        <div class="sumrow b"><span>Grand Total:</span><span>${usd(total)}</span></div>
+        <div class="pills" style="margin-top:14px"><button class="opill js-open">${ico.receipt}Receipt</button></div></div>
+      <div class="cardx"><h3>Payment method</h3><p>${order.pay}</p></div>
+    </div>
+    <div class="scrim"></div>
+    <div class="sheet"><div class="grab"></div><div class="close">${ico.x}</div>
+      <div class="printer"></div><div class="feedwin"><div class="receipt">${receiptHTML}</div></div>
+      <div class="msg"><b></b><span></span></div><div class="acts"></div></div>
+    <i class="tap"></i>`;
+  const $ = s => ph.querySelector(s);
+  const rc = $(".receipt"), stamp = $(".stamp"), printer = $(".printer"), acts = $(".acts");
+  let busy = false, printed = false, anims = [];
+  const wait = ms => new Promise(r => setTimeout(r, ms));
+  const say = (b, s) => { $(".msg b").textContent = b; $(".msg span").textContent = s; };
+  function buttons(list) {
+    acts.innerHTML = "";
+    list.forEach(([label, icon, fn, primary]) => {
+      const b = document.createElement("button"); b.className = "opill" + (primary ? " primary" : "");
+      b.innerHTML = icon + `<span>${label}</span>`; b.onclick = e => { if (e.isTrusted) stopAuto(); fn(b); }; acts.append(b);
+    });
+  }
+  const idle = () => printed
+    ? buttons([["Re-print receipt", ico.print, print, true], ["Tear receipt", ico.tear, tear], ["Copy", ico.copy, copy]])
+    : buttons([["Print receipt", ico.print, print, true], ["Copy", ico.copy, copy]]);
+  function copy(b) {
+    navigator.clipboard?.writeText(receiptText).catch(() => {});
+    b.innerHTML = ico.check + "<span>Copied</span>"; setTimeout(() => !busy && idle(), 1400);
+  }
+  async function print() {
+    if (busy) return; busy = true;
+    // a fresh copy: an old one still out tears away first
+    if (printed) await tear(null, true);
+    buttons([["Printing…", `<span class="spin">${ico.print}</span>`, () => {}, true], ["Copy", ico.copy, copy]]);
+    acts.firstChild.disabled = true;
+    say("Printing your receipt", `From ${order.brand}, order ${order.number}`);
+    stamp.style.opacity = 0;
+    if (reduce) {
+      rc.animate([{ transform:"none", opacity:0 }, { transform:"none", opacity:1 }], { duration:300, fill:"forwards" });
+      await wait(300);
+    } else {
+      printer.classList.add("busy");
+      // the paper feeds in bursts, like a thermal printer, bottom edge first
+      const a = rc.animate([
+        { transform:"translateY(-102%)", offset:0 }, { transform:"translateY(-80%)", offset:.22 }, { transform:"translateY(-77%)", offset:.3 },
+        { transform:"translateY(-52%)", offset:.52 }, { transform:"translateY(-49%)", offset:.6 }, { transform:"translateY(-22%)", offset:.82 },
+        { transform:"translateY(-19%)", offset:.88 }, { transform:"translateY(0)", offset:1 } ],
+        { duration:2300, easing:"linear", fill:"forwards" });
+      await a.finished; printer.classList.remove("busy");
+      // the PAID stamp lands, and the paper takes the hit
+      stamp.animate([{ opacity:0, transform:"rotate(-18deg) scale(2.3)" }, { opacity:1, transform:"rotate(-12deg) scale(.9)", offset:.7 }, { opacity:1, transform:"rotate(-12deg) scale(1)" }],
+        { duration:380, easing:"cubic-bezier(.2,.8,.2,1)", fill:"forwards" });
+      await wait(270);
+      rc.animate([{ transform:"translateY(0)" }, { transform:"translateY(3px)" }, { transform:"translateY(0)" }], { duration:160 });
+      await wait(160);
+    }
+    stamp.style.opacity = 1;
+    printed = true; busy = false;
+    say("Order placed", "Here's your receipt. Let it roll.");
+    idle();
+  }
+  async function tear(_b, quiet) {
+    if (!printed || (busy && !quiet)) return;
+    if (!quiet) busy = true;
+    if (reduce) {
+      await rc.animate([{ opacity:1 }, { opacity:0 }], { duration:250, fill:"forwards" }).finished;
+    } else {
+      // a little tug, then the strip comes away and drops
+      await rc.animate([
+        { transform:"translateY(0) rotate(0)", opacity:1 },
+        { transform:"translateY(5px) rotate(-1.2deg)", opacity:1, offset:.22 },
+        { transform:"translateY(170px) rotate(7deg)", opacity:0 } ],
+        { duration:620, easing:"cubic-bezier(.5,0,.8,.4)", fill:"forwards" }).finished;
+    }
+    rc.getAnimations().forEach(a => a.cancel()); stamp.getAnimations().forEach(a => a.cancel());
+    rc.style.transform = "translateY(-102%)"; rc.style.opacity = 1; stamp.style.opacity = 0;
+    printed = false;
+    if (!quiet) { busy = false; say("Receipt torn off", "Print a fresh copy anytime."); idle(); }
+  }
+  function open() { ph.classList.add("open"); setTimeout(print, 450); }
+  function close() { ph.classList.remove("open"); setTimeout(() => { rc.getAnimations().forEach(a => a.cancel()); rc.style.transform = "translateY(-102%)"; stamp.style.opacity = 0; printed = false; busy = false; say("", ""); acts.innerHTML = ""; }, 500); }
+  $(".js-open").onclick = e => { if (e.isTrusted) stopAuto(); if (!ph.classList.contains("open")) open(); };
+  $(".close").onclick = e => { if (e.isTrusted) stopAuto(); close(); };
+  $(".scrim").onclick = e => { stopAuto(); close(); };
+
+  // the left phone plays the whole thing on a loop, with a tap mark where a finger would go
+  let auto = ph.dataset.auto === "1" && !q.has("still");
+  function stopAuto() { auto = false; }
+  function tapAt(el) {
+    const r = el.getBoundingClientRect(), p = ph.getBoundingClientRect(), t = $(".tap");
+    t.style.left = (r.left - p.left + r.width / 2) + "px"; t.style.top = (r.top - p.top + r.height / 2) + "px";
+    t.classList.remove("go"); void t.offsetWidth; t.classList.add("go");
+  }
+  // waits for the printer to finish, then taps the button with that label
+  const settled = async () => { await wait(300); while (busy || !acts.children.length) await wait(100); };
+  async function press(label, pause) {
+    await settled(); await wait(pause); if (!auto) return false;
+    const b = [...acts.children].find(x => x.textContent.trim() === label);
+    tapAt(b); await wait(200); b.click(); return auto;
+  }
+  async function demo() {
+    await wait(900);
+    while (auto) {
+      tapAt($(".js-open")); await wait(250); open();
+      if (!await press("Tear receipt", 1400)) break;
+      if (!await press("Print receipt", 1100)) break;
+      if (!await press("Re-print receipt", 1400)) break;
+      await settled(); await wait(1600); if (!auto) break;
+      tapAt($(".close")); await wait(200); close(); await wait(1600);
+    }
+  }
+  if (auto) demo();
+});
 </script>
 </body>
 </html>
