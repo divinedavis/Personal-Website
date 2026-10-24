@@ -165,7 +165,7 @@
     <div class="col"><h2><b>4. App Store event (owner 10/24: yes)</b><br>each one opens a real Find A Crib tool with the holiday as the reason, never just the colours (App Review rejected a cosmetic-style event on 10/20, rule 2.3.13). Days marked "no event" say why</h2><div class="event" id="event"></div></div>
   </div>
 
-  <div class="col" style="margin:0 auto 14px"><h2><b>5. App Store assets</b><br>the App Store always shows the real logo; only the colours around it change. The product page header (a short looping video, like Marracat's), the search results image, and the event's card and details art. The header is swapped onto the live App Store page during the holiday, then back.</h2>
+  <div class="col" style="margin:0 auto 14px"><h2><b>5. App Store assets</b><br>the App Store always shows the real logo; only the colours around it change. The product page header (a short looping video, like Marracat's), the search results image, and the event's card and details art, with the real logo large in the middle. The header is swapped onto the live App Store page during the holiday, then back.</h2>
     <div class="toggle" style="margin:6px 0 0"><button id="safeBtn">Show Apple's safe area</button></div></div>
   <div class="assets" id="assets"></div>
   <div class="notes">
@@ -356,7 +356,7 @@ function field(h, w, ht, id) {
     <rect width="${w}" height="${ht}" fill="url(#bg${id})"/>
     <ellipse cx="${w*.08}" cy="${ht*.1}" rx="${w*.3}" ry="${ht*.45}" fill="url(#gl${id})"/><ellipse cx="${w*.95}" cy="${ht*.95}" rx="${w*.3}" ry="${ht*.45}" fill="url(#gl${id})"/>`;
 }
-function photos(h, w, ht, id, anim) {
+function photos(h, w, ht, id, anim, noTile) {
   const s = Math.min(ht/720, w/1280), ring = h.id === "everyday" ? "#fff" : h.tab[0];
   let out = "";
   const order = [["corner","float3"],["brownstone","float1"],["brick","float2"]];
@@ -369,9 +369,9 @@ function photos(h, w, ht, id, anim) {
       <circle cx="${cx}" cy="${cy}" r="${r*.9+6*s}" fill="none" stroke="${ring}" stroke-width="${5*s}" opacity="${h.id==='everyday'?0:1}"/>
       ${k === "brownstone" ? `<circle cx="${cx+65*s}" cy="${cy+65*s}" r="${26*s}" fill="#FFD43B" stroke="#fff" stroke-width="${4*s}"/><path d="M${cx+65*s} ${cy+78*s}c-8 -12 -${12*s} -${16*s} -${12*s} -${22*s}a${12*s} ${12*s} 0 1 1 ${24*s} 0c0 ${6*s} -${4*s} ${10*s} -${12*s} ${22*s}z" fill="#163C47"/>` : ""}</g>`;
   }
-  // the icon tile, top-left, tilted like the real one
+  // the icon tile, top-left, tilted like the real one (not on event art: the logo is the centre there)
   const T = 120*s, tx = .20*w, ty = .21*ht;
-  out += `<g class="${anim ? 'float2' : ''}" transform="rotate(-10 ${tx} ${ty})"><svg x="${tx-T/2}" y="${ty-T/2}" width="${T}" height="${T}" viewBox="0 0 1024 1024" style="overflow:visible"><clipPath id="t${id}"><rect width="1024" height="1024" rx="230"/></clipPath><g clip-path="url(#t${id})">${iconSvg(days[0]).replace(/^<svg[^>]*>|<\/svg>$/g, "")}</g></svg></g>`;
+  if (!noTile) out += `<g class="${anim ? 'float2' : ''}" transform="rotate(-10 ${tx} ${ty})"><svg x="${tx-T/2}" y="${ty-T/2}" width="${T}" height="${T}" viewBox="0 0 1024 1024" style="overflow:visible"><clipPath id="t${id}"><rect width="1024" height="1024" rx="230"/></clipPath><g clip-path="url(#t${id})">${iconSvg(days[0]).replace(/^<svg[^>]*>|<\/svg>$/g, "")}</g></svg></g>`;
   return `<defs><filter id="bl${id}"><feGaussianBlur stdDeviation="${14*s}"/></filter></defs>` + out;
 }
 function wordmark(cx, cy, size, h) {
@@ -411,16 +411,16 @@ function search(h) {
     ${bubbleSvg(cx - sw*.24, sy + sh*.84, "Lottery open", "#FFD43B", "#163C47", s*.95)}${bubbleSvg(cx + sw*.24, sy + sh*.84, "Rent-stabilized", "#fff", "#163C47", s*.95)}
     ${safeBox("search")}</svg>`;
 }
-function motif(h, cx, cy, size) {   // the event art: one big white tile carrying the day's mark, like the heat-season radiator
-  const every = h.id === "everyday", m = every ? marks.house : (marks[h.mark] || marks.house);
-  const c = every ? ["#163C47"] : h.tab, ink = c.find(x => lum(x) < .7) || h.disc;
-  return `<rect x="${cx-size*.75}" y="${cy-size*.5}" width="${size*1.5}" height="${size}" rx="${size*.12}" fill="#fff" filter="url(#bs)"/>
-    <svg x="${cx-size*.38}" y="${cy-size*.38}" width="${size*.76}" height="${size*.76}" viewBox="0 0 24 24"><defs><linearGradient id="mg${uid}" x1="0" y1="0" x2="1" y2="1">${c.map((x,i)=>`<stop offset="${c.length>1?i/(c.length-1):0}" stop-color="${lum(x) > .85 ? '#5A5A5A' : x}"/>`).join("")}</linearGradient></defs><g fill="url(#mg${uid++})" color="${ink}">${m}</g></svg>`;
+function motif(h, cx, cy, size) {   // the event art: the real logo, large and centred (owner 10/24: "always have our logo on the event card and event details")
+  const T = size*1.2, k = "m" + (uid++);
+  return `<svg x="${cx-T/2}" y="${cy-T/2}" width="${T}" height="${T}" viewBox="0 0 1024 1024" style="overflow:visible"><clipPath id="${k}"><rect width="1024" height="1024" rx="230"/></clipPath>
+    <rect x="0" y="40" width="1024" height="1024" rx="230" fill="rgba(0,0,0,.35)" filter="url(#bs)"/>
+    <image href="findacrib-holidays-assets/icons/everyday.png" width="1024" height="1024" clip-path="url(#${k})"/></svg>`;
 }
 function card(h, vertical) {
   const w = vertical ? 2160 : 3840, ht = vertical ? 3840 : 2160, id = "e" + (uid++), s = Math.min(ht/720, w/1280);
-  // details art: Apple lays the event's name over the bottom third, so the motif sits higher
-  return `<svg viewBox="0 0 ${w} ${ht}" width="${w}" height="${ht}">${DEFS(s)}${field(h,w,ht,id)}${photos(h,w,ht,id,false)}
+  // details art: Apple lays the event's name over the bottom third, so the logo sits higher
+  return `<svg viewBox="0 0 ${w} ${ht}" width="${w}" height="${ht}">${DEFS(s)}${field(h,w,ht,id)}${photos(h,w,ht,id,false,true)}
     ${motif(h, w/2, vertical ? ht*.4 : ht*.5, vertical ? w*.42 : ht*.42)}
     ${vertical ? `<rect class="safe" x="0" y="${ht*.66}" width="${w}" height="${ht*.34}" fill="rgba(255,0,0,.18)"/>` : ""}</svg>`;
 }
