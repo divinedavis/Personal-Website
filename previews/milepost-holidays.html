@@ -111,18 +111,50 @@
   .subnav { display:flex; justify-content:center; gap:4px; margin:0 auto 14px; padding:3px; background:#2c2c2e; border:1px solid #3a3a3c; border-radius:20px; width:max-content; }
   .subnav a { font-size:13px; font-weight:600; color:#fff; text-decoration:none; padding:6px 16px; border-radius:16px; }
   .subnav a.on { background:#fff; color:#000; }
+
+  /* parity with the Find A Crib holidays page (owner 10/24): app icon + Home Screen, App Store assets */
+  .tiles { display:flex; gap:28px; align-items:flex-end; flex-wrap:wrap; justify-content:center; }
+  .tile { display:flex; flex-direction:column; align-items:center; gap:8px; font-size:13px; color:#8e8e93; }
+  .tile img { width:132px; height:132px; border-radius:30px; box-shadow:0 8px 24px rgba(0,0,0,.4); }
+  .home { width:402px; max-width:100%; height:250px; border-radius:24px; background:linear-gradient(160deg,#3d5a80,#98c1d9 60%,#e0fbfc); display:grid;
+          grid-template-columns:repeat(4,1fr); align-content:center; gap:18px 0; padding:0 12px; margin-top:16px; box-sizing:border-box; }
+  .home div { display:flex; flex-direction:column; align-items:center; gap:5px; font-size:11px; color:#fff; text-shadow:0 1px 2px rgba(0,0,0,.4); }
+  .home img, .home .app { width:62px; height:62px; border-radius:14px; }
+  .home .app { background:rgba(255,255,255,.35); }
+  .assets { display:flex; flex-direction:column; align-items:center; gap:28px; margin:0 auto 40px; max-width:1180px; }
+  .asset { display:flex; flex-direction:column; align-items:center; gap:8px; color:#8e8e93; font-size:13px; text-align:center; max-width:100%; }
+  .asset b { color:#fff; }
+  .asset > img { display:block; border-radius:12px; box-shadow:0 8px 24px rgba(0,0,0,.45); max-width:100%; height:auto; }
+  .assets .pair { display:flex; gap:28px; flex-wrap:wrap; justify-content:center; align-items:flex-end; }
+  .stage { position:relative; width:402px; max-width:100%; height:370px; border-radius:40px 40px 0 0; overflow:hidden; background:#fff; box-shadow:0 0 0 10px #2c2c2e; }
+  .stage .crop { position:absolute; left:0; top:0; width:402px; height:259px; overflow:hidden; }
+  .stage .crop img, .stage .crop video { position:absolute; left:-221px; top:-51px; width:845px !important; max-width:none !important; height:auto; border-radius:0 !important; box-shadow:none !important; }   /* iPhone 17 Pro shows x 1006-2833, y 232-1410 of the header */
+  .stage .btn { position:absolute; top:58px; height:34px; border-radius:17px; background:rgba(255,255,255,.28); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); color:#fff; display:grid; place-items:center; font:600 15px -apple-system, system-ui; padding:0 12px; }
+  .stage .meta { position:absolute; top:259px; left:0; right:0; padding:16px 18px; color:#000; font-family:-apple-system, system-ui; display:flex; gap:14px; align-items:center; }
+  .stage .meta img { width:72px; height:72px; border-radius:16px; flex:none; }
+  .stage .meta .n { font-size:21px; font-weight:700; } .stage .meta .t { color:#8a8a8e; font-size:14px; }
+  .stage .meta span.get { margin-left:auto; background:#007aff; color:#fff; border-radius:16px; padding:6px 20px; font-weight:700; }
+  html, body { overflow-x:clip; }
 </style>
 </head>
 <body>
   <h1>Milepost holidays</h1>
-  <p class="sub">Holiday themes like Marracat's, for Milepost: all of Marracat's 21 days plus two running days (Global Running Day and NYC Marathon Sunday), so 23 in all (your pick on 10/22: "keep the running days", with Marracat's full list). Shipped in 1.6. Pick one; each shows its launch screen, the Record screen in its colours, and the App Store event card. Every icon is below.</p>
+  <p class="sub">Holiday themes like Marracat's, for Milepost: all of Marracat's 21 days plus two running days (Global Running Day and NYC Marathon Sunday), so 23 in all (your pick on 10/22: "keep the running days", with Marracat's full list). Shipped in 1.6. Pick one; each shows its launch screen, the Record screen in its colours, the App Store event, the app icon on a Home Screen, and every App Store asset. Every icon is below.</p>
   <div class="floatbar" style="flex-direction:column"><nav class="subnav"><a href="milepost-preview.html">Glass tab bar</a><a href="milepost-holidays.html" class="on">Holidays</a></nav><div class="picker" id="picker" style="position:static;margin:0;box-shadow:none;background:none;padding:0;backdrop-filter:none;-webkit-backdrop-filter:none"></div></div>
 
   <div class="row">
-    <div class="col"><h2><b>Launch screen</b><br>holiday icon, wordmark, the day's line</h2><div class="phone" id="splash"></div></div>
-    <div class="col"><h2><b>Record (dark glass)</b><br>Start, tab pill and a turning rim in the day's colours</h2><div class="phone" id="record"></div></div>
-    <div class="col"><h2><b>App Store in-app event</b><br>what people see on the Today tab and in search</h2><div class="phone" id="store"></div></div>
+    <div class="col"><h2><b>1. Launch screen</b><br>holiday icon, wordmark, the day's line</h2><div class="phone" id="splash"></div></div>
+    <div class="col"><h2><b>2. Record (dark glass)</b><br>Start, tab pill and a turning rim in the day's colours</h2><div class="phone" id="record"></div></div>
+    <div class="col"><h2><b>3. App Store in-app event</b><br>what people see on the Today tab and in search</h2><div class="phone" id="store"></div></div>
   </div>
+
+  <div class="row">
+    <div class="col"><h2><b>4. App icon</b><br>the day's icon, Home Screen only (the App Store keeps the normal icon). On by default; a switch in Settings turns it off</h2>
+      <div class="tiles"><div class="tile"><img src="icon-rounded.png" alt="">Every other day</div><div class="tile" id="iconDay"></div></div>
+      <div class="home" id="home"></div></div>
+  </div>
+  <div class="col" style="margin:0 auto 14px;text-align:center"><h2><b>5. App Store assets</b><br>the product page header (swapped onto the live App Store page during the holiday, then back), the search results image, and the event's card and details art: the MILEPOST wordmark on the day's colours, at Apple's sizes, scaled down</h2></div>
+  <div class="assets" id="assets"></div>
 
   <div class="section">Every holiday</div>
   <div class="grid" id="grid"></div>
@@ -166,6 +198,16 @@ function show(id) {
     <div class="ev"><div class="art"><img class="cardimg" src="milepost-holidays/event-art/${h.id}.jpg" alt=""><div class="badge">Special event</div><div class="name">${h.event.name}</div><div class="short">${h.event.short}</div></div>
     <div class="foot"><img src="icon-rounded.png" alt=""><div><b>Milepost: Run, Walk &amp; Ride</b><small>GPS run, walk &amp; ride tracker</small></div><span class="get">Open</span></div></div>
     <p class="long">${h.event.long}</p></div>`;
+  document.getElementById("iconDay").innerHTML = `<img src="milepost-holidays/icons/${h.id}.png" alt="">${h.name}`;
+  document.getElementById("home").innerHTML = ["Phone","Mail","Maps","Photos","Milepost","Calendar","Notes","Camera"].map(n => `<div>${n === "Milepost" ? `<img src="milepost-holidays/icons/${h.id}.png" alt="">` : '<i class="app"></i>'}${n}</div>`).join("");
+  const A = `milepost-holidays/assets/${h.id}`;
+  document.getElementById("assets").innerHTML =
+    `<div class="asset"><img src="${A}-header.jpg" width="860" alt=""><div><b>Header</b> · 3840 × 1646</div></div>
+     <div class="pair"><div class="asset"><div class="stage"><div class="crop"><img src="${A}-header.jpg" alt=""></div><div class="btn" style="left:16px;width:34px;padding:0">‹</div><div class="btn" style="right:16px">⇪</div>
+       <div class="meta"><img src="icon-rounded.png" alt=""><div><div class="n">Milepost</div><div class="t">Run, walk &amp; ride tracker</div></div><span class="get">Get</span></div></div><div><b>On an iPhone</b> · only the middle of the header shows, under the back and share buttons</div></div>
+       <div class="asset"><img src="${A}-search.jpg" width="560" alt=""><div><b>Search results</b> · 3840 × 2560 · proposed, not uploaded yet</div></div></div>
+     <div class="pair"><div class="asset"><img src="${A}-card.jpg" width="620" alt=""><div><b>Event card</b> · 3840 × 2160</div></div>
+       <div class="asset"><img src="${A}-details.jpg" width="220" alt=""><div><b>Event details</b> · 2160 × 3840<br>(the event's name covers the bottom third)</div></div></div>`;
   document.querySelectorAll("#picker button").forEach(b => b.classList.toggle("on", b.dataset.id === h.id));
   document.querySelectorAll(".cell").forEach(b => b.classList.toggle("on", b.dataset.id === h.id));
   history.replaceState(null, "", "?holiday=" + h.id);
